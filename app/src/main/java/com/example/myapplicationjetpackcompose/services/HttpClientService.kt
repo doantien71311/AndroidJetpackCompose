@@ -1,5 +1,6 @@
-package com.example.myapplicationjetpackcompose
+package com.example.myapplicationjetpackcompose.services
 
+import com.example.myapplicationjetpackcompose.url_api
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -19,6 +20,6 @@ object HttpClientService {
 
     val IHttpClientService by lazy {
 
-        retrofit.create(IHttpClientService::class.java)
+        retrofit.create(com.example.myapplicationjetpackcompose.services.IHttpClientService::class.java)
     }
 }

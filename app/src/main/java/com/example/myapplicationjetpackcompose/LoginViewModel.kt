@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel
 import com.example.myapplicationjetpackcompose.model.TokenInfor
 import com.example.myapplicationjetpackcompose.model.ht_thongtinhdoanhnghiep
 import com.example.myapplicationjetpackcompose.model.response_ht_thongtinhdoanhnghiep
+import com.example.myapplicationjetpackcompose.services.HttpClientService
+import com.example.myapplicationjetpackcompose.services.PostData
 
 import retrofit2.Call
 import retrofit2.Callback

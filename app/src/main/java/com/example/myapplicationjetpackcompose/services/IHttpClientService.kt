@@ -1,4 +1,4 @@
-package com.example.myapplicationjetpackcompose
+package com.example.myapplicationjetpackcompose.services
 
 
 import com.example.myapplicationjetpackcompose.model.TokenInfor
@@ -6,10 +6,9 @@ import com.example.myapplicationjetpackcompose.model.ht_dm_nsd
 import com.example.myapplicationjetpackcompose.model.response_EncryptDES
 import com.example.myapplicationjetpackcompose.model.response_boolean
 import com.example.myapplicationjetpackcompose.model.response_ht_thongtinhdoanhnghiep
+import com.example.myapplicationjetpackcompose.url_api
 
 import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
