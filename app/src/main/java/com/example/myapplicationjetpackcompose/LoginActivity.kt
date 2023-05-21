@@ -3,6 +3,7 @@ package com.example.myapplicationjetpackcompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,11 +33,15 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.myapplicationjetpackcompose.model.ht_thongtinhdoanhnghiep
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 
 class LoginActivity : ComponentActivity() {
+
+    val m_LoginViewModel by viewModels<LoginViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -47,7 +52,12 @@ class LoginActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-                    LoginPage()
+//                    val m_model : ht_thongtindoanhnghiep = ht_thongtindoanhnghiep("https://daiichitheworldlink-hinhanh.theworldlink.vn/TheWorldLink/WebPortal/Images/logo.png",
+//                        "")
+
+                    LoginPage(m_LoginViewModel.row_ht_thongtindoanhnghiep)
+
+                    m_LoginViewModel.layThongTinDoanhNhgiep()
 
 
                     //CoilImageS()
@@ -59,7 +69,7 @@ class LoginActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginPage() {
+fun LoginPage(model: ht_thongtinhdoanhnghiep) {
 
 
     Column(
@@ -70,7 +80,7 @@ fun LoginPage() {
 
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data("https://daiichitheworldlink-hinhanh.theworldlink.vn/TheWorldLink/WebPortal/Images/logo.png")
+                .data(model.hinhanh_logo)
                 .crossfade(true)
                 .build(),
             contentDescription = "ImageRequest example",
@@ -114,32 +124,14 @@ fun LoginPage() {
     }
 }
 
-@Composable
-fun CoilImageS() {
-
-    Box(
-        modifier = Modifier
-            .height(300.dp)
-            .width(300.dp),
-        contentAlignment = Alignment.Center
-    ) {
-
-
-
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data("https://daiichitheworldlink-hinhanh.theworldlink.vn/TheWorldLink/WebPortal/Images/logo.png")
-                .build(),
-            contentDescription = "ImageRequest example",
-        )
-    }
-
-}
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreviewLogin() {
     MyApplicationJetpackComposeTheme {
-        LoginPage()
+
+        val m_model : ht_thongtinhdoanhnghiep = ht_thongtinhdoanhnghiep("","")
+
+        LoginPage(m_model)
     }
 }
