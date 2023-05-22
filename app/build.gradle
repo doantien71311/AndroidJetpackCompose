@@ -64,6 +64,10 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
+    //Tiến thêm vào để binding data
+    //    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:1.4.3"
+
     //Tến bổ sung để hiện thị hình ảnh
     implementation "io.coil-kt:coil-compose:2.3.0"
 

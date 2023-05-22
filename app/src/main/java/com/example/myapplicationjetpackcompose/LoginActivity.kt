@@ -21,13 +21,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
@@ -36,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.myapplicationjetpackcompose.model.ht_dm_nsd
 import com.example.myapplicationjetpackcompose.model.ht_thongtinhdoanhnghiep
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 
@@ -55,7 +59,9 @@ class LoginActivity : ComponentActivity() {
 //                    val m_model : ht_thongtindoanhnghiep = ht_thongtindoanhnghiep("https://daiichitheworldlink-hinhanh.theworldlink.vn/TheWorldLink/WebPortal/Images/logo.png",
 //                        "")
 
-                    LoginPage(m_LoginViewModel.row_ht_thongtindoanhnghiep)
+                    //LoginPage(m_LoginViewModel.row_ht_thongtindoanhnghiep, m_LoginViewModel.row_ht_dm_nsd)
+
+                    LoginPage(m_LoginViewModel)
 
                     m_LoginViewModel.layThongTinDoanhNhgiep()
 
@@ -69,7 +75,7 @@ class LoginActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginPage(model: ht_thongtinhdoanhnghiep) {
+fun LoginPage(viewModel: LoginViewModel) {
 
 
     Column(
@@ -80,37 +86,59 @@ fun LoginPage(model: ht_thongtinhdoanhnghiep) {
 
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(model.hinhanh_logo)
+                .data(viewModel.row_ht_thongtindoanhnghiep.hinhanh_logo)
                 .crossfade(true)
                 .build(),
             contentDescription = "ImageRequest example",
-            modifier = Modifier.height(300.dp).width(300.dp)
+            modifier = Modifier
+                .height(300.dp)
+                .width(300.dp)
         )
         Spacer(modifier = Modifier.height(20.dp))
 
-        val username = remember { mutableStateOf(TextFieldValue()) }
-        val password = remember { mutableStateOf(TextFieldValue()) }
+        val loginEnable: Boolean by viewModel.login_enable.observeAsState(initial = false)
 
-        TextField (
-            label = { Text(text = "Username") },
-            value = username.value,
-            onValueChange = { username.value = it })
+        Text(text = loginEnable.toString() )
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        TextField(
-            label = { Text(text = "Password") },
-            value = password.value,
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            onValueChange = { password.value = it })
+        val ma_nsd : String by viewModel.ma_nsd.observeAsState(initial = "")
+        val mat_khau : String by viewModel.mat_khau.observeAsState(initial = "")
 
+        TextField(
+            label = { Text(text = "Mã code") },
+           // placeholder = { Text(text = "Mã code") },
+            modifier = Modifier.fillMaxWidth(),
+            value = ma_nsd,
+            singleLine = true,
+            maxLines = 1,
+            onValueChange =  { viewModel.onMaNsdChanged(it) }
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+
+        TextField(
+            label = { Text(text = "Mật khẩu") },
+            value = mat_khau,
+            onValueChange = { viewModel.onMatKhauChanged(it) },
+            //placeholder = { Text(text = "Mật khẩu") },
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            singleLine = true,
+            maxLines = 1,
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = Color(0xFF636262),
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            ),
+        )
         Spacer(modifier = Modifier.height(20.dp))
 
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
 
             Button(onClick = {
-                //your onclick code here
+                viewModel.KiemTra_NSD()
             },
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
@@ -130,8 +158,9 @@ fun LoginPage(model: ht_thongtinhdoanhnghiep) {
 fun GreetingPreviewLogin() {
     MyApplicationJetpackComposeTheme {
 
-        val m_model : ht_thongtinhdoanhnghiep = ht_thongtinhdoanhnghiep("","")
+       // val m_model : ht_thongtinhdoanhnghiep = ht_thongtinhdoanhnghiep("","")
+       // val m_model : ht_thongtinhdoanhnghiep = ht_thongtinhdoanhnghiep("","")
 
-        LoginPage(m_model)
+       // LoginPage(m_model)
     }
 }

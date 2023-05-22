@@ -1,6 +1,5 @@
 package com.example.myapplicationjetpackcompose.services
 
-import com.example.myapplicationjetpackcompose.url_api
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory

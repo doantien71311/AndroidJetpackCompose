@@ -6,7 +6,6 @@ import com.example.myapplicationjetpackcompose.model.ht_dm_nsd
 import com.example.myapplicationjetpackcompose.model.response_EncryptDES
 import com.example.myapplicationjetpackcompose.model.response_boolean
 import com.example.myapplicationjetpackcompose.model.response_ht_thongtinhdoanhnghiep
-import com.example.myapplicationjetpackcompose.url_api
 
 import retrofit2.Call
 import retrofit2.http.Body
@@ -16,26 +15,6 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Url
-
-
-
-
-
-//class response_ht_thongtinhdoanhnghiep: response_status() {
-//
-//    var data: ht_thongtinhdoanhnghiep = ht_thongtinhdoanhnghiep()
-//
-//}
-
-//class ht_thongtinhdoanhnghiep {
-//
-//    var ten_dv: String? = ""
-//    var ten_viettat: String? = ""
-//    var slogan: String? = ""
-//    var hinhanh_logo: String? = ""
-//
-//}
-
 
 class PostData {
     val Username: String = url_api.username
@@ -49,7 +28,7 @@ interface IHttpClientService {
     open fun getToken(@Body postData: PostData): Call<TokenInfor?>
 
     @POST(url_api.authenticate_encryptDES)
-    open fun getEncryptDES(@Header("Authorization") token: String, @Body value: String): Call<response_EncryptDES?>
+    open fun getEncryptDES(@Header("Authorization") token: String, @Body string: String): Call<response_EncryptDES?>
 
     @POST(url_api.hethong_nguoisudung_kiemtra_nsd)
     open fun getKiemTra_NSD(@Header("Authorization") token: String, @Body value: ht_dm_nsd): Call<response_boolean?>
