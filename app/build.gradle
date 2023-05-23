@@ -65,7 +65,7 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
     //Tiến thêm vào để binding data
-    //    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    //implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation "androidx.compose.runtime:runtime-livedata:1.4.3"
 
     //Tến bổ sung để hiện thị hình ảnh
@@ -77,5 +77,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
     //end retrofit  connect api
+
+    //Tiến thêm vào để luu thông tin đăng nhập, token
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
 
 }
