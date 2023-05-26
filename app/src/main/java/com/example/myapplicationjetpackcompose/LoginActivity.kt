@@ -41,6 +41,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.myapplicationjetpackcompose.model.ht_dm_nsd
 import com.example.myapplicationjetpackcompose.model.ht_thongtinhdoanhnghiep
+import com.example.myapplicationjetpackcompose.services.UserPreferences
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
@@ -71,6 +72,8 @@ class LoginActivity : ComponentActivity() {
                     LoginPage(m_LoginViewModel)
 
                     m_LoginViewModel.layThongTinDoanhNhgiep()
+
+                    var sda = UserPreferences(this)
 
 
                     //CoilImageS()
