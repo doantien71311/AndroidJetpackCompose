@@ -16,14 +16,21 @@ import com.example.myapplicationjetpackcompose.model.response_boolean
 import com.example.myapplicationjetpackcompose.model.response_ht_dm_nsd
 import com.example.myapplicationjetpackcompose.model.response_ht_thongtinhdoanhnghiep
 import com.example.myapplicationjetpackcompose.services.HttpClientService
+import com.example.myapplicationjetpackcompose.services.IDataStoreServies
+import com.example.myapplicationjetpackcompose.services.RetrofitService
 import com.example.myapplicationjetpackcompose.services.PostData
+import com.example.myapplicationjetpackcompose.services.RetrofitCallback
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-
-class LoginViewModel: ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val dataStoreServies: IDataStoreServies
+): ViewModel() {
 
     var row_ht_thongtindoanhnghiep: ht_thongtinhdoanhnghiep by mutableStateOf(ht_thongtinhdoanhnghiep())
     var row_ht_dm_nsd: ht_dm_nsd  by mutableStateOf(ht_dm_nsd())
@@ -64,7 +71,7 @@ class LoginViewModel: ViewModel() {
         var token = "Bearer "+_token
 
 
-        HttpClientService.IHttpClientService
+        RetrofitService.IRetrofitService
             .getEncryptDES(token, _mat_khau.value!!)
             .enqueue(object : Callback<response_EncryptDES?> {
                 override fun onResponse(
@@ -76,7 +83,7 @@ class LoginViewModel: ViewModel() {
 
                     var _ht_dm_nsd = ht_dm_nsd(_ma_nsd.value, matkhau_mahoa)
 
-                    HttpClientService.IHttpClientService
+                    RetrofitService.IRetrofitService
                         .getKiemTra_NSD(token, _ht_dm_nsd)
                         .enqueue(object : Callback<response_boolean?> {
                             override fun onResponse(
@@ -119,10 +126,10 @@ class LoginViewModel: ViewModel() {
 
 
 
-   private fun LayThongTinDoanhNghiep(token: String) {
+   private fun LayThongTinDoanhNghiep() {
 
-        HttpClientService.IHttpClientService
-            .getThongTinDoanhNghiep(token)
+       RetrofitService.IRetrofitService
+            .getThongTinDoanhNghiep(dataStoreServies.getBearToken())
             .enqueue(object : Callback<response_ht_thongtinhdoanhnghiep?> {
                 override fun onResponse(
                     call: Call<response_ht_thongtinhdoanhnghiep?>,
@@ -149,15 +156,25 @@ class LoginViewModel: ViewModel() {
 
     private fun getToKen() {
 
-        HttpClientService.IHttpClientService.getToken(PostData())
+        RetrofitService
+            .IRetrofitService
+            .getToken(PostData())
             .enqueue(object : Callback<TokenInfor?> {
                 override fun onResponse(
                     call: Call<TokenInfor?>,
                     response: Response<TokenInfor?>
                 ) {
 
-                    var token = "Bearer " + response.body()?.token.toString()
-                    LayThongTinDoanhNghiep(token)
+                  //  var token = "Bearer " + response.body()?.token.toString()
+
+                   // var token = "Bearer " + dataStoreServies.getToken()
+
+                    var token = dataStoreServies.getBearToken()
+                    LayThongTinDoanhNghiep()
+
+                   // val callback: Callback<response_ht_thongtinhdoanhnghiep>
+
+                   // var sdasd = RetrofitCallback<response_ht_thongtinhdoanhnghiep>(callback);
 
                 }
 
