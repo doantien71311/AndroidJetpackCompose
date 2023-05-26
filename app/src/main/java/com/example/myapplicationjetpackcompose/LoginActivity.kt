@@ -42,10 +42,17 @@ import coil.request.ImageRequest
 import com.example.myapplicationjetpackcompose.model.ht_dm_nsd
 import com.example.myapplicationjetpackcompose.model.ht_thongtinhdoanhnghiep
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
+
+@AndroidEntryPoint
 class LoginActivity : ComponentActivity() {
 
-    val m_LoginViewModel by viewModels<LoginViewModel>()
+   // val m_LoginViewModel by viewModels<LoginViewModel>()
+
+    val m_LoginViewModel: LoginViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

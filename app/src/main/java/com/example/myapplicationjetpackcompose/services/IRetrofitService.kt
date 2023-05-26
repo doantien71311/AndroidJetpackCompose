@@ -13,6 +13,7 @@ import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Url
 
@@ -22,7 +23,7 @@ class PostData {
 }
 
 
-interface IHttpClientService {
+interface IRetrofitService {
 
     @POST(url_api.authenticate_login)
     open fun getToken(@Body postData: PostData): Call<TokenInfor?>
@@ -36,6 +37,9 @@ interface IHttpClientService {
 
     @GET(url_api.thongtin_doanhnghiep_datatable)
     open fun getThongTinDoanhNghiep(@Header("Authorization") token: String): Call<response_ht_thongtinhdoanhnghiep?>
+
+    @GET(url_api.thongtin_doanhnghiep_datatable)
+    open fun getThongTinDoanhNghiepV2(): Call<response_ht_thongtinhdoanhnghiep?>
 
 
 //    JvmSuppressWildcards

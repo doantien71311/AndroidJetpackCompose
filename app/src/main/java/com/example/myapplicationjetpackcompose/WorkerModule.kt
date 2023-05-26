@@ -1,0 +1,23 @@
+package com.example.myapplicationjetpackcompose
+
+import com.example.myapplicationjetpackcompose.services.DataStoreServices
+import com.example.myapplicationjetpackcompose.services.IDataStoreServies
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+object WorkerModule {
+
+    @Singleton
+    @Provides
+    fun getDataStoreServies(): IDataStoreServies {
+
+        return DataStoreServices()
+
+    }
+
+}
