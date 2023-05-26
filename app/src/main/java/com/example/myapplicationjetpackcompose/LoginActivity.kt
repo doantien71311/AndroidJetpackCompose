@@ -1,5 +1,6 @@
 package com.example.myapplicationjetpackcompose
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,26 +26,19 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.myapplicationjetpackcompose.model.ht_dm_nsd
-import com.example.myapplicationjetpackcompose.model.ht_thongtinhdoanhnghiep
-import com.example.myapplicationjetpackcompose.services.UserPreferences
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -54,6 +48,7 @@ class LoginActivity : ComponentActivity() {
 
     val m_LoginViewModel: LoginViewModel by viewModels()
 
+    @SuppressLint("CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -64,16 +59,10 @@ class LoginActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-//                    val m_model : ht_thongtindoanhnghiep = ht_thongtindoanhnghiep("https://daiichitheworldlink-hinhanh.theworldlink.vn/TheWorldLink/WebPortal/Images/logo.png",
-//                        "")
-
-                    //LoginPage(m_LoginViewModel.row_ht_thongtindoanhnghiep, m_LoginViewModel.row_ht_dm_nsd)
-
                     LoginPage(m_LoginViewModel)
 
-                    m_LoginViewModel.layThongTinDoanhNhgiep()
 
-                    var sda = UserPreferences(this)
+                    m_LoginViewModel.LoadData()
 
 
                     //CoilImageS()
@@ -148,7 +137,12 @@ fun LoginPage(viewModel: LoginViewModel) {
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
 
             Button(onClick = {
-                viewModel.KiemTra_NSD()
+
+                GlobalScope.launch {
+                    viewModel.KiemTra_NSD()
+                }
+
+
             },
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier

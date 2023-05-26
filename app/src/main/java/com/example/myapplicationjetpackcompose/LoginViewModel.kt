@@ -21,6 +21,8 @@ import com.example.myapplicationjetpackcompose.services.RetrofitService
 import com.example.myapplicationjetpackcompose.services.PostData
 import com.example.myapplicationjetpackcompose.services.RetrofitCallback
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -58,21 +60,24 @@ class LoginViewModel @Inject constructor(
 
     }
 
-    fun layThongTinDoanhNhgiep() {
+    fun LoadData() {
 
-        getToKen()
+
+
+            getToKen()
+
+
+
+
     }
 
 
-    fun KiemTra_NSD()
+     fun KiemTra_NSD()
     {
-        var _token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJTcWxfU2VydmVyX05hbWUiOiI0MUI4RDNEQjAzRkEyMEI3NDg3N0RGNjIzOERGMjMzQSIsIlNxbF9EYXRhYmFzZV9OYW1lIjoiQ0QxQ0Q2NTRCRkRBNEQ2NzMxMkU4QkUwNzg3RUM5OUEiLCJTcWxfVXNlcl9OYW1lIjoiQ0QxQ0Q2NTRCRkRBNEQ2NzMxMkU4QkUwNzg3RUM5OUEiLCJTcWxfUGFzc3dvcmQiOiIyNzI3NEQyM0NENzc0N0UxM0Q0ODhCQzU0REY0QkFBNDgwMkQ1OEE0OTJBMUM3MUEiLCJtX1VzZXJJZCI6IkI4QkFDNkIwNDk3MDlCMTM0QUI0QjU0RjU3RDlFMUMwREIwNjhFOTEwOTFCMTA0NyIsImp0aSI6IjRmOGEzOGMyLWNhNzYtNDJiMC1iYmRiLWE2OGViMWI3MTI4ZCIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTk5MjEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.UCzGPYTrQNZ4RFKdkHFLp4XGuAX03-sqXCWf6Sh9icw"
-
-        var token = "Bearer "+_token
-
+        GlobalScope.launch {
 
         RetrofitService.IRetrofitService
-            .getEncryptDES(token, _mat_khau.value!!)
+            .getEncryptDES(dataStoreServies.getBearToken(), _mat_khau.value!!)
             .enqueue(object : Callback<response_EncryptDES?> {
                 override fun onResponse(
                     call: Call<response_EncryptDES?>,
@@ -83,30 +88,33 @@ class LoginViewModel @Inject constructor(
 
                     var _ht_dm_nsd = ht_dm_nsd(_ma_nsd.value, matkhau_mahoa)
 
-                    RetrofitService.IRetrofitService
-                        .getKiemTra_NSD(token, _ht_dm_nsd)
-                        .enqueue(object : Callback<response_boolean?> {
-                            override fun onResponse(
-                                call: Call<response_boolean?>,
-                                response: Response<response_boolean?>
-                            ) {
-
-                                _login_enable.value = response.body()?.data
-
-                            }
-
-                            override fun onFailure(
-                                call: Call<response_boolean?>,
-                                t: Throwable
-                            ) {
-
-                                var s = t.localizedMessage
-                                Log.e("Faild", t.message.toString())
-                            }
-
-                        })
+                    GlobalScope.launch {
 
 
+                        RetrofitService.IRetrofitService
+                            .getKiemTra_NSD(dataStoreServies.getBearToken().toString(), _ht_dm_nsd)
+                            .enqueue(object : Callback<response_boolean?> {
+                                override fun onResponse(
+                                    call: Call<response_boolean?>,
+                                    response: Response<response_boolean?>
+                                ) {
+
+                                    _login_enable.value = response.body()?.data
+
+                                }
+
+                                override fun onFailure(
+                                    call: Call<response_boolean?>,
+                                    t: Throwable
+                                ) {
+
+                                    var s = t.localizedMessage
+                                    Log.e("Faild", t.message.toString())
+                                }
+
+                            })
+
+                    }
                 }
 
                 override fun onFailure(
@@ -121,12 +129,13 @@ class LoginViewModel @Inject constructor(
             })
 
 
-
+        }
     }
 
 
 
-   private fun LayThongTinDoanhNghiep() {
+   private suspend fun LayThongTinDoanhNghiep() {
+
 
        RetrofitService.IRetrofitService
             .getThongTinDoanhNghiep(dataStoreServies.getBearToken())
@@ -151,10 +160,12 @@ class LoginViewModel @Inject constructor(
                 }
 
             })
+
     }
 
 
     private fun getToKen() {
+
 
         RetrofitService
             .IRetrofitService
@@ -165,16 +176,13 @@ class LoginViewModel @Inject constructor(
                     response: Response<TokenInfor?>
                 ) {
 
-                  //  var token = "Bearer " + response.body()?.token.toString()
+                    GlobalScope.launch {
 
-                   // var token = "Bearer " + dataStoreServies.getToken()
+                        dataStoreServies.saveAuthToken(response.body()?.token.toString())
 
-                    var token = dataStoreServies.getBearToken()
-                    LayThongTinDoanhNghiep()
+                        LayThongTinDoanhNghiep()
+                    }
 
-                   // val callback: Callback<response_ht_thongtinhdoanhnghiep>
-
-                   // var sdasd = RetrofitCallback<response_ht_thongtinhdoanhnghiep>(callback);
 
                 }
 

@@ -87,6 +87,7 @@ dependencies {
     //Tiến thêm vào để luu thông tin đăng nhập, token
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
 
+    //Tiến thêm vào để Dependency injection
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-compiler:2.44"
 
@@ -94,6 +95,7 @@ dependencies {
 }
 
 // Allow references to generated code
+//Tiến thêm vào để Dependency injection
 kapt {
     correctErrorTypes true
 }
