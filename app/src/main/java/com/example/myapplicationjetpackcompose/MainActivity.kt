@@ -1,6 +1,7 @@
 package com.example.myapplicationjetpackcompose
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
@@ -14,13 +15,35 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 
+
+sealed class Destination (val route: String)
+{
+    object  Home: Destination ("home")
+    object  Profile: Destination("profile")
+    object  CarMenu: Destination("carmenu")
+    object  List: Destination("List")
+    object  Detail: Destination("detail/{elementId}") {
+            fun createRoute (elementId: Int) = "detail/$elementId"
+
+    }
+
+}
+
 class MainActivity : ComponentActivity() {
+
+    lateinit var navHostController: NavHostController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -30,9 +53,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
 
-                   // CoilImage()
+                    navHostController = rememberNavController()
+
+                    NavigationAppHost(navController = navHostController)
                 }
             }
         }
@@ -40,37 +64,48 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+fun NavigationAppHost(navController: NavHostController) {
 
-@Composable
-fun CoilImage() {
+    val ctx = LocalContext.current
 
-    Box(
-        modifier = Modifier.height(150.dp).width(150.dp),
-        contentAlignment = Alignment.Center
-    ) {
+    NavHost(navController = navController , startDestination = Destination.Home.route ) {
+        composable(route = Destination.Home.route)
+        {
+            HomeScreen(navController)
+        }
 
+        composable(route = Destination.List.route)
+        {
+            ListScreen(navController)
+        }
 
+        composable(route = Destination.CarMenu.route)
+        {
+            CarMenuSrceen()
+        }
 
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data("https://daiichicaugiay-hinhanh.theworldlink.vn/CauGiay_HaNoi/WebPortal/Images/logo_caugiay_hanoi_38471edc-f265-4e3e-988f-19da770cc657.jpg")
-                .build(),
-            contentDescription = "ImageRequest example",
-        )
+        composable(route = Destination.Detail.route)
+        {
+                navBackStackEntry ->
+            
+            val elementID = navBackStackEntry.arguments?.getInt("elementID")
+            if (elementID == null) {
+                Toast.makeText(ctx, "ElementID is required", Toast.LENGTH_LONG).show()
+            } else {
+
+                DetailScreen(elementId = elementID)
+            }
+        }
+
     }
-
 }
+
+
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     MyApplicationJetpackComposeTheme {
-        Greeting("Android")
+      //  Greeting("Android")
     }
 }

@@ -21,11 +21,4 @@ object WorkerModule {
         return DataStoreServices(app)
 
     }
-
-//    @Singleton
-//    @Provides
-//    fun provideApplication(@ApplicationContext app: Context):   MyApp {
-//        return app as MyApp
-//    }
-
 }
