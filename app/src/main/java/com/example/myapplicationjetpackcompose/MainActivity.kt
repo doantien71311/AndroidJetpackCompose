@@ -25,6 +25,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.myapplicationjetpackcompose.model.dto_menu_app
+import com.example.myapplicationjetpackcompose.model.dto_menu_app_chitiet
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 
 
@@ -81,7 +83,40 @@ fun NavigationAppHost(navController: NavHostController) {
 
         composable(route = Destination.CarMenu.route)
         {
-            CarMenuSrceen()
+            var url_hinhanh = "https://daiichitheworldlink-hinhanh.theworldlink.vn/TheWorldLink/WebPortal/Images/logo.png"
+            var lis = mutableListOf<dto_menu_app>()
+
+            var lis_ct = mutableListOf<dto_menu_app_chitiet>()
+            lis_ct.add(
+                dto_menu_app_chitiet("CN01-01", "Chức năng 01 - 01", url_hinhanh)
+            )
+            lis_ct.add(
+                dto_menu_app_chitiet("CN01-02", "Chức năng 01 - 02", url_hinhanh)
+            )
+
+            lis.add( dto_menu_app(ma_chucnang = "CN01", ten_chucnang = "Chức năng 01", menu_app_chitiet = lis_ct ))
+
+            var lis_ct2 = mutableListOf<dto_menu_app_chitiet>()
+            lis_ct2.add(
+                dto_menu_app_chitiet("CN02-01", "Chức năng 02 - 01", url_hinhanh)
+            )
+            lis_ct2.add(
+                dto_menu_app_chitiet("CN02-02", "Chức năng 02 - 02", url_hinhanh)
+            )
+
+            lis.add( dto_menu_app(ma_chucnang = "CN02", ten_chucnang = "Chức năng 02", menu_app_chitiet = lis_ct2 ))
+
+            var lis_ct3 = mutableListOf<dto_menu_app_chitiet>()
+            lis_ct3.add(
+                dto_menu_app_chitiet("CN02-01", "Chức năng 02 - 01", url_hinhanh)
+            )
+            lis_ct3.add(
+                dto_menu_app_chitiet("CN02-02", "Chức năng 02 - 02", url_hinhanh)
+            )
+
+            lis.add( dto_menu_app(ma_chucnang = "CN03", ten_chucnang = "Chức năng 03", menu_app_chitiet = lis_ct3 ))
+
+            CarMenuSrceen(lis.toTypedArray())
         }
 
         composable(route = Destination.Detail.route)

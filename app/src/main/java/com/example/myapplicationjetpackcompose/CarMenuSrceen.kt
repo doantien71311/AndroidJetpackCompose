@@ -14,6 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -32,74 +35,60 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.myapplicationjetpackcompose.model.dto_menu_app
+import com.example.myapplicationjetpackcompose.model.dto_menu_app_chitiet
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 
 @Composable
-fun CarMenuSrceen() {
+fun CarMenuSrceen(para: Array<dto_menu_app>) {
 
 
-    Column ( modifier = Modifier.verticalScroll(rememberScrollState())  ) {
+    LazyColumn (
+         //  modifier = Modifier.verticalScroll(rememberScrollState())
+    )
+
+    {
+        itemsIndexed(
+            items =  para
+
+        ) { index, item ->
+
+            Text(
+                text = item.ten_chucnang!!,
+                //  modifier = Modifier.align(Alignment.CenterHorizontally)
 
 
-        Text(
-            text = "Menu 1",
-            //  modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+            RowsCarMenuSrceen(item.menu_app_chitiet.toTypedArray())
 
-
-        )
-        RowsCarMenuSrceen()
-
-
-        Text(
-            text = "Menu 2",
-            //  modifier = Modifier.align(Alignment.CenterHorizontally)
-
-
-        )
-
-        RowsCarMenuSrceen()
-
-        RowsCarMenuSrceen()
-
-        RowsCarMenuSrceen()
-
+        }
 
     }
-
-
 
 
 }
 
 @Composable
-fun RowsCarMenuSrceen() {
+fun RowsCarMenuSrceen(para: Array<dto_menu_app_chitiet>) {
 
-
-    Row (
-        modifier = Modifier.horizontalScroll(rememberScrollState()),
+    LazyRow (
+      // modifier = Modifier.horizontalScroll(rememberScrollState()),
 
     ) {
+        itemsIndexed (
+           items =  para
+        )  { index, item ->
 
+            ItemsCarMenuSrceen(item)
 
-        ItemsCarMenuSrceen()
-
-        ItemsCarMenuSrceen()
-
-        ItemsCarMenuSrceen()
-
-        ItemsCarMenuSrceen()
-
-
+        }
     }
 
 }
 
 
-
 @Composable
-fun ItemsCarMenuSrceen() {
-
-    val url_hinh : String =  "https://daiichitheworldlink-hinhanh.theworldlink.vn/TheWorldLink/WebPortal/Images/logo.png"
+fun ItemsCarMenuSrceen(para: dto_menu_app_chitiet) {
 
     Card (
 
@@ -125,7 +114,7 @@ fun ItemsCarMenuSrceen() {
 
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(url_hinh)
+                    .data(para.url_hinhanh)
                     .crossfade(true)
                     .build(),
                 contentDescription = "ImageRequest example",
@@ -139,7 +128,7 @@ fun ItemsCarMenuSrceen() {
             )
 
             Text(
-                text = "Menu 01 456",
+                text = para.ten_chucnang!!,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
 
 
@@ -157,7 +146,13 @@ fun ItemsCarMenuSrceen() {
 @Composable
 fun CarMenuSrceenPreview() {
     MyApplicationJetpackComposeTheme {
-          CarMenuSrceen()
+
+           var lis : List<dto_menu_app>
+           lis = ArrayList<dto_menu_app>()
+
+
+
+        CarMenuSrceen(lis.toTypedArray())
     }
 }
 
