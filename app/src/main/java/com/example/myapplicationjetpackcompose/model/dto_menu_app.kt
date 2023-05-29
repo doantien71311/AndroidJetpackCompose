@@ -5,7 +5,7 @@ data class dto_menu_app (
     var ma_chucnang: String? = "",
     var ten_chucnang: String? = "",
     var url_hinhanh: String? = "",
-    var menu_app_chitiet: List<dto_menu_app_chitiet>? = null
+    var menu_app_chitiet: List<dto_menu_app_chitiet>? = mutableListOf()
 )
 
 data class dto_menu_app_chitiet (

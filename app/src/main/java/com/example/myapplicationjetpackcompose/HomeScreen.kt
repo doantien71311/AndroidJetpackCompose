@@ -47,6 +47,13 @@ fun HomeScreen(
             Text (text = "CarMenu")
 
         }
+
+        Button(onClick = { navController.navigate(Destination.Login.route)
+        }) {
+
+            Text (text = "Login")
+
+        }
         
     }
 

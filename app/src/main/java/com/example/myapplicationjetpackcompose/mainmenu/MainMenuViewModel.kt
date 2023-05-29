@@ -8,6 +8,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.myapplicationjetpackcompose.model.dto_menu_app
+import com.example.myapplicationjetpackcompose.model.ht_thongtinhdoanhnghiep
 
 import com.example.myapplicationjetpackcompose.services.IDataStoreServies
 import com.example.myapplicationjetpackcompose.services.RetrofitService
@@ -23,19 +26,21 @@ import javax.inject.Inject
 
 import com.example.myapplicationjetpackcompose.model.response_dto_menu_app
 
-//@HiltViewModel
+@HiltViewModel
 class MainMenuViewModel @Inject constructor (
     private val dataStoreServies: IDataStoreServies
 
     ): ViewModel() {
 
-   // var ListMenuApp: List<dto_menu_app> by mutableListOf<dto_menu_app>()
+    //Cách 1 đang ok
+    var ListMenuApp : List<dto_menu_app> by mutableStateOf(mutableListOf<dto_menu_app>(dto_menu_app()))
 
-    //var ListMenuApp : List<dto_menu_app> by mutableListOf<dto_menu_app>()
+    //Cách 2, chưa làm được
+    //var ListMenuApp : List<dto_menu_app> = mutableListOf()
 
     fun loadData() {
 
-        GlobalScope.launch {
+        viewModelScope.launch {
             RetrofitService.IRetrofitService
                 .getHeThongLayDSMenuApp(dataStoreServies.getBearToken(), "ADMIN"  )
                 .enqueue(object : Callback<response_dto_menu_app?> {
@@ -44,7 +49,8 @@ class MainMenuViewModel @Inject constructor (
                         response: Response<response_dto_menu_app?>
                     ) {
 
-                        //ListMenuApp = response.body()?.data!!
+                        ListMenuApp = response.body()?.data!!
+
                     }
 
                     override fun onFailure(

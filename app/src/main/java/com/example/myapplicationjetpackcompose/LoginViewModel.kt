@@ -4,10 +4,12 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.myapplicationjetpackcompose.model.TokenInfor
 import com.example.myapplicationjetpackcompose.model.ht_dm_nsd
 import com.example.myapplicationjetpackcompose.model.ht_thongtinhdoanhnghiep
@@ -74,7 +76,7 @@ class LoginViewModel @Inject constructor(
 
      fun KiemTra_NSD()
     {
-        GlobalScope.launch {
+        viewModelScope.launch {
 
         RetrofitService.IRetrofitService
             .getEncryptDES(dataStoreServies.getBearToken(), _mat_khau.value!!)
@@ -88,7 +90,7 @@ class LoginViewModel @Inject constructor(
 
                     var _ht_dm_nsd = ht_dm_nsd(_ma_nsd.value, matkhau_mahoa)
 
-                    GlobalScope.launch {
+                    viewModelScope.launch {
 
 
                         RetrofitService.IRetrofitService
@@ -100,6 +102,8 @@ class LoginViewModel @Inject constructor(
                                 ) {
 
                                     _login_enable.value = response.body()?.data
+
+
 
                                 }
 

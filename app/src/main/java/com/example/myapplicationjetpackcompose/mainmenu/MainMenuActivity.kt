@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -18,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainMenuActivity : ComponentActivity() {
 
-    //val m_MainMenuViewModel: MainMenuViewModel by viewModels()
+   val m_MainMenuViewModel: MainMenuViewModel by viewModels()
 
     lateinit var navHostController: NavHostController
 
@@ -36,11 +37,10 @@ class MainMenuActivity : ComponentActivity() {
 
                     // NavigationAppHost(navController = navHostController)
 
+                    CarMenuSrceen()
 
 
-                  // CarMenuSrceen(m_MainMenuViewModel)
 
-                   // m_MainMenuViewModel.loadData()
                 }
             }
         }

@@ -1,5 +1,7 @@
 package com.example.myapplicationjetpackcompose
 
+import android.app.ListActivity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -41,6 +43,8 @@ sealed class Destination (val route: String)
 
     }
 
+    object  Login: Destination("login")
+
 }
 
 class MainActivity : ComponentActivity() {
@@ -71,6 +75,11 @@ fun NavigationAppHost(navController: NavHostController) {
     val ctx = LocalContext.current
 
     NavHost(navController = navController , startDestination = Destination.Home.route ) {
+        composable(route = Destination.Login.route)
+        {
+            ctx.startActivity(Intent(ctx, LoginActivity::class.java))
+        }
+
         composable(route = Destination.Home.route)
         {
             HomeScreen(navController)
