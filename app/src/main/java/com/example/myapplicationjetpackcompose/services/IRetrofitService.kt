@@ -2,9 +2,11 @@ package com.example.myapplicationjetpackcompose.services
 
 
 import com.example.myapplicationjetpackcompose.model.TokenInfor
+import com.example.myapplicationjetpackcompose.model.dto_menu_app
 import com.example.myapplicationjetpackcompose.model.ht_dm_nsd
 import com.example.myapplicationjetpackcompose.model.response_EncryptDES
 import com.example.myapplicationjetpackcompose.model.response_boolean
+import com.example.myapplicationjetpackcompose.model.response_dto_menu_app
 import com.example.myapplicationjetpackcompose.model.response_ht_thongtinhdoanhnghiep
 
 import retrofit2.Call
@@ -15,6 +17,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Query
 import retrofit2.http.Url
 
 class PostData {
@@ -37,6 +40,11 @@ interface IRetrofitService {
 
     @GET(url_api.thongtin_doanhnghiep_datatable)
     open fun getThongTinDoanhNghiep(@Header("Authorization") token: String): Call<response_ht_thongtinhdoanhnghiep?>
+
+
+    @GET(url_api.hethong_layds_menu_app)
+    open fun getHeThongLayDSMenuApp(@Header("Authorization") token: String,
+                                       @Query("ma_nsd") ma_nsd: String): Call<response_dto_menu_app?>
 
     @GET(url_api.thongtin_doanhnghiep_datatable)
     open fun getThongTinDoanhNghiepV2(): Call<response_ht_thongtinhdoanhnghiep?>

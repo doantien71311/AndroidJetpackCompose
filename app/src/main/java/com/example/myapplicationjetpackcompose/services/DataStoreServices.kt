@@ -51,8 +51,11 @@ class DataStoreServices constructor (
 
     override suspend fun getToken(): String {
 
-        val preferences = dataStore.data.first()
-        return preferences[DataStoreServices.KEY_AUTH]!!
+        //val preferences = dataStore.data.first()
+        //return preferences[DataStoreServices.KEY_AUTH]!!
+
+        //Tiến thêm vào để test
+        return  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJTcWxfU2VydmVyX05hbWUiOiI0MUI4RDNEQjAzRkEyMEI3QUQxQTBEMzBDQzcyNkZBODA1MzM0ODYwQkI5OEJDMTUiLCJTcWxfRGF0YWJhc2VfTmFtZSI6IkNEMUNENjU0QkZEQTRENjczMTJFOEJFMDc4N0VDOTlBIiwiU3FsX1VzZXJfTmFtZSI6IkNEMUNENjU0QkZEQTRENjczMTJFOEJFMDc4N0VDOTlBIiwiU3FsX1Bhc3N3b3JkIjoiMjcyNzREMjNDRDc3NDdFMTNENDg4QkM1NERGNEJBQTQ4MDJENThBNDkyQTFDNzFBIiwibV9Vc2VySWQiOiJCOEJBQzZCMDQ5NzA5QjEzNEFCNEI1NEY1N0Q5RTFDMERCMDY4RTkxMDkxQjEwNDciLCJqdGkiOiJkODllMjZlYy1iY2E4LTRkY2MtYmU5Mi1lNDkzNmJhZTljYjUiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjU5OTIxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIn0.7zVtnniMwBgpF-ahU90WcUh6DWpKDl1GWRQ-icGRYFs"
 
     }
 
