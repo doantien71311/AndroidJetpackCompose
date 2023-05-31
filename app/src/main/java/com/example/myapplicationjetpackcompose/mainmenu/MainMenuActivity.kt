@@ -16,19 +16,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplicationjetpackcompose.HomeScreen
 import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienScreen
+import com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien.ThongTinUngVienScreen
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import dagger.hilt.android.AndroidEntryPoint
 
-sealed class Destination (val route: String)
-{
-    object  MAINMENU: Destination ("MAINMENU")
-    object  DANHMUC_NhanVien: Destination ("DANHMUC_NhanVien")
-    object  Home: Destination ("home")
 
-}
 
 @AndroidEntryPoint
 class MainMenuActivity : ComponentActivity() {
@@ -78,22 +73,27 @@ class MainMenuActivity : ComponentActivity() {
 
         val context = LocalContext.current
 
-        NavHost(navController = navController , startDestination = Destination.MAINMENU.route ) {
+        NavHost(navController = navController , startDestination = MainMenuDestination.MAINMENU.route ) {
 
-            composable(route = Destination.MAINMENU.route)
+            composable(route = MainMenuDestination.MAINMENU.route)
             {
                 CarMenuSrceen(navController, context, intent)
             }
 
 
-            composable(route = com.example.myapplicationjetpackcompose.Destination.Home.route)
+            composable(route = MainMenuDestination.Home.route)
             {
                 HomeScreen(navController)
             }
 
-            composable(route = com.example.myapplicationjetpackcompose.mainmenu.Destination.DANHMUC_NhanVien.route)
+            composable(route = MainMenuDestination.DANHMUC_NhanVien.route)
             {
                 NhanVienScreen(navController, context)
+            }
+
+            composable(route = MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route)
+            {
+                ThongTinUngVienScreen(navController, context)
             }
 
         }

@@ -35,45 +35,6 @@ import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingSer
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 
 
-//@Composable
-//fun CarMenuSrceen(viewModel: MainMenuViewModel) {
-//
-////    Text(
-////        text = viewModel.ListMenuApp[1].ten_chucnang!!,
-////       // text = viewModel.RowMenuApp.ten_chucnang!!,
-////        //  modifier = Modifier.align(Alignment.CenterHorizontally)
-////
-////
-////    )
-//
-//    LazyColumn (
-//         //  modifier = Modifier.verticalScroll(rememberScrollState())
-//    )
-//
-//    {
-//
-//
-//        itemsIndexed(
-//            items =  viewModel.ListMenuApp.toTypedArray()
-//
-//        ) { index, item ->
-//
-//            Text(
-//                text = item.ten_chucnang!!,
-//                //  modifier = Modifier.align(Alignment.CenterHorizontally)
-//
-//
-//            )
-//
-//             RowsCarMenuSrceen(item.menu_app_chitiet!!.toTypedArray())
-//
-//        }
-//
-//    }
-//
-//
-//}
-
 @Composable
 fun CarMenuSrceen (
 
@@ -153,7 +114,7 @@ fun RowsCarMenuSrceen(
            items =  para
         )  { index, item ->
 
-            ItemsCarMenuSrceen(navController,
+            MainMenuItemsScreen(navController,
                 context,
                 item,
             )
@@ -164,70 +125,7 @@ fun RowsCarMenuSrceen(
 }
 
 
-@Composable
-fun ItemsCarMenuSrceen(
-    navController: NavController,
-    context : Context,
-    para: dto_menu_app_chitiet,
-) {
 
-    Card (
-
-        shape = MaterialTheme.shapes.small,
-        modifier = Modifier
-            .padding(
-                bottom = 20.dp,
-                top = 20.dp,
-                start = 10.dp,
-                end = 10.dp
-
-            )
-            .clip(RoundedCornerShape(30.dp))
-            .background(color = Color.Blue)
-            .width(300.dp)
-            .height(300.dp)
-
-        .clickable {
-        // Fetching the local context for using the Toast
-            //  Toast.makeText(context, "This is a Sample Toast", Toast.LENGTH_LONG).show()
-
-            navController.navigate(com.example.myapplicationjetpackcompose.mainmenu.Destination.DANHMUC_NhanVien.route)
-
-
-        },
-        //elevation = 8.dp
-    ) {
-
-        Column ( ) {
-
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(para.url_hinhanh)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = "ImageRequest example",
-                modifier = Modifier
-                    .clip(RoundedCornerShape(100.dp))
-                    .height(250.dp)
-                    //.width(100.dp)
-                    .fillMaxWidth()
-                    //.fillMaxHeight()
-                    .align(Alignment.CenterHorizontally)
-            )
-
-            Text(
-                text = para.ten_chucnang!!,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-
-
-            )
-
-        }
-
-
-    }
-
-}
 
 @Preview(showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
