@@ -1,7 +1,10 @@
 package com.example.myapplicationjetpackcompose.mainmenu
 
+import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,10 +18,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,14 +25,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.myapplicationjetpackcompose.model.dto_menu_app
 import com.example.myapplicationjetpackcompose.model.dto_menu_app_chitiet
+import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingService
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
-import kotlinx.coroutines.launch
+
 
 //@Composable
 //fun CarMenuSrceen(viewModel: MainMenuViewModel) {
@@ -75,11 +75,32 @@ import kotlinx.coroutines.launch
 //}
 
 @Composable
-fun CarMenuSrceen() {
+fun CarMenuSrceen (
+
+    navController: NavController,
+    context: Context,
+    intent: Intent
+
+) {
 
 
-    val m_MainMenuViewModel : MainMenuViewModel = viewModel()
-    m_MainMenuViewModel.loadData()
+        if (intent.hasExtra(EnumFirebaseMessagingService.ma_chucnang)) {
+
+            val m_ma_chucnang : String = intent.getStringExtra(EnumFirebaseMessagingService.ma_chucnang)!!
+            val m_key : String = intent.getStringExtra(EnumFirebaseMessagingService.key)!!
+            val m_tungay : String = intent.getStringExtra(EnumFirebaseMessagingService.tungay)!!
+            val m_denngay : String = intent.getStringExtra(EnumFirebaseMessagingService.denngay)!!
+            intent.removeExtra(EnumFirebaseMessagingService.ma_chucnang)
+
+            navController.navigate(m_ma_chucnang)
+        }
+
+
+
+
+
+    val mainMenuViewModel : MainMenuViewModel = hiltViewModel()
+    mainMenuViewModel.loadData()
 
     LazyColumn (
         //  modifier = Modifier.verticalScroll(rememberScrollState())
@@ -91,7 +112,7 @@ fun CarMenuSrceen() {
 
 
             itemsIndexed(
-                items = m_MainMenuViewModel.ListMenuApp.toTypedArray()
+                items = mainMenuViewModel.ListMenuApp.toTypedArray()
 
             ) { index, item ->
 
@@ -102,7 +123,11 @@ fun CarMenuSrceen() {
 
                 )
 
-                RowsCarMenuSrceen(item.menu_app_chitiet!!.toTypedArray())
+                RowsCarMenuSrceen(
+                    navController,
+                    context,
+                    item.menu_app_chitiet!!.toTypedArray()
+                )
 
             }
         }
@@ -114,7 +139,11 @@ fun CarMenuSrceen() {
 
 
 @Composable
-fun RowsCarMenuSrceen(para: Array<dto_menu_app_chitiet>) {
+fun RowsCarMenuSrceen(
+    navController: NavController,
+    context : Context,
+    para: Array<dto_menu_app_chitiet>,
+) {
 
     LazyRow (
       // modifier = Modifier.horizontalScroll(rememberScrollState()),
@@ -124,7 +153,10 @@ fun RowsCarMenuSrceen(para: Array<dto_menu_app_chitiet>) {
            items =  para
         )  { index, item ->
 
-            ItemsCarMenuSrceen(item)
+            ItemsCarMenuSrceen(navController,
+                context,
+                item,
+            )
 
         }
     }
@@ -133,7 +165,11 @@ fun RowsCarMenuSrceen(para: Array<dto_menu_app_chitiet>) {
 
 
 @Composable
-fun ItemsCarMenuSrceen(para: dto_menu_app_chitiet) {
+fun ItemsCarMenuSrceen(
+    navController: NavController,
+    context : Context,
+    para: dto_menu_app_chitiet,
+) {
 
     Card (
 
@@ -151,7 +187,14 @@ fun ItemsCarMenuSrceen(para: dto_menu_app_chitiet) {
             .width(300.dp)
             .height(300.dp)
 
-        //.clickable {  },
+        .clickable {
+        // Fetching the local context for using the Toast
+            //  Toast.makeText(context, "This is a Sample Toast", Toast.LENGTH_LONG).show()
+
+            navController.navigate(com.example.myapplicationjetpackcompose.mainmenu.Destination.DANHMUC_NhanVien.route)
+
+
+        },
         //elevation = 8.dp
     ) {
 

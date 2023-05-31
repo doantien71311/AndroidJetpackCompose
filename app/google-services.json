@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "134752463317",
+    "project_id": "notificationapp-147fa",
+    "storage_bucket": "notificationapp-147fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134752463317:android:9a3022e231f9150b49755c",
+        "android_client_info": {
+          "package_name": "com.example.firebaseandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "134752463317-82dh1k9q6pnbr6apvvsk9qe3n33nvfm3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEqkqwsYbHt6ZnxLOi0HxK7N8cfn8M-0Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "134752463317-82dh1k9q6pnbr6apvvsk9qe3n33nvfm3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "134752463317-74crodfvfg9mnjljs2449snu244d0h4k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "TWLS.Firebase"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134752463317:android:8c20efd8d69cd5de49755c",
+        "android_client_info": {
+          "package_name": "com.example.myapplicationjetpackcompose"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "134752463317-82dh1k9q6pnbr6apvvsk9qe3n33nvfm3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEqkqwsYbHt6ZnxLOi0HxK7N8cfn8M-0Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "134752463317-82dh1k9q6pnbr6apvvsk9qe3n33nvfm3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "134752463317-74crodfvfg9mnjljs2449snu244d0h4k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "TWLS.Firebase"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
