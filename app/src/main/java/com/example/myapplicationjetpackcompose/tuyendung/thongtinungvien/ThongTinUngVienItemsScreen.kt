@@ -2,6 +2,7 @@ package com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien
 
 import android.content.Context
 import android.content.res.Configuration
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,14 +14,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.magnifier
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,7 +42,8 @@ import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComp
 fun ThongTinUngVienItemsScreen(
 
     navController: NavController,
-    context : Context
+    context : Context,
+    pos: Int
 
 
 ) {
@@ -56,15 +61,38 @@ fun ThongTinUngVienItemsScreen(
             )
             .clip(RoundedCornerShape(20.dp))
             .background(color = Color.Blue)
+//            .background(
+//                brush = Brush.horizontalGradient(
+//                    listOf(
+//                        Color(0xFFF518A0),
+//                        Color(0xFFB232BD)
+//                    )
+//                )
+//            )
             .fillMaxWidth()
             .height(200.dp)
             .clickable {
 
             },
-        //elevation = 8.dp
+//        elevation = CardDefaults.cardElevation(
+//            defaultElevation = 50.dp,
+//            focusedElevation = 100.dp
+//        ),
+         border = BorderStroke(2.dp, Color.Black)
     ) {
 
-        Column ( ) {
+        Column (
+            modifier = Modifier
+                .background(
+                    if ( pos == 99) {
+                        Color.Yellow
+                    } else {
+                        Color.Green
+                    })
+                .height(200.dp)
+
+                )
+        {
 
             Text(
                 text = "Họ tên",
@@ -109,8 +137,8 @@ fun ThongTinUngVienItemsScreen(
                     .padding(
                         //bottom = 10.dp,
                         top = 10.dp,
-                       // start = 10.dp,
-                       // end = 10.dp
+                        // start = 10.dp,
+                        // end = 10.dp
 
                     )
                     .fillMaxWidth(),
@@ -155,7 +183,7 @@ fun ThongTinUngVienItemsScreen(
 }
 
 @Preview(showBackground = true)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+//@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 fun ThongTinUngVienItemsScreenPreview() {
 
@@ -168,6 +196,6 @@ fun ThongTinUngVienItemsScreenPreview() {
 
         NavigationAppHost(navController = navHostController)
 
-        ThongTinUngVienItemsScreen (navHostController, current)
+        ThongTinUngVienItemsScreen (navHostController, current, 99)
     }
 }
