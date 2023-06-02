@@ -47,7 +47,6 @@ fun ThongTinUngVienItemsScreen(
     context : Context,
     pos: Int
 
-
 ) {
 
     Card (
