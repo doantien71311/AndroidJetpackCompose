@@ -69,11 +69,23 @@ fun CarMenuSrceen (
     val mainMenuViewModel : MainMenuViewModel = hiltViewModel()
     mainMenuViewModel.loadData()
 
+    var isLoading by remember {
+        mutableStateOf(true)
+    }
 
+    LaunchedEffect(key1 = true ) {
+        delay(5000)
+        isLoading = false
+    }
+
+//    if (!mainMenuViewModel.isLoadding) {
+//        isLoading = false
+//    }
 
     MainMenuLoadingAnimation(
 
-        isLoadding = mainMenuViewModel.isLoadding,
+        //isLoadding = mainMenuViewModel.isLoadding,
+        isLoadding = isLoading,
         contentAfterLoading = {
 
             LazyColumn (

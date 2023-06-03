@@ -69,22 +69,6 @@ class MainMenuActivity : ComponentActivity() {
                         val token = task.result
 
                     })
-
-
-                    var isLoading by remember {
-                        mutableStateOf(true)
-                    }
-
-                    LaunchedEffect(key1 = true ) {
-                        delay(3000)
-                        isLoading = false
-
-                    }
-
-
-
-
-
                 }
             }
         }
