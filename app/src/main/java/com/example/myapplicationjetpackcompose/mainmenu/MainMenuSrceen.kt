@@ -18,6 +18,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +38,7 @@ import com.example.myapplicationjetpackcompose.model.dto_menu_app
 import com.example.myapplicationjetpackcompose.model.dto_menu_app_chitiet
 import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingService
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
+import kotlinx.coroutines.delay
 
 
 @Composable
@@ -63,35 +69,71 @@ fun CarMenuSrceen (
     val mainMenuViewModel : MainMenuViewModel = hiltViewModel()
     mainMenuViewModel.loadData()
 
-    LazyColumn (
-        //  modifier = Modifier.verticalScroll(rememberScrollState())
+
+
+    MainMenuLoadingAnimation(
+
+        isLoadding = mainMenuViewModel.isLoadding,
+        contentAfterLoading = {
+
+            LazyColumn (
+                //  modifier = Modifier.verticalScroll(rememberScrollState())
+            )
+
+            {
+
+                itemsIndexed(
+                    items = mainMenuViewModel.ListMenuApp.toTypedArray()
+
+                ) { index, item ->
+
+                    Text(
+                        text = item.ten_chucnang!!,
+                        //  modifier = Modifier.align(Alignment.CenterHorizontally)
+
+
+                    )
+
+                    RowsCarMenuSrceen(
+                        navController,
+                        context,
+                        item.menu_app_chitiet!!.toTypedArray()
+                    )
+
+                }
+            }
+
+
+        }
     )
 
-    {
 
-
-
-
-            itemsIndexed(
-                items = mainMenuViewModel.ListMenuApp.toTypedArray()
-
-            ) { index, item ->
-
-                Text(
-                    text = item.ten_chucnang!!,
-                    //  modifier = Modifier.align(Alignment.CenterHorizontally)
-
-
-                )
-
-                RowsCarMenuSrceen(
-                    navController,
-                    context,
-                    item.menu_app_chitiet!!.toTypedArray()
-                )
-
-            }
-        }
+//    LazyColumn (
+//        //  modifier = Modifier.verticalScroll(rememberScrollState())
+//    )
+//
+//    {
+//
+//            itemsIndexed(
+//                items = mainMenuViewModel.ListMenuApp.toTypedArray()
+//
+//            ) { index, item ->
+//
+//                Text(
+//                    text = item.ten_chucnang!!,
+//                    //  modifier = Modifier.align(Alignment.CenterHorizontally)
+//
+//
+//                )
+//
+//                RowsCarMenuSrceen(
+//                    navController,
+//                    context,
+//                    item.menu_app_chitiet!!.toTypedArray()
+//                )
+//
+//            }
+//        }
 
 
 

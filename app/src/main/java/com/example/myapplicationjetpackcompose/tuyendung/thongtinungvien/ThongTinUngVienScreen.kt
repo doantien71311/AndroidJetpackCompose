@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.Configuration
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.tween
@@ -68,9 +69,11 @@ import kotlinx.coroutines.launch
 
 
 import androidx.compose.animation.core.*
+import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
 
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -87,18 +90,87 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.load.model.ModelLoader.LoadData
+import com.example.myapplicationjetpackcompose.Destination
 import kotlinx.coroutines.delay
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun ThongTinUngVienScreen (
     navController: NavController,
     context : Context
 ) {
 
-   // val m_ThongTinUngVienViewModel : ThongTinUngVienViewModel = hiltViewModel()
+    val thongTinUngVienViewModel : ThongTinUngVienViewModel = hiltViewModel()
+
+    Column (
+
+        modifier = Modifier.fillMaxSize()
+
+    ) {
+
+        var isVisible by remember {
+
+            mutableStateOf(false)
+
+        }
+
+        Button(onClick = {
+            isVisible = !isVisible
+
+
+        }) {
+
+            Text(text = "Login")
+
+        }
+
+                AnimatedVisibility(
+                    visible = isVisible,
+                   // enter = fadeIn() + slideInHorizontally(),
+                    enter = scaleIn(animationSpec = tween(durationMillis = 1000)),
+                    modifier = Modifier.fillMaxWidth().weight(1f)
+
+                )
+                {
+                    Box (modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Red))
+
+                }
+
+    }
+//        Scaffold(
+//
+//        topBar = {
+//            TopAppBar(
+//                title = { Text(text = "Thông tin ứng viên") },
+//                navigationIcon = {
+//                    IconButton(onClick = {
+//                        navController.navigateUp()
+//                    }) {
+//                        Icon(Icons.Rounded.ArrowBack, "Back")
+//                    }
+//                },
+//            )
+//        },
+//        content = {
+//
+//            }
+//
+//    )
+
+
+
+}
+
+@Composable
+fun LoadingForm (
+    navController: NavController,
+    context : Context
+
+) {
 
     var isLoading by remember {
         mutableStateOf(true)
@@ -150,115 +222,30 @@ fun ThongTinUngVienScreen (
 
 
 
-                        itemsIndexed(
-                            items = para
-                        ) { index, item ->
+                itemsIndexed(
+                    items = para
+                ) { index, item ->
 
-                            ShimmerListItem (
-                                isLoadding = isLoading,
-                                contentAfterLoading = {
+                    ShimmerListItem (
+                        isLoadding = isLoading,
+                        contentAfterLoading = {
                             ThongTinUngVienItemsScreen(
                                 navController,
                                 context,
                                 index
                             )
                         },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp)
-                            )
-                    }
-
-
-
-
-
-
-            }
-
-        }
-
-    }
-
-
-
-//    Scaffold(
-//        topBar = {
-//            TopAppBar(
-//                title = { Text(text = "Thông tin ứng viên") },
-//                navigationIcon = {
-//                    IconButton(onClick = {
-//                        navController.navigateUp()
-//                    }) {
-//                        Icon(Icons.Rounded.ArrowBack, "Back")
-//                    }
-//                },
-//            )
-//        },
-//        content = {
-//
-//            }
-//
-//    )
-}
-
-@Composable
-fun LoadingForm (
-    navController: NavController,
-    context : Context
-
-) {
-
-    val n = 100
-    val para: List<Int> = List(n) { 0 }
-
-    val scrollState = rememberLazyListState()
-    LaunchedEffect(Unit) {
-        delay(2000)
-        scrollState.scrollToItem(99, n)
-    }
-
-    Column() {
-
-        AnimatedVisibility(
-            visible = true,
-            enter = fadeIn(animationSpec = tween(2000)) + slideInHorizontally(),
-            exit = fadeOut() + slideOutHorizontally(),
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-            //.weight(1F,true)
-
-        )
-
-        {
-
-            LazyColumn(
-                state = scrollState,
-                modifier = Modifier
-                    .background(Color.Red)
-                    // .fillMaxSize()
-                    // .verticalScroll(state = rememberScrollState())
-                    //.padding(it)
-                        ,
-                //verticalArrangement = Arrangement.spacedBy(0.dp)
-                verticalArrangement = Arrangement.Center,
-                //horizontalAlignment = Alignment.CenterHorizontally
-
-            ) {
-
-                itemsIndexed(
-                    items = para
-                ) { index, item ->
-
-                    ThongTinUngVienItemsScreen(
-                        navController,
-                        context,
-                        index
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
                     )
                 }
 
 
+
+
+
+
             }
 
         }
@@ -266,8 +253,10 @@ fun LoadingForm (
     }
 
 
-}
 
+
+
+}
 
 @Composable
 fun LoadingAnimation(
