@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavDeepLink
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -67,6 +68,7 @@ class MainMenuActivity : ComponentActivity() {
 
                         // Get new FCM registraddtion token
                         val token = task.result
+                        Log.w("TAG", "ToKenPCM: " +token)
 
                     })
                 }
@@ -97,7 +99,10 @@ class MainMenuActivity : ComponentActivity() {
                 NhanVienScreen(navController, context)
             }
 
-            composable(route = MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route)
+            composable(
+                route = MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route,
+                deepLinks = (listOf(NavDeepLink("deeplink://"+"NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet")))
+                )
             {
                 ThongTinUngVienScreen(navController, context)
             }

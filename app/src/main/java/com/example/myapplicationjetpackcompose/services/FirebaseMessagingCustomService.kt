@@ -3,7 +3,9 @@ package com.example.myapplicationjetpackcompose.services
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_CANCEL_CURRENT
 import android.app.PendingIntent.FLAG_MUTABLE
+import android.app.TaskStackBuilder
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -13,6 +15,7 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.net.toUri
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.Worker
@@ -108,6 +111,11 @@ class CustomFirebaseMessagingService: FirebaseMessagingService() {
         intent.putExtra(EnumFirebaseMessagingService.tungay, EnumFirebaseMessagingService.tungay)
         intent.putExtra(EnumFirebaseMessagingService.denngay, EnumFirebaseMessagingService.denngay)
 
+        //Tiến bổ sung tạo deepLink từ firebase
+        val deepLinkIntent = Intent(Intent.ACTION_VIEW,
+            ("deeplink://"+data[EnumFirebaseMessagingService.ma_chucnang]).toUri(),
+            this,
+            MainMenuActivity::class.java)
 
 
         // it should be ungive when push comes.
@@ -116,14 +124,50 @@ class CustomFirebaseMessagingService: FirebaseMessagingService() {
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+
+//            TaskStackBuilder.create(this).run {
+//
+//                addNextIntentWithParentStack(deepLinkIntent).getPendingIntent(
+//                    requestCode,
+//                    FLAG_MUTABLE
+//                )
+//
+//
+//            }
+
+
+//            pendingIntent =
+//                PendingIntent.getActivity(this, requestCode, intent, FLAG_MUTABLE)
+
             pendingIntent =
-                PendingIntent.getActivity(this, requestCode, intent, FLAG_MUTABLE)
+               PendingIntent.getActivity(this, requestCode, deepLinkIntent, FLAG_MUTABLE)
+
+
         } else {
+
+//            TaskStackBuilder.create(this).run {
+//
+//                addNextIntentWithParentStack(deepLinkIntent).getPendingIntent(
+//                    requestCode,
+//                    FLAG_CANCEL_CURRENT
+//                )
+//
+//
+//            }
+
+//            pendingIntent =
+//                PendingIntent.getActivity(
+//                    this,
+//                    requestCode,
+//                    intent,
+//                    PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+//                )
+
             pendingIntent =
                 PendingIntent.getActivity(
                     this,
                     requestCode,
-                    intent,
+                    deepLinkIntent,
                     PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
 
