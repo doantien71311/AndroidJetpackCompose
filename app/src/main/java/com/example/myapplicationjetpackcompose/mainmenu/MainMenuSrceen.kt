@@ -59,7 +59,7 @@ fun CarMenuSrceen (
             val m_denngay : String = intent.getStringExtra(EnumFirebaseMessagingService.denngay)!!
             intent.removeExtra(EnumFirebaseMessagingService.ma_chucnang)
 
-            navController.navigate(m_ma_chucnang)
+           // navController.navigate(m_ma_chucnang)
         }
 
 
