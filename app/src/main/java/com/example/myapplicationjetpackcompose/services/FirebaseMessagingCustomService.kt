@@ -111,11 +111,11 @@ class CustomFirebaseMessagingService: FirebaseMessagingService() {
         intent.putExtra(EnumFirebaseMessagingService.tungay, EnumFirebaseMessagingService.tungay)
         intent.putExtra(EnumFirebaseMessagingService.denngay, EnumFirebaseMessagingService.denngay)
 
-        //Tiến bổ sung tạo deepLink từ firebase
-        val deepLinkIntent = Intent(Intent.ACTION_VIEW,
-            ("deeplink://"+data[EnumFirebaseMessagingService.ma_chucnang]).toUri(),
-            this,
-            MainMenuActivity::class.java)
+//        //Tiến bổ sung tạo deepLink từ firebase
+//        val deepLinkIntent = Intent(Intent.ACTION_VIEW,
+//            ("deeplink://"+data[EnumFirebaseMessagingService.ma_chucnang]).toUri(),
+//            this,
+//            MainMenuActivity::class.java)
 
 
         // it should be ungive when push comes.
@@ -136,11 +136,11 @@ class CustomFirebaseMessagingService: FirebaseMessagingService() {
 //            }
 
 
-//            pendingIntent =
-//                PendingIntent.getActivity(this, requestCode, intent, FLAG_MUTABLE)
-
             pendingIntent =
-               PendingIntent.getActivity(this, requestCode, deepLinkIntent, FLAG_MUTABLE)
+                PendingIntent.getActivity(this, requestCode, intent, FLAG_MUTABLE)
+
+//            pendingIntent =
+//               PendingIntent.getActivity(this, requestCode, deepLinkIntent, FLAG_MUTABLE)
 
 
         } else {
@@ -155,21 +155,21 @@ class CustomFirebaseMessagingService: FirebaseMessagingService() {
 //
 //            }
 
-//            pendingIntent =
-//                PendingIntent.getActivity(
-//                    this,
-//                    requestCode,
-//                    intent,
-//                    PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-//                )
-
             pendingIntent =
                 PendingIntent.getActivity(
                     this,
                     requestCode,
-                    deepLinkIntent,
+                    intent,
                     PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
+
+//            pendingIntent =
+//                PendingIntent.getActivity(
+//                    this,
+//                    requestCode,
+//                    deepLinkIntent,
+//                    PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+//                )
 
 
         }

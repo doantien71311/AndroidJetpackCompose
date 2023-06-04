@@ -74,7 +74,7 @@ class MainMenuActivity : ComponentActivity() {
 
 
 
-                    navHostController.navigate(MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route)
+                  //  navHostController.navigate(MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route)
 
                 }
             }
@@ -106,13 +106,13 @@ class MainMenuActivity : ComponentActivity() {
                 NhanVienScreen(navController, context)
             }
 
-            composable(
-                route = MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route,
-                deepLinks = (listOf(NavDeepLink("deeplink://"+"NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet")))
-                )
-            {
-                ThongTinUngVienScreen(navController, context)
-            }
+//            composable(
+//                route = MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route,
+//                deepLinks = (listOf(NavDeepLink("deeplink://"+MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route)))
+//                )
+//            {
+//                ThongTinUngVienScreen(navController, context)
+//            }
 
         }
     }
