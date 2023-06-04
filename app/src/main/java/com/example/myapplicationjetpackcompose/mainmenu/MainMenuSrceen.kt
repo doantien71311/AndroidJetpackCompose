@@ -84,8 +84,8 @@ fun CarMenuSrceen (
 
     MainMenuLoadingAnimation(
 
-        //isLoadding = mainMenuViewModel.isLoadding,
-        isLoadding = isLoading,
+        isLoadding = mainMenuViewModel.isLoadding,
+        //isLoadding = isLoading,
         contentAfterLoading = {
 
             LazyColumn (

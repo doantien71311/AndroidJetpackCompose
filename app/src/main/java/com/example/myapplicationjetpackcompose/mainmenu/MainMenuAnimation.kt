@@ -104,14 +104,7 @@ fun MainMenuLoadingAnimation(
             horizontalAlignment = Alignment.CenterHorizontally
         )
         {
-            AnimatedVisibility(
-                visible = true,
-                //enter = fadeIn(animationSpec = tween(2000)) + slideInHorizontally(),
-                //exit = fadeOut(animationSpec = tween(2000)) + slideOutHorizontally(),
-                exit = fadeOut(
-                    animationSpec = TweenSpec(2000, 2000, FastOutLinearInEasing)
-                )
-            ) {
+
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(R.drawable.main_menu_loading_v2)
@@ -154,11 +147,13 @@ fun MainMenuLoadingAnimation(
                     }
                 }
             }
-        }
+
     }
     else {
 
-        contentAfterLoading()
+
+            contentAfterLoading()
+
     }
 }
 

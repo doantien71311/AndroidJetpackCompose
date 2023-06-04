@@ -69,6 +69,11 @@ class MainMenuActivity : ComponentActivity() {
                         val token = task.result
 
                     })
+
+
+
+                    navHostController.navigate(MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route)
+
                 }
             }
         }
@@ -79,7 +84,9 @@ class MainMenuActivity : ComponentActivity() {
 
         val context = LocalContext.current
 
-        NavHost(navController = navController , startDestination = MainMenuDestination.MAINMENU.route ) {
+        NavHost(navController = navController ,
+                    startDestination = MainMenuDestination.MAINMENU.route
+        ) {
 
             composable(route = MainMenuDestination.MAINMENU.route)
             {

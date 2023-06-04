@@ -103,63 +103,79 @@ fun ThongTinUngVienScreen (
 ) {
 
     val thongTinUngVienViewModel : ThongTinUngVienViewModel = hiltViewModel()
+    thongTinUngVienViewModel.loadData()
 
-    Column (
+        Scaffold(
 
-        modifier = Modifier.fillMaxSize()
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Thông tin ứng viên") },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        navController.navigateUp()
+                    }) {
+                        Icon(Icons.Rounded.ArrowBack, "Back")
+                    }
+                },
+            )
+        },
+        content = {
 
-    ) {
+            var isLoading by remember {
+                mutableStateOf(true)
+            }
 
-        var isVisible by remember {
+            LaunchedEffect(key1 = true ) {
+                delay(3000)
+                isLoading = false
 
-            mutableStateOf(false)
+            }
 
-        }
+            val n = 100
+            val para: List<Int> = List(n) { 0 }
 
-        Button(onClick = {
-            isVisible = !isVisible
+            val scrollState = rememberLazyListState()
+            LaunchedEffect(Unit) {
+                delay(2000)
+                if (thongTinUngVienViewModel.indexUngVien > -1) {
+                    scrollState.scrollToItem(thongTinUngVienViewModel.indexUngVien, n)
+                }
+            }
 
+            Column()  {
 
-        }) {
+                LazyColumn(
+                    state = scrollState,
+                    modifier = Modifier
+                        .background(Color.Red)
+                    // .fillMaxSize()
+                    // .verticalScroll(state = rememberScrollState())
+                    //.padding(it)
+                    ,
+                    //verticalArrangement = Arrangement.spacedBy(0.dp)
+                    verticalArrangement = Arrangement.Center,
+                    //horizontalAlignment = Alignment.CenterHorizontally
 
-            Text(text = "Login")
+                ) {
 
-        }
+                    itemsIndexed(
+                        items = para
+                    ) { index, item ->
 
-                AnimatedVisibility(
-                    visible = isVisible,
-                   // enter = fadeIn() + slideInHorizontally(),
-                    enter = scaleIn(animationSpec = tween(durationMillis = 1000)),
-                    modifier = Modifier.fillMaxWidth().weight(1f)
-
-                )
-                {
-                    Box (modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Red))
+                        ThongTinUngVienItemsScreen(
+                            navController,
+                            context,
+                            index
+                        )
+                    }
 
                 }
 
-    }
-//        Scaffold(
-//
-//        topBar = {
-//            TopAppBar(
-//                title = { Text(text = "Thông tin ứng viên") },
-//                navigationIcon = {
-//                    IconButton(onClick = {
-//                        navController.navigateUp()
-//                    }) {
-//                        Icon(Icons.Rounded.ArrowBack, "Back")
-//                    }
-//                },
-//            )
-//        },
-//        content = {
-//
-//            }
-//
-//    )
+            }
+
+        }
+
+    )
 
 
 
@@ -191,20 +207,9 @@ fun LoadingForm (
         scrollState.scrollToItem(99, n)
     }
 
-    Column() {
+    Column()  {
 
-        AnimatedVisibility(
-            visible = true,
-            enter = fadeIn(animationSpec = tween(2000)) + slideInHorizontally(),
-            exit = fadeOut() + slideOutHorizontally(),
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-            //.weight(1F,true)
 
-        )
-
-        {
 
             LazyColumn(
                 state = scrollState,
@@ -219,8 +224,6 @@ fun LoadingForm (
                 //horizontalAlignment = Alignment.CenterHorizontally
 
             ) {
-
-
 
                 itemsIndexed(
                     items = para
@@ -241,16 +244,11 @@ fun LoadingForm (
                     )
                 }
 
-
-
-
-
-
             }
 
         }
 
-    }
+
 
 
 
