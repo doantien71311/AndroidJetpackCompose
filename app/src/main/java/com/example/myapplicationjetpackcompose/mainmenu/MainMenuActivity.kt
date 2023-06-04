@@ -1,5 +1,6 @@
 package com.example.myapplicationjetpackcompose.mainmenu
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -22,7 +23,9 @@ import androidx.navigation.NavDeepLink
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
 import com.example.myapplicationjetpackcompose.HomeScreen
 import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienScreen
 import com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien.ThongTinUngVienScreen
@@ -106,13 +109,17 @@ class MainMenuActivity : ComponentActivity() {
                 NhanVienScreen(navController, context)
             }
 
-//            composable(
-//                route = MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route,
-//                deepLinks = (listOf(NavDeepLink("deeplink://"+MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route)))
-//                )
-//            {
-//                ThongTinUngVienScreen(navController, context)
-//            }
+            composable(
+                route = MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route,
+                deepLinks = ( listOf(navDeepLink {
+                    uriPattern = "https://daiichitheworldlink-hinhanh.theworldlink.vn/" + MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route
+                    action = Intent.ACTION_VIEW
+                }
+                ))
+            )
+            {
+                ThongTinUngVienScreen(navController, context)
+            }
 
         }
     }

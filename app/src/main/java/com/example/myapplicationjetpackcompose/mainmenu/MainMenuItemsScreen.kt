@@ -1,6 +1,9 @@
 package com.example.myapplicationjetpackcompose.mainmenu
 
+import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -19,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -55,6 +59,23 @@ fun MainMenuItemsScreen(
                 val chucnang = para.ma_chucnang.toString()
                 navController.navigate(chucnang)
 
+//                val intent = Intent(
+//                    Intent.ACTION_VIEW,
+//                    ("https://daiichitheworldlink-hinhanh.theworldlink.vn/"
+//                            + MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route).toUri()
+//                )
+//
+//               val a = TaskStackBuilder.create(context).run {
+//
+//                    addNextIntentWithParentStack(intent).getPendingIntent(
+//                        0,
+//                        PendingIntent.FLAG_MUTABLE
+//                    )
+//
+//
+//                }
+//
+//                a.send()
 
             },
         //elevation = 8.dp
