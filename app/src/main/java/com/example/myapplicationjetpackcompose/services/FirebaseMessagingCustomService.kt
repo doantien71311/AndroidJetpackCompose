@@ -97,63 +97,76 @@ class CustomFirebaseMessagingService: FirebaseMessagingService() {
     @SuppressLint("MissingPermission", "SuspiciousIndentation")
     private fun showNotificationOnStatusBar (data: Map<String, String>) {
 
-        //Create Intent it will be launched when user tap on notification from status bar.
-        val intent = Intent(this, MainMenuActivity::class.java).apply {
+//        //Create Intent it will be launched when user tap on notification from status bar.
+//        val intent = Intent(this, MainMenuActivity::class.java).apply {
+//
+//            flags =
+//                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+//
+//        }
+
+//        //Tiến bổ sung tạo deepLink từ firebase
+//        val deepLinkIntent = Intent(Intent.ACTION_VIEW,
+//            ("deeplink://"+data[EnumFirebaseMessagingService.ma_chucnang]).toUri(),
+//            this,
+//            MainMenuActivity::class.java)
+
+        val url_link = ("https://daiichitheworldlink-hinhanh.theworldlink.vn/"+data[EnumFirebaseMessagingService.ma_chucnang]).toUri()
+        Log.w("TAG", "url_link: " +"https://daiichitheworldlink-hinhanh.theworldlink.vn/"+data[EnumFirebaseMessagingService.ma_chucnang])
+
+//        val deepLinkIntent = Intent(Intent.ACTION_VIEW,
+//            url_link,
+//            this, MainMenuActivity::class.java).apply {
+//
+//            flags =
+//                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+//
+//        }
+
+
+        val deepLinkIntent = Intent(
+            this, MainMenuActivity::class.java).apply {
 
             flags =
                 Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
 
         }
-
-        intent.putExtra(EnumFirebaseMessagingService.body, data[EnumFirebaseMessagingService.body])
-        intent.putExtra(EnumFirebaseMessagingService.title, data[EnumFirebaseMessagingService.title])
-        intent.putExtra(EnumFirebaseMessagingService.ma_chucnang, data[EnumFirebaseMessagingService.ma_chucnang])
-        intent.putExtra(EnumFirebaseMessagingService.tungay, EnumFirebaseMessagingService.tungay)
-        intent.putExtra(EnumFirebaseMessagingService.denngay, EnumFirebaseMessagingService.denngay)
-
-        //Tiến bổ sung tạo deepLink từ firebase
-        val deepLinkIntent = Intent(Intent.ACTION_VIEW,
-            ("deeplink://"+data[EnumFirebaseMessagingService.ma_chucnang]).toUri(),
-            this,
-            MainMenuActivity::class.java)
-
-
         // it should be ungive when push comes.
         var requestCode = System.currentTimeMillis().toInt()
-        var pendingIntent: PendingIntent
+        var pendingIntent: PendingIntent =
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
 
-//            TaskStackBuilder.create(this).run {
-//
-//                addNextIntentWithParentStack(deepLinkIntent).getPendingIntent(
-//                    requestCode,
-//                    FLAG_MUTABLE
-//                )
-//
-//
-//            }
+            TaskStackBuilder.create(this).run {
+
+                addNextIntentWithParentStack(deepLinkIntent).getPendingIntent(
+                    requestCode,
+                    FLAG_MUTABLE
+                )
+
+
+            }
 
 
 //            pendingIntent =
 //                PendingIntent.getActivity(this, requestCode, intent, FLAG_MUTABLE)
 
-            pendingIntent =
-               PendingIntent.getActivity(this, requestCode, deepLinkIntent, FLAG_MUTABLE)
+//            pendingIntent =
+//               PendingIntent.getActivity(this, requestCode, deepLinkIntent, FLAG_MUTABLE)
 
 
         } else {
 
-//            TaskStackBuilder.create(this).run {
-//
-//                addNextIntentWithParentStack(deepLinkIntent).getPendingIntent(
-//                    requestCode,
-//                    FLAG_CANCEL_CURRENT
-//                )
-//
-//
-//            }
+            TaskStackBuilder.create(this).run {
+
+                addNextIntentWithParentStack(deepLinkIntent).getPendingIntent(
+                    requestCode,
+                    FLAG_CANCEL_CURRENT
+                )
+
+
+            }
 
 //            pendingIntent =
 //                PendingIntent.getActivity(
@@ -163,22 +176,29 @@ class CustomFirebaseMessagingService: FirebaseMessagingService() {
 //                    PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
 //                )
 
-            pendingIntent =
-                PendingIntent.getActivity(
-                    this,
-                    requestCode,
-                    deepLinkIntent,
-                    PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                )
+//            pendingIntent =
+//                PendingIntent.getActivity(
+//                    this,
+//                    requestCode,
+//                    deepLinkIntent,
+//                    PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+//                )
 
 
         }
 
-        intent.putExtra(EnumFirebaseMessagingService.body, data[EnumFirebaseMessagingService.body])
-        intent.putExtra(EnumFirebaseMessagingService.title, data[EnumFirebaseMessagingService.title])
-        intent.putExtra(EnumFirebaseMessagingService.ma_chucnang, data[EnumFirebaseMessagingService.ma_chucnang])
-        intent.putExtra(EnumFirebaseMessagingService.tungay, EnumFirebaseMessagingService.tungay)
-        intent.putExtra(EnumFirebaseMessagingService.denngay, EnumFirebaseMessagingService.denngay)
+
+        deepLinkIntent.putExtra(EnumFirebaseMessagingService.body, data[EnumFirebaseMessagingService.body])
+        deepLinkIntent.putExtra(EnumFirebaseMessagingService.title, data[EnumFirebaseMessagingService.title])
+        deepLinkIntent.putExtra(EnumFirebaseMessagingService.ma_chucnang, data[EnumFirebaseMessagingService.ma_chucnang])
+        deepLinkIntent.putExtra(EnumFirebaseMessagingService.tungay, EnumFirebaseMessagingService.tungay)
+        deepLinkIntent.putExtra(EnumFirebaseMessagingService.denngay, EnumFirebaseMessagingService.denngay)
+
+//        intent.putExtra(EnumFirebaseMessagingService.body, data[EnumFirebaseMessagingService.body])
+//        intent.putExtra(EnumFirebaseMessagingService.title, data[EnumFirebaseMessagingService.title])
+//        intent.putExtra(EnumFirebaseMessagingService.ma_chucnang, data[EnumFirebaseMessagingService.ma_chucnang])
+//        intent.putExtra(EnumFirebaseMessagingService.tungay, EnumFirebaseMessagingService.tungay)
+//        intent.putExtra(EnumFirebaseMessagingService.denngay, EnumFirebaseMessagingService.denngay)
 
 
         val builder = NotificationCompat.Builder(this, "Global").setAutoCancel(true)
