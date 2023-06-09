@@ -57,7 +57,7 @@ fun CarMenuSrceen (
             val m_key : String = intent.getStringExtra(EnumFirebaseMessagingService.key)!!
             val m_tungay : String = intent.getStringExtra(EnumFirebaseMessagingService.tungay)!!
             val m_denngay : String = intent.getStringExtra(EnumFirebaseMessagingService.denngay)!!
-            intent.removeExtra(EnumFirebaseMessagingService.ma_chucnang)
+            //intent.removeExtra(EnumFirebaseMessagingService.ma_chucnang)
 
            // navController.navigate(m_ma_chucnang)
         }
@@ -84,8 +84,8 @@ fun CarMenuSrceen (
 
     MainMenuLoadingAnimation(
 
-        //isLoadding = mainMenuViewModel.isLoadding,
-        isLoadding = isLoading,
+        isLoadding = mainMenuViewModel.isLoadding,
+        //isLoadding = isLoading,
         contentAfterLoading = {
 
             LazyColumn (

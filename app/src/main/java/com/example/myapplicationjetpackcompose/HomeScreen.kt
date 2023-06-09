@@ -1,5 +1,7 @@
 package com.example.myapplicationjetpackcompose
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,16 +19,23 @@ import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.myapplicationjetpackcompose.mainmenu.MainMenuViewModel
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 
 @Composable
 fun HomeScreen(
 
-    navController: NavController
+    navController: NavController,
 
 ) {
-    
+
+    val mainViewModel : MainViewModel = hiltViewModel()
+
     Column (
 
         modifier = Modifier.fillMaxSize(),
@@ -34,6 +43,11 @@ fun HomeScreen(
         verticalArrangement = Arrangement.SpaceEvenly
             ) {
         Text (text = "Home screen")
+
+        Button(onClick = mainViewModel::showSimpleNotification) {
+            Text(text = "Simple Notification")
+        }
+
         Button(onClick = { navController.navigate(Destination.List.route)
         }) {
 

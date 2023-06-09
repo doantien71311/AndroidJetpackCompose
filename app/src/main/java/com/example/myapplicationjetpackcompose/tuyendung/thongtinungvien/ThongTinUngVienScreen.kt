@@ -113,6 +113,7 @@ fun ThongTinUngVienScreen (
                 navigationIcon = {
                     IconButton(onClick = {
                         navController.navigateUp()
+
                     }) {
                         Icon(Icons.Rounded.ArrowBack, "Back")
                     }

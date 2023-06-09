@@ -3,6 +3,7 @@ package com.example.myapplicationjetpackcompose
 import android.app.ListActivity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,11 +26,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.myapplicationjetpackcompose.model.dto_menu_app
 import com.example.myapplicationjetpackcompose.model.dto_menu_app_chitiet
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
+import dagger.hilt.android.AndroidEntryPoint
 
 
 sealed class Destination (val route: String)
@@ -46,7 +53,7 @@ sealed class Destination (val route: String)
     object  Login: Destination("login")
 
 }
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     lateinit var navHostController: NavHostController
@@ -61,8 +68,29 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     navHostController = rememberNavController()
-
                     NavigationAppHost(navController = navHostController)
+
+                    // Get token
+                    // [START log_reg_token]
+                    Firebase.messaging.getToken().addOnCompleteListener(OnCompleteListener { task ->
+                        if (!task.isSuccessful) {
+                            Log.w("TAG", "Fetching FCM registration token failed", task.exception)
+                            return@OnCompleteListener
+                        }
+
+                        // Get new FCM registraddtion token
+                        val token = task.result
+                        Log.w("TAG", "ToKenPCM: " +token)
+
+                    })
+
+                    FirebaseInstallations.getInstance().id.addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d("Installations", "Installation ID: " + task.result)
+                        } else {
+                            Log.e("Installations", "Unable to get Installation ID")
+                        }
+                    }
                 }
             }
         }
@@ -85,12 +113,21 @@ fun NavigationAppHost(navController: NavHostController) {
             HomeScreen(navController)
         }
 
-        composable(route = Destination.List.route)
+        composable(route = Destination.List.route,
+//                deepLinks = ( listOf(navDeepLink {
+//            uriPattern = "myapp://details/"
+//            action = Intent.ACTION_VIEW
+//        }))
+        )
         {
             ListScreen(navController)
         }
 
-        composable(route = Destination.CarMenu.route)
+        composable(route = Destination.CarMenu.route,
+                deepLinks = ( listOf(navDeepLink {
+            uriPattern = "myapp://details/"
+            action = Intent.ACTION_VIEW
+        })))
         {
             var url_hinhanh = "https://daiichitheworldlink-hinhanh.theworldlink.vn/TheWorldLink/WebPortal/Images/logo.png"
             var lis = mutableListOf<dto_menu_app>()

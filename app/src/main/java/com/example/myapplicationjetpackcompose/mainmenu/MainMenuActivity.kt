@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,8 +32,12 @@ import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVien
 import com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien.ThongTinUngVienScreen
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
+
+
+
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 
@@ -43,7 +48,6 @@ class MainMenuActivity : ComponentActivity() {
    //val m_MainMenuViewModel: MainMenuViewModel by viewModels()
 
     lateinit var navHostController: NavHostController
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -55,12 +59,10 @@ class MainMenuActivity : ComponentActivity() {
                 ) {
 
                      navHostController = rememberNavController()
-                     val current = LocalContext.current
-
                      NavigationAppHost(navController = navHostController)
 
-                   //  CarMenuSrceen(navHostController, current)
-
+//                   //  CarMenuSrceen(navHostController, current)
+//
                     // Get token
                     // [START log_reg_token]
                     Firebase.messaging.getToken().addOnCompleteListener(OnCompleteListener { task ->
@@ -75,15 +77,22 @@ class MainMenuActivity : ComponentActivity() {
 
                     })
 
-
-
-                  //  navHostController.navigate(MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route)
-
+                    FirebaseInstallations.getInstance().id.addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d("Installations", "Installation ID: " + task.result)
+                        } else {
+                            Log.e("Installations", "Unable to get Installation ID")
+                        }
+                    }
                 }
             }
         }
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        navHostController.handleDeepLink(intent)
+    }
     @Composable
     fun NavigationAppHost(navController: NavHostController) {
 
@@ -109,10 +118,18 @@ class MainMenuActivity : ComponentActivity() {
                 NhanVienScreen(navController, context)
             }
 
+            navigation(
+                startDestination = MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route,
+                route = "nested_graph_route"
+            )
+            {
             composable(
                 route = MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route,
                 deepLinks = ( listOf(navDeepLink {
-                    uriPattern = "https://daiichitheworldlink-hinhanh.theworldlink.vn/" + MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route
+                   // uriPattern = "myapp://details/"+MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route
+                   // uriPattern = "deeplink://details/"+MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route
+                   // uriPattern = " https://myapplicationjetpackcompose.page.link/app/"+MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route
+                    uriPattern = "myapp://details/"
                     action = Intent.ACTION_VIEW
                 }
                 ))
@@ -120,6 +137,7 @@ class MainMenuActivity : ComponentActivity() {
             {
                 ThongTinUngVienScreen(navController, context)
             }
+           }
 
         }
     }
