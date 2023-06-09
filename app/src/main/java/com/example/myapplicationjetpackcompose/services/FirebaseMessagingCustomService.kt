@@ -2,8 +2,6 @@ package com.example.myapplicationjetpackcompose.services
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_CANCEL_CURRENT
 import android.app.PendingIntent.FLAG_MUTABLE
@@ -14,27 +12,21 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresPermission
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import androidx.navigation.NavDeepLinkBuilder
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.example.myapplicationjetpackcompose.LoginActivity
 import com.example.myapplicationjetpackcompose.MainActivity
-import com.example.myapplicationjetpackcompose.MyReceiver
 import com.example.myapplicationjetpackcompose.R
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuActivity
-import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import dagger.hilt.android.qualifiers.ApplicationContext
 
 object EnumFirebaseMessagingService {
 
@@ -89,6 +81,20 @@ class CustomFirebaseMessagingService (): FirebaseMessagingService() {
 
         remoteMessage.data.let {
 
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return
+            }
             showNotificationOnStatusBar(it)
 
         }
@@ -108,63 +114,47 @@ class CustomFirebaseMessagingService (): FirebaseMessagingService() {
 
 
     @SuppressLint("MissingPermission", "SuspiciousIndentation")
+
     private fun showNotificationOnStatusBar (data: Map<String, String>) {
 
+        val flag =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                PendingIntent.FLAG_IMMUTABLE
+            else
+                0
+
         val urlLink = ("myapp://details/").toUri()
-        val deepLinkIntent = Intent(
+        val clickIntent = Intent(
             Intent.ACTION_VIEW,
+            //"$MY_URI/$MY_ARG".toUri(),
             "myapp://details/".toUri(),
-            applicationContext,
-            MainActivity::class.java).apply {
+            this,
+            MainActivity::class.java
+        )
 
-            flags =
-                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-
-        }
 
         // it should be ungive when push comes.
-        var requestCode = System.currentTimeMillis().toInt()
-        var pendingIntent: PendingIntent =
+        val requestCode = System.currentTimeMillis().toInt()
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-
-                TaskStackBuilder.create(applicationContext).run {
-
-                    addNextIntentWithParentStack(deepLinkIntent).getPendingIntent(
-                        requestCode,
-                        FLAG_MUTABLE
-                    )
-                }
-
-            } else {
-
-                TaskStackBuilder.create(applicationContext).run {
-                    addNextIntentWithParentStack(deepLinkIntent).getPendingIntent(
-                        requestCode,
-                        FLAG_CANCEL_CURRENT
-                    )
-                }
-
-            }
-
-//        val notificationManager = NotificationManagerCompat.from(applicationContext)
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            val channel = NotificationChannel(
-//                "Global ID",
-//                "Global",
-//                NotificationManager.IMPORTANCE_DEFAULT
-//            )
-//            notificationManager.createNotificationChannel(channel)
+//        val clickPendingIntent: PendingIntent = TaskStackBuilder.create(this).run {
+//            addNextIntentWithParentStack(clickIntent)
+//            getPendingIntent(1, flag)
 //        }
 
-        val builder = NotificationCompat.Builder(applicationContext,
-            "default_notification_channel_id"
+        val clickPendingIntent =
+            PendingIntent.getActivity(this, 0, clickIntent, flag)
+
+        val builder = NotificationCompat.Builder(this,
+            "Global"
+           //"default_notification_channel_id"
             //"Main Channel ID"
 
         )
-            //.setAutoCancel(true)
-            .setContentTitle(data[EnumFirebaseMessagingService.body])
-            .setContentText(data[EnumFirebaseMessagingService.title])
+            .setAutoCancel(true)
+            .setContentTitle("Welcome")
+            .setContentText("YouTube Channel: Stevdza-San")
+            //.setContentTitle(data[EnumFirebaseMessagingService.body])
+            //.setContentText(data[EnumFirebaseMessagingService.title])
 //            .setContentTitle(data[EnumFirebaseMessagingService.ma_chucnang])
 //            .setContentText(data[EnumFirebaseMessagingService.tungay])
 //            .setContentTitle(data[EnumFirebaseMessagingService.denngay])
@@ -173,10 +163,10 @@ class CustomFirebaseMessagingService (): FirebaseMessagingService() {
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             //.setStyle(NotificationCompat.BigTextStyle().bigText((data[EnumFirebaseMessagingService.body])))
-            .setContentIntent(pendingIntent)
+            .setContentIntent(clickPendingIntent)
 
-        with(NotificationManagerCompat.from(applicationContext)) {
-            notify(requestCode, builder.build())
+        with(NotificationManagerCompat.from(this)) {
+            notify(1, builder.build())
         }
 
 

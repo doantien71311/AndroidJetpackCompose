@@ -45,13 +45,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <intent-filter android:autoVerify="true">
-            <category android:name="android.intent.category.DEFAULT" />
-<!--            <category android:name="android.intent.category.BROWSABLE" />-->
-            <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="myapp" />
-            <data android:host="details" />
-            </intent-filter>
+<!--            <intent-filter android:autoVerify="true">-->
+<!--            <category android:name="android.intent.category.DEFAULT" />-->
+<!--&lt;!&ndash;            <category android:name="android.intent.category.BROWSABLE" />&ndash;&gt;-->
+<!--            <action android:name="android.intent.action.VIEW" />-->
+<!--            <data android:scheme="myapp" />-->
+<!--            <data android:host="details" />-->
+<!--            </intent-filter>-->
 
 
 
