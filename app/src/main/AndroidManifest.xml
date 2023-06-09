@@ -47,7 +47,7 @@
 
             <intent-filter android:autoVerify="true">
             <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
+<!--            <category android:name="android.intent.category.BROWSABLE" />-->
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="myapp" />
             <data android:host="details" />
