@@ -26,7 +26,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -36,21 +37,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuActivity
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @AndroidEntryPoint
 class LoginActivity : ComponentActivity() {
 
    // val m_LoginViewModel by viewModels<LoginViewModel>()
 
-    val m_LoginViewModel: LoginViewModel by viewModels()
+   // val m_LoginViewModel: LoginViewModel by viewModels()
 
     @SuppressLint("CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,10 +64,12 @@ class LoginActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-                    LoginPage(m_LoginViewModel)
 
 
-                    m_LoginViewModel.LoadData()
+                    LoginPage()
+
+
+
 
 
                     //CoilImageS()
@@ -78,7 +81,12 @@ class LoginActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginPage(viewModel: LoginViewModel) {
+fun LoginPage(
+    viewModel: LoginViewModel = viewModel()
+
+) {
+
+   val row_ht_thongtindoanhnghiep by viewModel.row_ht_thongtindoanhnghiep.collectAsState()
 
     val ctx = LocalContext.current
 
@@ -90,7 +98,7 @@ fun LoginPage(viewModel: LoginViewModel) {
 
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(viewModel.row_ht_thongtindoanhnghiep.hinhanh_logo)
+                .data(row_ht_thongtindoanhnghiep!!.hinhanh_logo)
                 .crossfade(true)
                 .build(),
             contentDescription = "ImageRequest example",
@@ -164,17 +172,25 @@ fun LoginPage(viewModel: LoginViewModel) {
         }
 
     }
+
 }
 
 
 @Preview(showBackground = true)
 @Composable
+
 fun GreetingPreviewLogin() {
-    MyApplicationJetpackComposeTheme {
 
-       // val m_model : ht_thongtinhdoanhnghiep = ht_thongtinhdoanhnghiep("","")
-       // val m_model : ht_thongtinhdoanhnghiep = ht_thongtinhdoanhnghiep("","")
 
-       // LoginPage(m_model)
-    }
+        MyApplicationJetpackComposeTheme {
+
+
+            LoginPage()
+
+
+
+        }
+
+
+
 }

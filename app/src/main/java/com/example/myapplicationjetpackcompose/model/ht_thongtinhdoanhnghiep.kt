@@ -11,6 +11,6 @@ data class ht_thongtinhdoanhnghiep (
 
 data class response_ht_thongtinhdoanhnghiep (
 
-    val data : ht_thongtinhdoanhnghiep
+    val data : ht_thongtinhdoanhnghiep = ht_thongtinhdoanhnghiep()
 
 ): response_status ()

@@ -1,6 +1,9 @@
 package com.example.myapplicationjetpackcompose
 
 import android.app.ListActivity
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -66,6 +69,16 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+
+                    val desc = "dasdadas"
+                    val channel = NotificationChannel("Main Channel ID",
+                        "Main Channel",
+                        NotificationManager.IMPORTANCE_DEFAULT)
+                    channel.description= desc
+                    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    notificationManager.createNotificationChannel(channel)
+
+
 
                     navHostController = rememberNavController()
                     NavigationAppHost(navController = navHostController)

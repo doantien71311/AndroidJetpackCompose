@@ -1,6 +1,9 @@
 package com.example.myapplicationjetpackcompose
 
 import android.Manifest
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -26,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuViewModel
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 @Composable
 fun HomeScreen(
@@ -36,6 +40,12 @@ fun HomeScreen(
 
     val mainViewModel : MainViewModel = hiltViewModel()
 
+
+
+
+
+
+
     Column (
 
         modifier = Modifier.fillMaxSize(),
@@ -45,6 +55,8 @@ fun HomeScreen(
         Text (text = "Home screen")
 
         Button(onClick = mainViewModel::henGio) {
+
+
             Text(text = "Hẹn giờ")
         }
 

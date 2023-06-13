@@ -1,6 +1,7 @@
 package com.example.myapplicationjetpackcompose
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModel
@@ -15,7 +16,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val notificationBuilder: NotificationCompat.Builder,
     private val notificationManager: NotificationManagerCompat,
-    private val alarmScheduler: IAlarmScheduler
+    private val alarmScheduler: IAlarmScheduler,
+  //  private val context: Context
 ) : ViewModel() {
 
     @SuppressLint("MissingPermission")
@@ -35,8 +37,9 @@ class MainViewModel @Inject constructor(
         notificationManager.cancel(1)
     }
     fun henGio() {
-        alarmScheduler.schedule(AlarmItem(LocalDateTime.now().plusSeconds(1),
+        alarmScheduler.schedule(AlarmItem(LocalDateTime.now().plusSeconds(3),
             "Đã hẹn giờ"))
+
     }
 
 
