@@ -26,6 +26,7 @@ import retrofit2.Response
 import javax.inject.Inject
 
 import com.example.myapplicationjetpackcompose.model.response_dto_menu_app
+
 import kotlinx.coroutines.delay
 
 @HiltViewModel
@@ -37,9 +38,12 @@ class MainMenuViewModel @Inject constructor (
     //Cách 1 đang ok
     var ListMenuApp : List<dto_menu_app> by mutableStateOf(mutableListOf<dto_menu_app>(dto_menu_app()))
     var isLoadding : Boolean by mutableStateOf(true)
+    var abc :  String by mutableStateOf("")
 
     //Cách 2, chưa làm được
     //var ListMenuApp : List<dto_menu_app> = mutableListOf()
+
+
 
     fun loadData() {
 

@@ -11,8 +11,12 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
+import com.example.myapplicationjetpackcompose.alarmmanager.AlarmScheduler
+import com.example.myapplicationjetpackcompose.alarmmanager.IAlarmScheduler
+
 import com.example.myapplicationjetpackcompose.services.DataStoreServices
 import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingService
+
 import com.example.myapplicationjetpackcompose.services.IDataStoreServies
 import dagger.Module
 import dagger.Provides
@@ -35,6 +39,15 @@ object WorkerModule {
         return DataStoreServices(app)
 
     }
+
+    @Singleton
+    @Provides
+    fun getAlarmScheduler(@ApplicationContext app: Context): IAlarmScheduler {
+
+        return AlarmScheduler(app)
+
+    }
+
 
     @Singleton
     @Provides

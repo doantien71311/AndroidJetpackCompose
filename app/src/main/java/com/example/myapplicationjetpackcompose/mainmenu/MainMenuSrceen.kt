@@ -51,6 +51,8 @@ fun CarMenuSrceen (
 ) {
 
 
+
+
         if (intent.hasExtra(EnumFirebaseMessagingService.ma_chucnang)) {
 
             val m_ma_chucnang : String = intent.getStringExtra(EnumFirebaseMessagingService.ma_chucnang)!!
@@ -72,6 +74,7 @@ fun CarMenuSrceen (
     var isLoading by remember {
         mutableStateOf(true)
     }
+
 
     LaunchedEffect(key1 = true ) {
         delay(5000)

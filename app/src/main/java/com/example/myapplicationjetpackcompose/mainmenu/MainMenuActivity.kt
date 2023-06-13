@@ -14,6 +14,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -29,6 +30,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navDeepLink
 import com.example.myapplicationjetpackcompose.HomeScreen
 import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienScreen
+import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingService
 import com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien.ThongTinUngVienScreen
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 import com.google.android.gms.tasks.OnCompleteListener
@@ -45,9 +47,10 @@ import kotlinx.coroutines.delay
 @AndroidEntryPoint
 class MainMenuActivity : ComponentActivity() {
 
-   //val m_MainMenuViewModel: MainMenuViewModel by viewModels()
+
 
     lateinit var navHostController: NavHostController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -84,6 +87,17 @@ class MainMenuActivity : ComponentActivity() {
                             Log.e("Installations", "Unable to get Installation ID")
                         }
                     }
+
+                    if (intent.hasExtra(EnumFirebaseMessagingService.ma_chucnang)) {
+
+                        val m_ma_chucnang : String = intent.getStringExtra(
+                            EnumFirebaseMessagingService.ma_chucnang)!!
+                        navHostController.navigate(m_ma_chucnang)
+                    }
+
+
+
+
                 }
             }
         }

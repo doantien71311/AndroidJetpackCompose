@@ -44,6 +44,10 @@ fun HomeScreen(
             ) {
         Text (text = "Home screen")
 
+        Button(onClick = mainViewModel::henGio) {
+            Text(text = "Hẹn giờ")
+        }
+
         Button(onClick = mainViewModel::showSimpleNotification) {
             Text(text = "Simple Notification")
         }
