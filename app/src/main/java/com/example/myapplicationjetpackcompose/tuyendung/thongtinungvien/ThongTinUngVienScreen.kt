@@ -73,6 +73,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.rounded.AccountBox
 import androidx.compose.material3.Button
 
 import androidx.compose.runtime.LaunchedEffect
@@ -91,6 +92,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.load.model.ModelLoader.LoadData
 import com.example.myapplicationjetpackcompose.Destination
+import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
 import kotlinx.coroutines.delay
 
 
@@ -118,6 +120,21 @@ fun ThongTinUngVienScreen (
                         Icon(Icons.Rounded.ArrowBack, "Back")
                     }
                 },
+                actions = {
+                    // RowScope here, so these icons will be placed horizontally
+                    IconButton(onClick = {
+                        navController.navigate(MainMenuDestination.NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet.route)
+                    }) {
+                        Icon(Icons.Rounded.AccountBox, contentDescription = null)
+                    }
+                    IconButton(onClick = {  }) {
+                        Icon(Icons.Rounded.ArrowBack, contentDescription = null)
+                    }
+                    IconButton(onClick = {  }) {
+                        Icon(Icons.Rounded.ArrowBack, contentDescription = null)
+                    }
+
+                }
             )
         },
         content = {

@@ -127,10 +127,10 @@ fun NavigationAppHost(navController: NavHostController) {
         }
 
         composable(route = Destination.List.route,
-//                deepLinks = ( listOf(navDeepLink {
-//            uriPattern = "myapp://details/"
-//            action = Intent.ACTION_VIEW
-//        }))
+                deepLinks = ( listOf(navDeepLink {
+            uriPattern = "myapp://details/"+Destination.List.route
+            action = Intent.ACTION_VIEW
+        }))
         )
         {
             ListScreen(navController)
@@ -140,7 +140,8 @@ fun NavigationAppHost(navController: NavHostController) {
                 deepLinks = ( listOf(navDeepLink {
             uriPattern = "myapp://details/"
             action = Intent.ACTION_VIEW
-        })))
+        }))
+        )
         {
             var url_hinhanh = "https://daiichitheworldlink-hinhanh.theworldlink.vn/TheWorldLink/WebPortal/Images/logo.png"
             var lis = mutableListOf<dto_menu_app>()

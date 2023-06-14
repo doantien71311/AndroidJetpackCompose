@@ -65,8 +65,8 @@ fun MainMenuItemsScreen(
                 //  Toast.makeText(context, "This is a Sample Toast", Toast.LENGTH_LONG).show()
                 //val chucnang = com.example.myapplicationjetpackcompose.mainmenu.Destination.DANHMUC_NhanVien.route
 
-//                val chucnang = para.ma_chucnang.toString()
-//                navController.navigate(chucnang)
+                val chucnang = para.ma_chucnang.toString()
+                navController.navigate(chucnang)
 
 
 

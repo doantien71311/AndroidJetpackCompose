@@ -1,5 +1,8 @@
 package com.example.myapplicationjetpackcompose.mainmenu
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -28,9 +31,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navDeepLink
+import com.example.myapplicationjetpackcompose.EnumChannel
+import com.example.myapplicationjetpackcompose.EnumDeepLink
 import com.example.myapplicationjetpackcompose.HomeScreen
 import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienScreen
 import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingService
+import com.example.myapplicationjetpackcompose.tuyendung.phongvan.ThongTinPhongVanScreen
 import com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien.ThongTinUngVienScreen
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 import com.google.android.gms.tasks.OnCompleteListener
@@ -95,6 +101,14 @@ class MainMenuActivity : ComponentActivity() {
                         navHostController.navigate(m_ma_chucnang)
                     }
 
+//
+//                    //Tạo chanel thông báo
+//                    val channel = NotificationChannel(EnumChannel.MainChannelId,
+//                        EnumChannel.MainChannelName,
+//                        NotificationManager.IMPORTANCE_DEFAULT)
+//                    channel.description= "Thông báo"
+//                    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//                    notificationManager.createNotificationChannel(channel)
 
 
 
@@ -127,6 +141,18 @@ class MainMenuActivity : ComponentActivity() {
                 HomeScreen(navController)
             }
 
+
+            composable(route = MainMenuDestination.NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet.route,
+                    deepLinks = ( listOf(navDeepLink {
+                uriPattern = EnumDeepLink.MyAppDeepLink + MainMenuDestination.NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet.route
+                action = Intent.ACTION_VIEW
+            }
+            )))
+            {
+                ThongTinPhongVanScreen(navController,context)
+            }
+
+
             composable(route = MainMenuDestination.DANHMUC_NhanVien.route)
             {
                 NhanVienScreen(navController, context)
@@ -143,7 +169,7 @@ class MainMenuActivity : ComponentActivity() {
                    // uriPattern = "myapp://details/"+MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route
                    // uriPattern = "deeplink://details/"+MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route
                    // uriPattern = " https://myapplicationjetpackcompose.page.link/app/"+MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route
-                    uriPattern = "myapp://details/"
+                    uriPattern = EnumDeepLink.MyAppDeepLink
                     action = Intent.ACTION_VIEW
                 }
                 ))

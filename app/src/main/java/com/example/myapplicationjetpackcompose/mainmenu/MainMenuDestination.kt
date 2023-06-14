@@ -7,6 +7,6 @@ sealed class MainMenuDestination (val route: String)
     object  Home: MainMenuDestination("home")
     object  NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet: MainMenuDestination("NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet")
 
-
+    object  NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet: MainMenuDestination("NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet")
 
 }

@@ -37,8 +37,30 @@ class MainViewModel @Inject constructor(
         notificationManager.cancel(1)
     }
     fun henGio() {
-        alarmScheduler.schedule(AlarmItem(LocalDateTime.now().plusSeconds(3),
-            "Đã hẹn giờ"))
+
+        alarmScheduler.scheduleManager(AlarmItem(LocalDateTime.now().plusSeconds(3),
+            "Đã hẹn giờ",
+             CommonDataParamater (
+                 ma_chucnang = Destination.List.route,
+                 m_title = "Đã hẹn giờ tile",
+                 m_text = "Đã hẹn giờ text",
+                     )
+            )
+        )
+
+    }
+
+    fun henGio2() {
+
+        alarmScheduler.scheduleManager(AlarmItem(LocalDateTime.now().plusSeconds(5),
+            "Đã hẹn giờ",
+            CommonDataParamater (
+                ma_chucnang = Destination.CarMenu.route,
+                m_title = "Đã hẹn giờ tile 2",
+                m_text = "Đã hẹn giờ text 2",
+            )
+        )
+        )
 
     }
 

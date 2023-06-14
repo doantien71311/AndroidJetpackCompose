@@ -2,9 +2,9 @@ package com.example.myapplicationjetpackcompose.alarmmanager
 
 interface IAlarmScheduler {
 
-    fun schedule(item: AlarmItem)
+    fun scheduleManager(item: AlarmItem)
 
-    fun cancel(item: AlarmItem)
+    fun cancelManager(item: AlarmItem)
 
 }
 
