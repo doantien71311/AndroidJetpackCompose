@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -46,21 +47,13 @@ fun MainMenuItemsScreen(
 ) {
 
     Card (
-
-        shape = MaterialTheme.shapes.small,
+        shape = RoundedCornerShape(0.dp),
         modifier = Modifier
-            .padding(
-                bottom = 20.dp,
-                top = 20.dp,
-                start = 10.dp,
-                end = 10.dp
-
-            )
-            .clip(RoundedCornerShape(30.dp))
-            .background(color = Color.Blue)
+            .padding(10.dp)
+            .clip(RoundedCornerShape(10.dp))
             .width(200.dp)
             .height(200.dp)
-
+            .background(color = Color.Green)
             .clickable {
 
                 // Fetching the local context for using the Toast
@@ -75,7 +68,13 @@ fun MainMenuItemsScreen(
     ) {
 
         Column (
-
+            modifier = Modifier
+                .padding(
+                   0.dp
+                ).fillMaxWidth()
+                .fillMaxHeight()
+                .background(color = Color.Red)
+                .align(Alignment.CenterHorizontally)
 
                 ) {
 
@@ -86,19 +85,22 @@ fun MainMenuItemsScreen(
                     .build(),
                 contentDescription = "ImageRequest example",
                 modifier = Modifier
-                    .clip(RoundedCornerShape(100.dp))
-                    .height(150.dp)
+                    .padding(top= 15.dp , bottom = 10.dp)
+                    .clip(RoundedCornerShape(10.dp))
                     .width(150.dp)
-                    .fillMaxWidth()
-                    .fillMaxHeight()
+                    .height(110.dp)
+                    .padding(0.dp)
                     .align(Alignment.CenterHorizontally)
 
             )
 
-            Text (
+            Text(
                 text = para.ten_chucnang?:"",
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-
+                modifier = Modifier
+                    .padding(10.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .background(color = Color.Red),
+                textAlign = TextAlign.Center,
 
             )
 
