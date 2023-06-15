@@ -42,7 +42,7 @@ import kotlinx.coroutines.delay
 
 
 @Composable
-fun CarMenuSrceen (
+fun MainMenuSrceen (
 
     navController: NavController,
     context: Context,
@@ -53,18 +53,7 @@ fun CarMenuSrceen (
 
 
 
-        if (intent.hasExtra(EnumFirebaseMessagingService.ma_chucnang)) {
-
-            val m_ma_chucnang : String = intent.getStringExtra(EnumFirebaseMessagingService.ma_chucnang)!!
-            val m_key : String = intent.getStringExtra(EnumFirebaseMessagingService.key)!!
-            val m_tungay : String = intent.getStringExtra(EnumFirebaseMessagingService.tungay)!!
-            val m_denngay : String = intent.getStringExtra(EnumFirebaseMessagingService.denngay)!!
-            //intent.removeExtra(EnumFirebaseMessagingService.ma_chucnang)
-
-           // navController.navigate(m_ma_chucnang)
-        }
-
-
+    //navHostController.navigate(MainMenuDestination.LOGIN.route)
 
 
 

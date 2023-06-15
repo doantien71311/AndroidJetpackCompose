@@ -34,6 +34,7 @@ import androidx.navigation.navDeepLink
 import com.example.myapplicationjetpackcompose.EnumChannel
 import com.example.myapplicationjetpackcompose.EnumDeepLink
 import com.example.myapplicationjetpackcompose.HomeScreen
+import com.example.myapplicationjetpackcompose.dangnhap.DangNhapPage
 import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienScreen
 import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingService
 import com.example.myapplicationjetpackcompose.tuyendung.phongvan.ThongTinPhongVanScreen
@@ -70,7 +71,7 @@ class MainMenuActivity : ComponentActivity() {
                      navHostController = rememberNavController()
                      NavigationAppHost(navController = navHostController)
 
-//                   //  CarMenuSrceen(navHostController, current)
+                   //CarMenuSrceen(navHostController, current)
 //
                     // Get token
                     // [START log_reg_token]
@@ -94,21 +95,14 @@ class MainMenuActivity : ComponentActivity() {
                         }
                     }
 
-                    if (intent.hasExtra(EnumFirebaseMessagingService.ma_chucnang)) {
 
+
+
+                    if (intent.hasExtra(EnumFirebaseMessagingService.ma_chucnang)) {
                         val m_ma_chucnang : String = intent.getStringExtra(
                             EnumFirebaseMessagingService.ma_chucnang)!!
                         navHostController.navigate(m_ma_chucnang)
                     }
-
-//
-//                    //Tạo chanel thông báo
-//                    val channel = NotificationChannel(EnumChannel.MainChannelId,
-//                        EnumChannel.MainChannelName,
-//                        NotificationManager.IMPORTANCE_DEFAULT)
-//                    channel.description= "Thông báo"
-//                    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//                    notificationManager.createNotificationChannel(channel)
 
 
 
@@ -117,22 +111,25 @@ class MainMenuActivity : ComponentActivity() {
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        navHostController.handleDeepLink(intent)
-    }
+
     @Composable
     fun NavigationAppHost(navController: NavHostController) {
 
+
         val context = LocalContext.current
 
-        NavHost(navController = navController ,
+        NavHost(navController = navController,
                     startDestination = MainMenuDestination.MAINMENU.route
         ) {
 
+            composable(route = MainMenuDestination.LOGIN.route)
+            {
+                DangNhapPage(navController)
+            }
+
             composable(route = MainMenuDestination.MAINMENU.route)
             {
-                CarMenuSrceen(navController, context, intent)
+                MainMenuSrceen(navController, context, intent)
             }
 
 

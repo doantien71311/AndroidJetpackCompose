@@ -9,6 +9,7 @@ import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -57,42 +58,45 @@ fun MainMenuItemsScreen(
             )
             .clip(RoundedCornerShape(30.dp))
             .background(color = Color.Blue)
-            .width(300.dp)
-            .height(300.dp)
+            .width(200.dp)
+            .height(200.dp)
 
             .clickable {
+
                 // Fetching the local context for using the Toast
                 //  Toast.makeText(context, "This is a Sample Toast", Toast.LENGTH_LONG).show()
                 //val chucnang = com.example.myapplicationjetpackcompose.mainmenu.Destination.DANHMUC_NhanVien.route
 
-                val chucnang = para.ma_chucnang.toString()
-                navController.navigate(chucnang)
-
+                navController.navigate( para.ma_chucnang ?: "")
 
 
             },
         //elevation = 8.dp
     ) {
 
-        Column ( ) {
+        Column (
+
+
+                ) {
 
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(para.url_hinhanh)
+                    .data( para.icon_img?:"")
                     .crossfade(true)
                     .build(),
                 contentDescription = "ImageRequest example",
                 modifier = Modifier
                     .clip(RoundedCornerShape(100.dp))
-                    .height(250.dp)
-                    //.width(100.dp)
+                    .height(150.dp)
+                    .width(150.dp)
                     .fillMaxWidth()
-                    //.fillMaxHeight()
+                    .fillMaxHeight()
                     .align(Alignment.CenterHorizontally)
+
             )
 
-            Text(
-                text = para.ten_chucnang!!,
+            Text (
+                text = para.ten_chucnang?:"",
                 modifier = Modifier.align(Alignment.CenterHorizontally)
 
 

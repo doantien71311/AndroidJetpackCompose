@@ -55,10 +55,8 @@ class MainMenuViewModel @Inject constructor (
                         call: Call<response_dto_menu_app?>,
                         response: Response<response_dto_menu_app?>
                     ) {
-
                         ListMenuApp = response.body()?.data!!
                         isLoadding = false
-
 
                     }
 

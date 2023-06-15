@@ -79,7 +79,6 @@ class MainActivity : ComponentActivity() {
                     notificationManager.createNotificationChannel(channel)
 
 
-
                     navHostController = rememberNavController()
                     NavigationAppHost(navController = navHostController)
 

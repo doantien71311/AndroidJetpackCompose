@@ -138,7 +138,6 @@ fun ThongTinPhongVanScreen (
 
                     Button(onClick = thongTnPhongVanViewModel::henGio) {
 
-
                         Text(text = "Hẹn giờ")
                     }
 
