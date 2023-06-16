@@ -119,7 +119,9 @@ class MainMenuActivity : ComponentActivity() {
         val context = LocalContext.current
 
         NavHost(navController = navController,
-                    startDestination = MainMenuDestination.MAINMENU.route
+                    //startDestination = MainMenuDestination.MAINMENU.route
+            startDestination = MainMenuDestination.LOGIN.route
+
         ) {
 
             composable(route = MainMenuDestination.LOGIN.route)
