@@ -26,36 +26,68 @@ import retrofit2.Response
 import javax.inject.Inject
 
 import com.example.myapplicationjetpackcompose.model.response_dto_menu_app
+import kotlinx.coroutines.Dispatchers
 
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.first
 
 @HiltViewModel
 class MainMenuViewModel @Inject constructor (
-    private val dataStoreServies: IDataStoreServies
-
+    private val dataStoreServies: IDataStoreServies,
     ): ViewModel() {
 
     //Cách 1 đang ok
     var ListMenuApp : List<dto_menu_app> by mutableStateOf(mutableListOf<dto_menu_app>(dto_menu_app()))
     var isLoadding : Boolean by mutableStateOf(true)
-    var abc :  String by mutableStateOf("")
-
+    //var isAuth : Boolean by mutableStateOf(false)
+   // var isAuth by mutableStateOf<Boolean>(false)
     //Cách 2, chưa làm được
     //var ListMenuApp : List<dto_menu_app> = mutableListOf()
 
+    //Tiến ràng buộc khởi tạo MainMenuViewModel trước
+    var isAuth = MutableSharedFlow<Boolean>()
 
 
-    fun loadData() {
+    init {
+
+        viewModelScope.launch {
+
+            val checkValue = dataStoreServies.getToken() != "" && dataStoreServies.getUserName() != ""
+            isAuth.emit(checkValue)
+            if (checkValue) {
+                isLoadding = true
+                loadData()
+            } else {
+                isLoadding = false
+            }
+        }
+
+    }
+
+    fun clearDataStore() {
+
+        viewModelScope.launch {
+
+            dataStoreServies.clearDataStore()
+
+        }
+
+    }
+
+    private fun loadData() {
 
         viewModelScope.launch {
             RetrofitService.IRetrofitService
-                .getHeThongLayDSMenuApp(dataStoreServies.getBearToken(), "ADMIN"  )
+                .getHeThongLayDSMenuApp(dataStoreServies.getBearToken(), dataStoreServies.getUserName()  )
                 .enqueue(object : Callback<response_dto_menu_app?> {
                     override fun onResponse(
                         call: Call<response_dto_menu_app?>,
                         response: Response<response_dto_menu_app?>
                     ) {
-                        ListMenuApp = response.body()?.data!!
+                        response.body()?.data?.let {
+                            ListMenuApp = it
+                        }
                         isLoadding = false
 
                     }

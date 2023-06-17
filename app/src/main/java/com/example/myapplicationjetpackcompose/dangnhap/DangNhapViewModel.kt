@@ -8,6 +8,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
 import com.example.myapplicationjetpackcompose.model.TokenInfor
 import com.example.myapplicationjetpackcompose.model.ht_dm_nsd
 import com.example.myapplicationjetpackcompose.model.ht_thongtinhdoanhnghiep
@@ -27,7 +29,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DangNhapViewModel @Inject constructor(
-    private val dataStoreServies: IDataStoreServies
+    private val dataStoreServies: IDataStoreServies,
 ): ViewModel() {
 
      var row_ht_thongtindoanhnghiep: ht_thongtinhdoanhnghiep by mutableStateOf(ht_thongtinhdoanhnghiep())
@@ -41,8 +43,10 @@ class DangNhapViewModel @Inject constructor(
     val mat_khau : LiveData<String> = _mat_khau
 
 
-    private val _login_enable = MutableLiveData<Boolean>()
-    val login_enable : LiveData<Boolean> = _login_enable
+//    private val _login_enable = MutableLiveData<Boolean>()
+//    val login_enable : LiveData<Boolean> = _login_enable
+
+    var login_enable : Boolean by mutableStateOf(false)
 
     fun onMaNsdChanged(ma_nsd: String)
     {
@@ -58,12 +62,6 @@ class DangNhapViewModel @Inject constructor(
 
     init {
 
-        LoadData()
-
-    }
-
-    fun LoadData() {
-
         getToKen()
 
     }
@@ -73,7 +71,7 @@ class DangNhapViewModel @Inject constructor(
         viewModelScope.launch {
 
         RetrofitService.IRetrofitService
-            .getEncryptDES(dataStoreServies.getBearToken(), _mat_khau.value!!)
+            .getEncryptDES(dataStoreServies.getBearToken(), _mat_khau.value?:"")
             .enqueue(object : Callback<response_EncryptDES?> {
                 override fun onResponse(
                     call: Call<response_EncryptDES?>,
@@ -95,9 +93,13 @@ class DangNhapViewModel @Inject constructor(
                                     response: Response<response_boolean?>
                                 ) {
 
-                                    _login_enable.value = response.body()?.data!!
-
-
+                                    login_enable = response.body()?.data ?: false
+                                    viewModelScope.launch {
+                                        if (login_enable) {
+                                            dataStoreServies.saveUserName(_ht_dm_nsd.ma_nsd!!)
+                                            dataStoreServies.savePassWord(_ht_dm_nsd.matkhau!!)
+                                        }
+                                    }
 
                                 }
 
@@ -170,9 +172,9 @@ class DangNhapViewModel @Inject constructor(
                     response: Response<TokenInfor?>
                 ) {
 
-                    GlobalScope.launch {
+                    viewModelScope.launch {
 
-                        dataStoreServies.saveAuthToken(response.body()?.token.toString())
+                        dataStoreServies.saveKeyToken(response.body()?.token.toString())
 
                         LayThongTinDoanhNghiep()
                     }

@@ -1,5 +1,6 @@
 package com.example.myapplicationjetpackcompose.mainmenu
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -14,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -34,82 +36,101 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.myapplicationjetpackcompose.Destination
 import com.example.myapplicationjetpackcompose.model.dto_menu_app
 import com.example.myapplicationjetpackcompose.model.dto_menu_app_chitiet
 import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingService
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun MainMenuSrceen (
-
     navController: NavController,
     context: Context,
-    intent: Intent
-
+    intent: Intent,
+    mainMenuViewModel : MainMenuViewModel = hiltViewModel()
 ) {
 
+    //Tiến ràng buộc khởi tạo MainMenuViewModel trước
+    GlobalScope.launch (Dispatchers.Main) {
+        val isAuth = mainMenuViewModel.isAuth.first()
+        if (!isAuth) {
 
+            navController.navigate(MainMenuDestination.LOGIN.route)
 
-
-    //navHostController.navigate(MainMenuDestination.LOGIN.route)
-
-
-
-    val mainMenuViewModel : MainMenuViewModel = hiltViewModel()
-    mainMenuViewModel.loadData()
-
-    var isLoading by remember {
-        mutableStateOf(true)
+        }
     }
 
 
-    LaunchedEffect(key1 = true ) {
-        delay(5000)
-        isLoading = false
-    }
 
-//    if (!mainMenuViewModel.isLoadding) {
+//    var isLoading by remember {
+//        mutableStateOf(true)
+//    }
+
+//    LaunchedEffect(key1 = true ) {
+//        delay(5000)
 //        isLoading = false
 //    }
 
-    MainMenuLoadingAnimation(
+        MainMenuLoadingAnimation(
 
-        isLoadding = mainMenuViewModel.isLoadding,
-        //isLoadding = isLoading,
-        contentAfterLoading = {
+            isLoadding = mainMenuViewModel.isLoadding,
+            //isLoadding = isLoading,
+            contentAfterLoading = {
 
-            LazyColumn (
-                //  modifier = Modifier.verticalScroll(rememberScrollState())
-            )
+                LazyColumn(
+                    //  modifier = Modifier.verticalScroll(rememberScrollState())
+                )
 
-            {
+                {
 
-                itemsIndexed(
-                    items = mainMenuViewModel.ListMenuApp.toTypedArray()
+                    itemsIndexed(
+                        items = mainMenuViewModel.ListMenuApp.toTypedArray()
 
-                ) { index, item ->
+                    ) { index, item ->
 
-                    Text(
-                        text = item.ten_chucnang!!,
-                        //  modifier = Modifier.align(Alignment.CenterHorizontally)
+                        Text(
+                            text = item.ten_chucnang ?: "",
+                            //  modifier = Modifier.align(Alignment.CenterHorizontally)
 
 
-                    )
+                        )
 
-                    RowsCarMenuSrceen(
-                        navController,
-                        context,
-                        item.menu_app_chitiet!!.toTypedArray()
-                    )
+                        Button(onClick = {
 
+
+
+                        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+
+                            mainMenuViewModel.clearDataStore()
+                            navController.navigate(MainMenuDestination.LOGIN.route)
+                        }
+
+                        }) {
+
+                            Text(text = "Đăng xuất")
+
+                        }
+
+                        RowsCarMenuSrceen(
+                            navController,
+                            context,
+                            item.menu_app_chitiet!!.toTypedArray()
+                        )
+
+                    }
                 }
+
+
             }
-
-
-        }
-    )
+        )
 
 
 //    LazyColumn (
@@ -140,9 +161,8 @@ fun MainMenuSrceen (
 //        }
 
 
+   }
 
-
-}
 
 
 @Composable

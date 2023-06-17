@@ -1,5 +1,6 @@
 package com.example.myapplicationjetpackcompose.mainmenu
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -24,6 +25,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -34,6 +37,7 @@ import androidx.navigation.navDeepLink
 import com.example.myapplicationjetpackcompose.EnumChannel
 import com.example.myapplicationjetpackcompose.EnumDeepLink
 import com.example.myapplicationjetpackcompose.HomeScreen
+import com.example.myapplicationjetpackcompose.LoginViewModel
 import com.example.myapplicationjetpackcompose.dangnhap.DangNhapPage
 import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienScreen
 import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingService
@@ -48,7 +52,11 @@ import com.google.firebase.messaging.ktx.messaging
 
 
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -57,7 +65,9 @@ class MainMenuActivity : ComponentActivity() {
 
 
     lateinit var navHostController: NavHostController
+    private val viewModel by viewModels<MainMenuStateViewModel>()
 
+    @SuppressLint("CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -68,8 +78,8 @@ class MainMenuActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-                     navHostController = rememberNavController()
-                     NavigationAppHost(navController = navHostController)
+                    navHostController = rememberNavController()
+                    NavigationAppHost(navController = navHostController)
 
                    //CarMenuSrceen(navHostController, current)
 //
@@ -95,16 +105,13 @@ class MainMenuActivity : ComponentActivity() {
                         }
                     }
 
-
-
-
                     if (intent.hasExtra(EnumFirebaseMessagingService.ma_chucnang)) {
-                        val m_ma_chucnang : String = intent.getStringExtra(
-                            EnumFirebaseMessagingService.ma_chucnang)!!
+                        val m_ma_chucnang: String = intent.getStringExtra(
+                            EnumFirebaseMessagingService.ma_chucnang
+                        ) ?: MainMenuDestination.MAINMENU.route
+
                         navHostController.navigate(m_ma_chucnang)
                     }
-
-
 
                 }
             }
@@ -119,7 +126,8 @@ class MainMenuActivity : ComponentActivity() {
         val context = LocalContext.current
 
         NavHost(navController = navController,
-                    startDestination = MainMenuDestination.MAINMENU.route
+                    startDestination =  MainMenuDestination.MAINMENU.route
+           // startDestination =   MainMenuDestination.LOGIN.route
         ) {
 
             composable(route = MainMenuDestination.LOGIN.route)

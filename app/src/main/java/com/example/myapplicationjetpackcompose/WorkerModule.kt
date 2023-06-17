@@ -11,6 +11,9 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.ComposeNavigator
+import androidx.navigation.compose.DialogNavigator
 import com.example.myapplicationjetpackcompose.alarmmanager.AlarmScheduler
 import com.example.myapplicationjetpackcompose.alarmmanager.IAlarmScheduler
 
@@ -23,14 +26,17 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Inject
 import javax.inject.Singleton
 
-const val MY_URI = "myapp"
-const val MY_ARG = "details"
+
 
 @Module
 @InstallIn(SingletonComponent::class)
 object WorkerModule {
+
+
+
 
     @Singleton
     @Provides
@@ -137,4 +143,7 @@ object WorkerModule {
         }
         return notificationManager
     }
+
+
+
 }

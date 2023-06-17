@@ -54,6 +54,7 @@ fun MainMenuLoadingAnimation(
     modifier: Modifier = Modifier,
     circleSize: Dp = 25.dp,
     circleColor: Color = MaterialTheme.colorScheme.primary,
+   // circleColor: Color = Color.Green,
     spaceBetween: Dp = 10.dp,
     travelDistance: Dp = 20.dp
 
