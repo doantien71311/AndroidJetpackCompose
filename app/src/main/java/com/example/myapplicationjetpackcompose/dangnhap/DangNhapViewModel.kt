@@ -42,10 +42,6 @@ class DangNhapViewModel @Inject constructor(
     private val _mat_khau = MutableLiveData<String>()
     val mat_khau : LiveData<String> = _mat_khau
 
-
-//    private val _login_enable = MutableLiveData<Boolean>()
-//    val login_enable : LiveData<Boolean> = _login_enable
-
     var login_enable : Boolean by mutableStateOf(false)
 
     fun onMaNsdChanged(ma_nsd: String)
