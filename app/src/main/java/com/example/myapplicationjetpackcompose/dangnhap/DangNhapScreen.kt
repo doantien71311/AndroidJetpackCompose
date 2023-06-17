@@ -43,8 +43,14 @@ fun DangNhapPage(
     viewModel: DangNhapViewModel = hiltViewModel()
 ) {
 
-    val ctx = LocalContext.current
 
+    val ma_nsd : String by viewModel.ma_nsd.observeAsState(initial = "")
+    val mat_khau : String by viewModel.mat_khau.observeAsState(initial = "")
+    if (viewModel.login_enable) {
+        val ctx = LocalContext.current
+        ctx.startActivity(Intent(ctx, MainMenuActivity::class.java))
+
+    }
 
 Card(
 
@@ -119,19 +125,6 @@ Card(
 
 
                     Spacer(modifier = Modifier.height(20.dp))
-
-                    val loginEnable: Boolean by viewModel.login_enable.observeAsState(initial = false)
-
-                    // Text(text = loginEnable.toString() )
-                    if (loginEnable) {
-                        //ctx.startActivity(Intent(ctx, MainMenuActivity::class.java))
-                        navController.navigate(MainMenuDestination.MAINMENU.route)
-                    }
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    val ma_nsd : String by viewModel.ma_nsd.observeAsState(initial = "")
-                    val mat_khau : String by viewModel.mat_khau.observeAsState(initial = "")
 
                     TextField(
                         label = { Text(text = "Mã code") },
