@@ -87,7 +87,7 @@ fun ThongTinUngVienItemsScreen(
         Column (
             modifier = Modifier
                 .background(
-                    if ( pos == 99) {
+                    if ( pos == 1) {
                         Color.Yellow
                     } else {
                         Color.Green
