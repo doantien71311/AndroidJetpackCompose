@@ -10,4 +10,9 @@ sealed class MainMenuDestination (val route: String)
     object  NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet: MainMenuDestination("NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet")
     object  LOGIN: MainMenuDestination("LOGIN")
 
+
+    object  CAIDAT: MainMenuDestination("CAIDAT")
+
+    object  CAIDAT_THONGBAO: MainMenuDestination("CAIDAT_THONGBAO")
+
 }

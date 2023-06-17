@@ -71,6 +71,7 @@ import androidx.navigation.navOptions
 import com.example.myapplicationjetpackcompose.EnumDeepLink
 import com.example.myapplicationjetpackcompose.HomeScreen
 import com.example.myapplicationjetpackcompose.NavigationAppHost
+import com.example.myapplicationjetpackcompose.caidat.CaiDatThongBao
 import com.example.myapplicationjetpackcompose.dangnhap.DangNhapPage
 import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienScreen
 import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingService
@@ -256,6 +257,20 @@ class MainMenuActivity : ComponentActivity() {
                 )
                 {
                     ThongTinUngVienScreen(navController, context)
+                }
+            }
+
+
+            navigation(
+                startDestination = MainMenuDestination.CAIDAT_THONGBAO.route,
+                route = MainMenuDestination.CAIDAT.route
+            )
+            {
+                composable(
+                    route = MainMenuDestination.CAIDAT_THONGBAO.route,
+                )
+                {
+                    CaiDatThongBao(navController)
                 }
             }
 
