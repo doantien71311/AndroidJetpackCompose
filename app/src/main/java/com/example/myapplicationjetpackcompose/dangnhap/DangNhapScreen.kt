@@ -49,7 +49,6 @@ fun DangNhapPage(
     if (viewModel.login_enable) {
         val ctx = LocalContext.current
         ctx.startActivity(Intent(ctx, MainMenuActivity::class.java))
-
     }
 
 Card(
