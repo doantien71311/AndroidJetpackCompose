@@ -40,6 +40,7 @@ class MainMenuViewModel @Inject constructor (
     //Cách 1 đang ok
     var ListMenuApp : List<dto_menu_app> by mutableStateOf(mutableListOf<dto_menu_app>(dto_menu_app()))
     var isLoadding : Boolean by mutableStateOf(true)
+
     //var isAuth : Boolean by mutableStateOf(false)
    // var isAuth by mutableStateOf<Boolean>(false)
     //Cách 2, chưa làm được
@@ -47,7 +48,6 @@ class MainMenuViewModel @Inject constructor (
 
     //Tiến ràng buộc khởi tạo MainMenuViewModel trước
     var isAuth = MutableSharedFlow<Boolean>()
-
 
     init {
 
