@@ -1,5 +1,6 @@
 package com.example.myapplicationjetpackcompose.dangnhap
 
+import android.R.attr.contentDescription
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,15 +14,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,9 +39,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.myapplicationjetpackcompose.LoginViewModel
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuActivity
-import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,10 +78,10 @@ Card(
         {
             Column(
 
-                modifier = Modifier.
-                fillMaxWidth().
-                height(189.dp).
-                background(color = Color.White ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(189.dp)
+                    .background(color = Color.White),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             )
@@ -98,77 +104,106 @@ Card(
         Card(
 
             shape = RoundedCornerShape(80.dp, 80.dp, 0.dp, 0.dp ),
-            modifier = Modifier.
-            fillMaxWidth().
-            fillMaxHeight().
-            background(color = Color.White ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .background(color = Color.White),
 
         )
         {
             Column(
 
-                modifier = Modifier.
-                fillMaxWidth().
-                fillMaxHeight().
-                background(color = Color.Red ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .background(color = Color.White),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             )
             {
                 Card(
 
-                    modifier = Modifier.
-                    padding(20.dp).background(color = Color.Transparent)
+                    modifier = Modifier
+                        .padding(20.dp)
                 )
                 {
 
+                    Column(
 
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    TextField(
-                        label = { Text(text = "Mã code") },
-                        // placeholder = { Text(text = "Mã code") },
-                        modifier = Modifier.fillMaxWidth(),
-                        value = ma_nsd,
-                        singleLine = true,
-                        maxLines = 1,
-                        onValueChange =  { viewModel.onMaNsdChanged(it) }
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                            .background(color = Color.White),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
                     )
+                    {
 
-                    Spacer(modifier = Modifier.height(20.dp))
+                        Spacer(modifier = Modifier.height(20.dp))
+
+                        TextField(
+                            label = { Text(text = "Mã code") },
+                            // placeholder = { Text(text = "Mã code") },
+                            modifier = Modifier.fillMaxWidth(),
+                            value = ma_nsd,
+                            singleLine = true,
+                            maxLines = 1,
+                            onValueChange =  { viewModel.onMaNsdChanged(it) },
+
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.AccountCircle,
+                                    contentDescription = null
+                                )
+                            }
+
+                        )
+
+                        Spacer(modifier = Modifier.height(20.dp))
 
 
-                    TextField(
-                        label = { Text(text = "Mật khẩu") },
-                        value = mat_khau,
-                        onValueChange = { viewModel.onMatKhauChanged(it) },
-                        //placeholder = { Text(text = "Mật khẩu") },
-                        modifier = Modifier.fillMaxWidth(),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                        singleLine = true,
-                        maxLines = 1,
-                        colors = TextFieldDefaults.textFieldColors(
-                            textColor = Color(0xFF636262),
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent
-                        ),
-                    )
-                    Spacer(modifier = Modifier.height(20.dp))
+                        TextField(
+                            label = { Text(text = "Mật khẩu") },
+                            value = mat_khau,
+                            onValueChange = { viewModel.onMatKhauChanged(it) },
+                            //placeholder = { Text(text = "Mật khẩu") },
+                            modifier = Modifier.fillMaxWidth(),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                            singleLine = true,
+                            maxLines = 1,
 
-                    Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
+                            colors = TextFieldDefaults.textFieldColors(
+                                textColor = Color(0xFF636262),
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent
+                            ),
 
-                        Button(onClick = {
+                           leadingIcon = {
+                               Icon(
+                                   imageVector = Icons.Outlined.Lock,
+                                   contentDescription = null
+                               )
+                           }
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
 
-                            viewModel.KiemTra_NSD()
+                        Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
 
-                        },
-                            shape = RoundedCornerShape(50.dp),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(50.dp)
-                        ) {
-                            Text(text = "Đăng nhập")
+                            Button(onClick = {
+
+                                viewModel.KiemTra_NSD()
+
+                            },
+                                shape = RoundedCornerShape(50.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp)
+                            ) {
+                                Text(text = "Đăng nhập")
+                            }
                         }
+
+
                     }
 
                 }
@@ -186,4 +221,30 @@ Card(
 }
 
 
+}
+
+
+@Composable
+fun Example() {
+    NormalTextField(label = "Email") {
+        Icon(
+            imageVector = Icons.Outlined.Email,
+            contentDescription = null
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NormalTextField(
+    label: String,
+    Icon: @Composable (() -> Unit)
+) {
+    val (text, setText) = mutableStateOf("")
+    TextField(
+        leadingIcon = Icon,
+        value = text,
+        onValueChange = setText,
+        label = { Text(text = label) }
+    )
 }

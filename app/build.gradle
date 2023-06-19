@@ -127,7 +127,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
 
     //Tiến thêm vào đề dùng carview
-    implementation "androidx.cardview:cardview:1.0.0"
+    //implementation "androidx.cardview:cardview:1.0.0"card
 
     //Tiến thêm vào để dung firebase
     implementation 'com.google.firebase:firebase-messaging-ktx:23.1.2'
