@@ -3,11 +3,14 @@ package com.example.myapplicationjetpackcompose.services
 
 import com.example.myapplicationjetpackcompose.model.TokenInfor
 import com.example.myapplicationjetpackcompose.model.dto_menu_app
+import com.example.myapplicationjetpackcompose.model.dto_paramater
 import com.example.myapplicationjetpackcompose.model.ht_dm_nsd
 import com.example.myapplicationjetpackcompose.model.response_EncryptDES
 import com.example.myapplicationjetpackcompose.model.response_boolean
+import com.example.myapplicationjetpackcompose.model.response_data
 import com.example.myapplicationjetpackcompose.model.response_dto_menu_app
 import com.example.myapplicationjetpackcompose.model.response_ht_thongtinhdoanhnghiep
+import com.example.myapplicationjetpackcompose.model.tb_nhanvien_thietbi
 
 import retrofit2.Call
 import retrofit2.http.Body
@@ -18,6 +21,7 @@ import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 import retrofit2.http.Url
 
 class PostData {
@@ -48,6 +52,15 @@ interface IRetrofitService {
 
     @GET(url_api.thongtin_doanhnghiep_datatable)
     open fun getThongTinDoanhNghiepV2(): Call<response_ht_thongtinhdoanhnghiep?>
+
+
+    @POST(url_api.tb_nhanvien_thietbi_insert)
+    open fun tb_nhanvien_thietbi_insert(
+        @Header("Authorization") token: String,
+        @Body data: tb_nhanvien_thietbi,
+        @QueryMap params: Map<String, String>
+    ): Call<response_data?>
+
 
 
 //    JvmSuppressWildcards

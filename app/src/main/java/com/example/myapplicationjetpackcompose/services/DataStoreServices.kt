@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.myapplicationjetpackcompose.model.dto_paramater
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -22,20 +23,31 @@ import javax.inject.Inject
 interface IDataStoreServies {
 
     suspend fun getToken():  String
+    suspend fun getBearToken(): String
+    suspend fun saveKeyToken(token: String)
+
+
 
     suspend fun getUserName():  String
+    suspend fun saveUserName(ma_nsd: String)
+
+
+    suspend fun getMaNV():  String
+    suspend fun saveMaNV(ma_nv: String)
+
+
 
     suspend fun getPassWord():  String
 
-    suspend fun getBearToken(): String
-
-    suspend fun saveKeyToken(token: String)
-
-    suspend fun saveUserName(ma_nsd: String)
-
     suspend fun savePassWord(matkhau: String)
 
+
+
     suspend fun clearDataStore()
+
+
+
+    suspend fun getDTOParamater(): dto_paramater
 
 }
 
@@ -54,6 +66,7 @@ class DataStoreServices constructor (
         private val KEY_TOKEN = stringPreferencesKey("KEY_TOKEN")
         private val KEY_USERNAME = stringPreferencesKey("KEY_USERNAME")
         private val KEY_PASSWORD = stringPreferencesKey("KEY_PASSWORD")
+        private val KEY_MANV = stringPreferencesKey("KEY_MANV")
 
     }
 
@@ -84,6 +97,13 @@ class DataStoreServices constructor (
             }.first()
     }
 
+    override suspend fun getMaNV(): String {
+        return dataStore.data
+            .map { preference ->
+                preference[DataStoreServices.KEY_MANV] ?: ""
+            }.first()
+    }
+
     override suspend fun getPassWord(): String {
         return dataStore.data
             .map { preference ->
@@ -97,12 +117,13 @@ class DataStoreServices constructor (
             preferences.clear()
         }
     }
+
     override suspend fun getBearToken(): String {
 
         return "Bearer " + getToken()
     }
 
-    override suspend fun saveKeyToken (authToken: String) {
+    override suspend fun saveKeyToken(authToken: String) {
 
         dataStore.edit { preferences ->
             preferences[DataStoreServices.KEY_TOKEN] = authToken
@@ -110,7 +131,7 @@ class DataStoreServices constructor (
 
     }
 
-    override suspend fun saveUserName (ma_nsd: String) {
+    override suspend fun saveUserName(ma_nsd: String) {
 
         dataStore.edit { preferences ->
             preferences[DataStoreServices.KEY_USERNAME] = ma_nsd
@@ -125,5 +146,20 @@ class DataStoreServices constructor (
         }
     }
 
+    override suspend fun saveMaNV(ma_nv: String) {
 
+        dataStore.edit { preferences ->
+            preferences[DataStoreServices.KEY_MANV] = ma_nv
+        }
+    }
+
+    override suspend fun getDTOParamater(): dto_paramater {
+
+        return dto_paramater(
+            getMaNV(),
+            getUserName(),
+            getUserName(),
+        )
+
+    }
 }

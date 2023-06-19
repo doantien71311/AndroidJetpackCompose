@@ -16,4 +16,7 @@ object url_api {
     const val hethong_layds_menu_app: String = "api/hethong/layds-menu-app"
 
 
+    const val tb_nhanvien_thietbi_insert: String = "api/tb-nhanvien-thietbi/insert"
+
+
 }

@@ -94,6 +94,7 @@ class DangNhapViewModel @Inject constructor(
                                         if (login_enable) {
                                             dataStoreServies.saveUserName(_ht_dm_nsd.ma_nsd!!)
                                             dataStoreServies.savePassWord(_ht_dm_nsd.matkhau!!)
+                                            dataStoreServies.saveMaNV(_ht_dm_nsd.ma_nsd!!)
                                         }
                                     }
 

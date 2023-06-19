@@ -2,6 +2,7 @@ package com.example.myapplicationjetpackcompose.services
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -26,6 +27,8 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.example.myapplicationjetpackcompose.EnumChannel
+import com.example.myapplicationjetpackcompose.EnumDeepLink
 import com.example.myapplicationjetpackcompose.LoginActivity
 import com.example.myapplicationjetpackcompose.MainActivity
 import com.example.myapplicationjetpackcompose.MyReceiver
@@ -99,10 +102,9 @@ class CustomFirebaseMessagingService (): FirebaseMessagingService() {
 
         }
 
-
-
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
+
     }
     // [END receive_message]
 
@@ -217,27 +219,10 @@ class CustomFirebaseMessagingService (): FirebaseMessagingService() {
     @SuppressLint("MissingPermission", "SuspiciousIndentation")
     private fun showNotificationOnStatusBar (data: Map<String, String>) {
 
-//        //Create Intent it will be launched when user tap on notification from status bar.
-//        val intent = Intent(this, MainMenuActivity::class.java).apply {
-//
-//            flags =
-//                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-//
-//        }
-
-//        //Tiến bổ sung tạo deepLink từ firebase
-//        val deepLinkIntent = Intent(Intent.ACTION_VIEW,
-//            ("deeplink://"+data[EnumFirebaseMessagingService.ma_chucnang]).toUri(),
-//            this,
-//            MainMenuActivity::class.java)
-
-        val url_link = ("myapp://details").toUri()
-
-        Log.w("TAG", "url_link: " +url_link.toString())
-
+        //Create Intent it will be launched when user tap on notification from status bar.
         val deepLinkIntent = Intent(
             Intent.ACTION_VIEW,
-            url_link,
+            (EnumDeepLink.MyAppDeepLink+data[EnumFirebaseMessagingService.ma_chucnang]).toUri(),
             this,
             MainMenuActivity::class.java).apply {
 
@@ -248,13 +233,7 @@ class CustomFirebaseMessagingService (): FirebaseMessagingService() {
 
         // it should be ungive when push comes.
         var requestCode = System.currentTimeMillis().toInt()
-        var pendingIntent: PendingIntent
-        =
-
-        //pendingIntent =
-            //PendingIntent.getActivity(this, requestCode, deepLinkIntent, FLAG_MUTABLE)
-
-
+        var pendingIntent: PendingIntent =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
 
             TaskStackBuilder.create(this).run {
@@ -267,12 +246,6 @@ class CustomFirebaseMessagingService (): FirebaseMessagingService() {
 
             }
 
-
-//            pendingIntent =
-//               PendingIntent.getActivity(this, requestCode, deepLinkIntent, FLAG_MUTABLE)
-
-
-
         } else {
 
             TaskStackBuilder.create(this).run {
@@ -284,14 +257,6 @@ class CustomFirebaseMessagingService (): FirebaseMessagingService() {
 
 
             }
-//
-//            pendingIntent =
-//                PendingIntent.getActivity(
-//                    this,
-//                    requestCode,
-//                    deepLinkIntent,
-//                    PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-//                )
 
         }
 
@@ -302,32 +267,24 @@ class CustomFirebaseMessagingService (): FirebaseMessagingService() {
         deepLinkIntent.putExtra(EnumFirebaseMessagingService.tungay, EnumFirebaseMessagingService.tungay)
         deepLinkIntent.putExtra(EnumFirebaseMessagingService.denngay, EnumFirebaseMessagingService.denngay)
 
-//        intent.putExtra(EnumFirebaseMessagingService.body, data[EnumFirebaseMessagingService.body])
-//        intent.putExtra(EnumFirebaseMessagingService.title, data[EnumFirebaseMessagingService.title])
-//        intent.putExtra(EnumFirebaseMessagingService.ma_chucnang, data[EnumFirebaseMessagingService.ma_chucnang])
-//        intent.putExtra(EnumFirebaseMessagingService.tungay, EnumFirebaseMessagingService.tungay)
-//        intent.putExtra(EnumFirebaseMessagingService.denngay, EnumFirebaseMessagingService.denngay)
 
+        val builder = NotificationCompat.Builder(this, EnumChannel.FirebaseChannelId)
 
-        val builder = NotificationCompat.Builder(this, "Global").setAutoCancel(true)
+            .setContentTitle(data[EnumFirebaseMessagingService.title])
+            .setContentText(data[EnumFirebaseMessagingService.body])
 
-            .setContentTitle(data[EnumFirebaseMessagingService.body])
-            .setContentText(data[EnumFirebaseMessagingService.title])
-
-            //.setSmallIcon(R.drawable.ic_notification)
             .setSmallIcon(R.drawable.ic_launcher_background)
+            //.setBadgeIconType(Notification.BADGE_ICON_LARGE)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
+           // .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
             .setStyle(NotificationCompat.BigTextStyle().bigText((data[EnumFirebaseMessagingService.body])))
-           // .addAction(0, "ACTION", pendingIntent)
-            .setContentIntent(pendingIntent)
 
+            .setContentIntent(pendingIntent)
+            //.setAutoCancel(true)
 
 
 
           with (NotificationManagerCompat.from(this)) {
-
-
               notify(requestCode, builder.build())
 
           }
