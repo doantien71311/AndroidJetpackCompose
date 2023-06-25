@@ -1,5 +1,8 @@
 package com.example.myapplicationjetpackcompose.tuyendung.phongvan
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.myapplicationjetpackcompose.CommonDataParamater
 import com.example.myapplicationjetpackcompose.Destination
@@ -17,6 +20,8 @@ class ThongTnPhongVanViewModel @Inject constructor (
     private val alarmScheduler: IAlarmScheduler,
 ): ViewModel()
 {
+
+
     fun henGio() {
 
         alarmScheduler.scheduleManager(

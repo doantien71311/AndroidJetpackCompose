@@ -16,6 +16,8 @@ import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.DialogNavigator
 import com.example.myapplicationjetpackcompose.alarmmanager.AlarmScheduler
 import com.example.myapplicationjetpackcompose.alarmmanager.IAlarmScheduler
+import com.example.myapplicationjetpackcompose.lookup.chucvu.ILookupChucVuViewModel
+import com.example.myapplicationjetpackcompose.lookup.chucvu.LookupChucVuViewModel
 
 import com.example.myapplicationjetpackcompose.services.DataStoreServices
 import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingService
@@ -34,7 +36,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object WorkerModule {
-
 
 
 

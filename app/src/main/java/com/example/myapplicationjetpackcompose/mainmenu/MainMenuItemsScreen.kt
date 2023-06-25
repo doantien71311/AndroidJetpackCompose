@@ -58,9 +58,10 @@ fun MainMenuItemsScreen(
 
                 // Fetching the local context for using the Toast
                 //  Toast.makeText(context, "This is a Sample Toast", Toast.LENGTH_LONG).show()
-                //val chucnang = com.example.myapplicationjetpackcompose.mainmenu.Destination.DANHMUC_NhanVien.route
 
                 navController.navigate( para.ma_chucnang ?: "")
+
+
 
 
             },

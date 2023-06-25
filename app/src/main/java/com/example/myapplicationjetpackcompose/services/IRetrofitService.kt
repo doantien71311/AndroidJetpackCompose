@@ -8,6 +8,7 @@ import com.example.myapplicationjetpackcompose.model.ht_dm_nsd
 import com.example.myapplicationjetpackcompose.model.response_EncryptDES
 import com.example.myapplicationjetpackcompose.model.response_boolean
 import com.example.myapplicationjetpackcompose.model.response_data
+import com.example.myapplicationjetpackcompose.model.response_dm_chucvu_ds
 import com.example.myapplicationjetpackcompose.model.response_dto_menu_app
 import com.example.myapplicationjetpackcompose.model.response_ht_thongtinhdoanhnghiep
 import com.example.myapplicationjetpackcompose.model.tb_nhanvien_thietbi
@@ -52,6 +53,16 @@ interface IRetrofitService {
 
     @GET(url_api.thongtin_doanhnghiep_datatable)
     open fun getThongTinDoanhNghiepV2(): Call<response_ht_thongtinhdoanhnghiep?>
+
+
+    @GET(url_api.danhsach_danhmuc_chucvu_datatable)
+    open fun getDanhMucChucVu(
+        @Header("Authorization") token: String,
+        @Query("ma_chucvu") ma_chucvu: String
+    ): Call<response_dm_chucvu_ds?>
+
+
+
 
 
     @POST(url_api.tb_nhanvien_thietbi_insert)

@@ -73,6 +73,8 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.rounded.AccountBox
+import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material3.Button
 
 import androidx.compose.runtime.LaunchedEffect
@@ -92,6 +94,7 @@ import androidx.compose.ui.unit.dp
 import com.bumptech.glide.load.model.ModelLoader.LoadData
 import com.example.myapplicationjetpackcompose.Destination
 import com.example.myapplicationjetpackcompose.LoginViewModel
+import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
 import com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien.ThongTinUngVienItemsScreen
 import kotlinx.coroutines.delay
 
@@ -102,10 +105,8 @@ import kotlinx.coroutines.delay
 fun ThongTinPhongVanScreen (
     navController: NavController,
     context : Context,
-    thongTnPhongVanViewModel: ThongTnPhongVanViewModel = hiltViewModel()
+    viewModel: ThongTnPhongVanViewModel = hiltViewModel()
 ) {
-
-
 
     Scaffold(
 
@@ -120,6 +121,16 @@ fun ThongTinPhongVanScreen (
                         Icon(Icons.Rounded.ArrowBack, "Back")
                     }
                 },
+                actions = {
+
+                    IconButton(onClick = viewModel::henGio) {
+                        Icon(Icons.Rounded.AccountBox, contentDescription = null)
+                    }
+                    IconButton(onClick = viewModel::henGio2) {
+                        Icon(Icons.Rounded.Info, contentDescription = null)
+                    }
+
+                }
             )
         },
         content = {
@@ -134,19 +145,59 @@ fun ThongTinPhongVanScreen (
                 horizontalAlignment = Alignment.CenterHorizontally
             )  {
 
+                var isLoading by remember {
+                    mutableStateOf(true)
+                }
 
+                LaunchedEffect(key1 = true ) {
+                    delay(3000)
+                    isLoading = false
 
-                    Button(onClick = thongTnPhongVanViewModel::henGio) {
+                }
 
-                        Text(text = "Hẹn giờ")
+                val n = 100
+                val para: List<Int> = List(n) { 0 }
+
+                val scrollState = rememberLazyListState()
+                LaunchedEffect(Unit) {
+                    delay(2000)
+//                    if (viewModel.indexUngVien > -1) {
+//                        scrollState.scrollToItem(thongTinUngVienViewModel.indexUngVien, n)
+//                    }
+                }
+
+                Column()  {
+
+                    LazyColumn(
+                        state = scrollState,
+                        modifier = Modifier
+                            .background(Color.Red)
+                        // .fillMaxSize()
+                        // .verticalScroll(state = rememberScrollState())
+                        //.padding(it)
+                        ,
+                        //verticalArrangement = Arrangement.spacedBy(0.dp)
+                        verticalArrangement = Arrangement.Center,
+                        //horizontalAlignment = Alignment.CenterHorizontally
+
+                    ) {
+
+                        itemsIndexed(
+                            items = para
+                        ) { index, item ->
+
+                            ThongTinPhongVanScreenItem(
+                                navController,
+                                context,
+                                index
+                            )
+                        }
+
                     }
 
+                }
 
-                    Button(onClick = thongTnPhongVanViewModel::henGio2) {
 
-
-                        Text(text = "Hẹn giờ 2")
-                    }
 
                 }
 

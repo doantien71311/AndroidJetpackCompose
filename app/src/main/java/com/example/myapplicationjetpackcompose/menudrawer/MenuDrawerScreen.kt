@@ -125,7 +125,9 @@ fun NavigationDrawerItems(navController: NavHostController, drawerState: DrawerS
     NavigationDrawerItem(
         icon = { Icon(Icons.Filled.Settings, "Setting") },
 
-        label = { Text(text = "Setting") },
+        label = {
+            Text(text = "Setting")
+                },
         selected = destination?.route == "SettingPage",
         onClick = {
             navController.navigate("SettingPage", navOptions {

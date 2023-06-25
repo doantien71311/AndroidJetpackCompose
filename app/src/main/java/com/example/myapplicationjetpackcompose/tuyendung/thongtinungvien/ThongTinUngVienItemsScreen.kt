@@ -38,6 +38,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.myapplicationjetpackcompose.Destination
 import com.example.myapplicationjetpackcompose.NavigationAppHost
+import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 
 @Composable()
@@ -164,6 +165,8 @@ fun ThongTinUngVienItemsScreen(
 
                 Button(
                     onClick = {
+
+                              navController.navigate(MainMenuDestination.NHAPLIEU_NhanSu_KichHoatThanhVien_Duyet.route)
 
 
                     },
