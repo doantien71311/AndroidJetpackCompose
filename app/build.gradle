@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.myapplicationjetpackcompose"
-        minSdk 33
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -79,6 +79,9 @@ dependencies {
     implementation 'androidx.compose.material3:material3'
     implementation 'androidx.appcompat:appcompat:1.6.1'
 
+    //Tiến thêm vào icon đề ẩn hiện password
+    implementation "androidx.compose.material:material-icons-extended:1.4.3"
+
     implementation 'com.google.android.material:material:1.9.0'
 
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -98,6 +101,8 @@ dependencies {
     androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
+
 
     //Tiến thêm vào để binding data
     implementation "androidx.compose.runtime:runtime-livedata:1.4.3"
