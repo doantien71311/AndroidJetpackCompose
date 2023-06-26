@@ -17,6 +17,7 @@ data class dm_chucvu_ds (
     var stt: Int? = null,
     var ghichu: String?  = null,
     var khongsudung: Int = 0,
+    var url_hinhanh_app: String? = null,
 //    var ngaytao: DateTime? = null,
 //    var nguoitao: String?  = null,
 //    var ngaysua: DateTime? = null,

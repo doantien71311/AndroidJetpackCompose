@@ -12,19 +12,23 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountTree
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ExitToApp
 import androidx.compose.material3.AlertDialog
@@ -43,13 +47,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.example.myapplicationjetpackcompose.EnumDefault
 import com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien.ThongTinNganHangScreen
 import com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien.ThongTinNguoiTuyenDungScreen
 import com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien.ThongTinThanhVienScreen
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -102,14 +111,14 @@ fun LookupChucVuScreen (
 
                     LazyColumn(
                         modifier = Modifier
-                            .background(Color.Red)
+                            // .background(Color.Red)
                             .fillMaxSize()
                             // .verticalScroll(state = rememberScrollState())
-                           // .padding(it)
+                            .padding(it)
                         ,
                         //verticalArrangement = Arrangement.spacedBy(0.dp)
-                        verticalArrangement = Arrangement.Center,
-                        //horizontalAlignment = Alignment.CenterHorizontally
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.CenterHorizontally
 
                     ) {
 
@@ -119,24 +128,26 @@ fun LookupChucVuScreen (
 
                             Card (
 
-                                shape = MaterialTheme.shapes.large,
+                                shape = MaterialTheme.shapes.small,
                                 modifier = Modifier
                                     .padding(
                                         //bottom = 10.dp,
-                                       // top = 10.dp,
-                                        start = 10.dp,
-                                        end = 10.dp
+                                        // top = 10.dp,
+                                        // start = 5.dp,
+                                        //end = 5.dp
 
                                     )
                                     .clip(RoundedCornerShape(0.dp))
-                                   // .background(color = Color.Blue)
+                                    // .background(color = Color.Blue)
                                     .fillMaxWidth()
-                                    .height(50.dp)
+                                    .height(60.dp)
                                     .animateContentSize()
 
                                     .clickable {
 
-                                        GlobalScope.launch {
+                                        //Tiến ràng buộc cho thực hiện tuần tự
+
+                                        GlobalScope.launch (Dispatchers.Main) {
 
                                             lookupChucVuViewModel.rowData = item
                                             //
@@ -148,18 +159,52 @@ fun LookupChucVuScreen (
 
                                     },
                             ) {
-                                Column (
+                                Row (
                                     modifier = Modifier
-                                        //.background(Color.Green)
-                                        .fillMaxSize()
-                                ) {
+                                        .background(MaterialTheme.colorScheme.background)
+                                    .fillMaxSize()
+                                    .padding(
+                                        start = 10.dp,
+                                        end = 10.dp
+                                    )
+                                )
+                                {
 
+                                    AsyncImage(
+                                        model = ImageRequest.Builder(LocalContext.current)
+                                            .data(item.url_hinhanh_app ?: EnumDefault.url_hinhanh_app)
+                                            .crossfade(true)
+                                            .build(),
+                                        contentDescription = "ImageRequest example",
+                                        modifier = Modifier
+                                            .padding(
+                                                start = 5.dp,
+                                                end = 5.dp
+                                            )
+                                            //.clip(RoundedCornerShape(20.dp))
+                                            .width(50.dp)
+                                            .height(50.dp)
+                                    )
 
-                                    Text(text = item.ma_chucvu ?:"")
-                                    Text(text = item.ten_chucvu ?:"")
-                                    Divider()
+                                    Column (
+                                        modifier = Modifier
+                                            .background(MaterialTheme.colorScheme.background)
+                                            .fillMaxSize()
+                                            .padding(
+                                                start = 10.dp,
+                                                end = 0.dp
+                                            )
+                                    ) {
 
+                                        Spacer(modifier = Modifier.height(5.dp))
+                                        Text(text = item.ma_chucvu ?:"")
+                                        Text(text = item.ten_chucvu ?:"")
+                                        Spacer(modifier = Modifier.height(5.dp))
+                                        Divider()
+
+                                    }
                                 }
+
                             }
                         }
 

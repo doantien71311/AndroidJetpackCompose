@@ -53,6 +53,7 @@ class LookupChucVuViewModel @Inject constructor(
                     ) {
                         response.body()?.data?.let {
                             listdata = it
+
                         }
 
 
