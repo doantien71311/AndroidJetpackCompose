@@ -48,10 +48,12 @@ data class dm_ungvien_cus (
     var ngayxoa: DateTime? = null,
     var nguoixoa: String?  = null,
     var is_nopphieuphongvan: Boolean? = null,
+
     var ngay_nopphieuphongvan: DateTime? = null,
     var ngay_henphongvan: DateTime? = null,
     var diadiem_henphongvan: String?  = null,
     var duyet_henphongvan: Int? = null,
+
     var phongvan_mucthuphidenghi: String?  = null,
     var phongvan_ngaynhanviec: DateTime? = null,
     var phongvan_danhgiachung: String?  = null,
@@ -67,8 +69,12 @@ data class dm_ungvien_cus (
     var is_kichhoat: Boolean? = null,
     var ngay_kichhoat: DateTime? = null,
     var tinhtrang: Int? = null,
+
     var is_phongvan_online: Boolean? = null,
     var link_phongvan_online: String?  = null,
+
+
+
     var is_offline: String?  = null,
     var is_thamgia_hoithao: String?  = null,
     var is_banhang: String?  = null,

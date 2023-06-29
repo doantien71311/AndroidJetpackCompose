@@ -88,10 +88,6 @@ dependencies {
     implementation platform('androidx.compose:compose-bom:2022.10.00')
     implementation platform('androidx.compose:compose-bom:2022.10.00')
 
-
-
-
-
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -131,9 +127,6 @@ dependencies {
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
 
-    //Tiến thêm vào đề dùng carview
-    //implementation "androidx.cardview:cardview:1.0.0"card
-
     //Tiến thêm vào để dung firebase
     implementation 'com.google.firebase:firebase-messaging-ktx:23.1.2'
 
@@ -146,17 +139,16 @@ dependencies {
 //    // When using the BoM, don't specify versions in Firebase dependencies
    // implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation("androidx.cardview:cardview:1.0.0")
 //
 //    //Tiến cài thêm
 //    implementation 'com.google.firebase:firebase-dynamic-links:21.1.0'
 //    implementation 'com.google.firebase:firebase-dynamic-links-ktx:21.1.0'
-
-
-
 }
 
 // Allow references to generated code
 //Tiến thêm vào để Dependency injection
-kapt {
+kapt
+        {
     correctErrorTypes true
 }

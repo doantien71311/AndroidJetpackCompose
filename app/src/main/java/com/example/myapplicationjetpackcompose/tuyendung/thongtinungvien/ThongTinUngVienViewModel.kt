@@ -24,45 +24,64 @@ class ThongTinUngVienViewModel @Inject constructor (
 ): ViewModel() {
 
     var listUngvien : List<dm_ungvien_cus> by mutableStateOf(mutableListOf<dm_ungvien_cus>(dm_ungvien_cus()))
+    var soluongUngVien: Int by mutableStateOf(0)
+    var indexUngVien : Int by mutableStateOf(-1)
+
   //  var listPhongVan : List<dm_ungvien_cus> by mutableStateOf(mutableListOf<dm_ungvien_cus>(dm_ungvien_cus()))
 
     var listPhongVan : List<dm_ungvien_cus> by mutableStateOf(mutableListOf<dm_ungvien_cus>(dm_ungvien_cus()))
-
     var soluongPhongVan: Int by mutableStateOf(0)
-    var soluongUngVien: Int by mutableStateOf(0)
+    var isShowHenPhongVan: Boolean by mutableStateOf(false)
+
+    private val _diadiem_henphongvan = MutableLiveData<String>()
+    val diadiem_henphongvan : LiveData<String> = _diadiem_henphongvan
+    fun onChangedDiaDiemHenPhongVan(diadiem_henphongvan: String)
+    {
+        _diadiem_henphongvan.value = diadiem_henphongvan
+
+    }
+
+    private val _link_phongvan_online = MutableLiveData<String>()
+    val link_phongvan_online : LiveData<String> = _link_phongvan_online
+    fun onChangedLinkPhongVanOnline(link_phongvan_online: String)
+    {
+        _link_phongvan_online.value = link_phongvan_online
+
+    }
+
+    private val _is_phongvan_online = MutableLiveData<Boolean>()
+    val is_phongvan_online : LiveData<Boolean> = _is_phongvan_online
+    fun onChangedIsPhongVanOnline(is_phongvan_online: Boolean) {
+        _is_phongvan_online.value = is_phongvan_online
+
+    }
 
 
-    var indexUngVien : Int by mutableStateOf(-1)
-
-//    private var _listUngvien = MutableLiveData<List<dm_ungvien_cus>>()
-//    val listUngvien: LiveData<List<dm_ungvien_cus>> = _listUngvien
-//
 
     init {
 
-
         loadData()
-
 
     }
 
 
     fun chonPhongVan(para_dm_ungvien_cus: dm_ungvien_cus) {
 
+
         //Cho phép hiệu ứng
         para_dm_ungvien_cus.isAnimatedVisibility.value = false
 
         //Loại bỏ dòng đã chọn
         this.listUngvien.drop(this.listUngvien.indexOf(para_dm_ungvien_cus))
+
+
         //Thêm vào danh sách phỏng vấn
+        listPhongVan += para_dm_ungvien_cus
 
-        // this.listPhongVan.set(para_dm_ungvien_cus)
-        //Tăng số lượng phỏng vấn
-        soluongPhongVan += 1
+        //Thiết lập lại số lượng phỏng vấn
+        soluongPhongVan = listPhongVan.size
 
-        val newList = mutableListOf<dm_ungvien_cus>()
-        newList.add(para_dm_ungvien_cus)
-        listPhongVan = newList
+
 
     }
 
@@ -72,12 +91,12 @@ class ThongTinUngVienViewModel @Inject constructor (
 
         this.listUngvien =  mutableListOf<dm_ungvien_cus> (
 
-            dm_ungvien_cus(ten_uv = "Ung72 vien 1"),
-            dm_ungvien_cus(ten_uv = "Ung72 vien 2"),
-            dm_ungvien_cus(ten_uv = "Ung72 vien 3"),
-            dm_ungvien_cus(ten_uv = "Ung72 vien 4"),
-            dm_ungvien_cus(ten_uv = "Ung72 vien 5"),
-            dm_ungvien_cus(ten_uv = "Ung72 vien 6"),
+            dm_ungvien_cus(ten_uv = "Ung72 vien 1", email = "email1@gmail.com"),
+            dm_ungvien_cus(ten_uv = "Ung72 vien 2", email = "email2@gmail.com"),
+            dm_ungvien_cus(ten_uv = "Ung72 vien 3", email = "email3@gmail.com"),
+            dm_ungvien_cus(ten_uv = "Ung72 vien 4", email = "email4@gmail.com"),
+            dm_ungvien_cus(ten_uv = "Ung72 vien 5", email = "email5@gmail.com"),
+            dm_ungvien_cus(ten_uv = "Ung72 vien 6", email = "email6@gmail.com"),
         )
 
 

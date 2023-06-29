@@ -79,6 +79,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.rounded.AccountBox
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -97,6 +98,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.load.model.ModelLoader.LoadData
 import com.example.myapplicationjetpackcompose.Destination
+import com.example.myapplicationjetpackcompose.lookup.chucvu.LookupChucVuScreen
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
 import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
 import kotlinx.coroutines.delay
@@ -195,9 +197,15 @@ fun ThongTinUngVienScreen (
                 modifier = Modifier.padding(it)
             )  {
 
+                Divider()
                 Row() {
 
-                    Button(onClick = { /*TODO*/ }) {
+
+                    Button(onClick = {
+
+                        viewModel.isShowHenPhongVan = true
+
+                    }) {
                         Text(text = viewModel.soluongPhongVan.toString() + "/" + viewModel.soluongUngVien.toString())
                     }
 
@@ -249,6 +257,13 @@ fun ThongTinUngVienScreen (
         }
 
     )
+
+    if (viewModel.isShowHenPhongVan ) {
+        ThongTinUngVienHenPhongVanScreen(
+            viewModel = viewModel,
+
+        )
+    }
 
 
 
