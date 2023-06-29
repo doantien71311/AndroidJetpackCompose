@@ -20,12 +20,9 @@ object url_api {
     const val authenticate_encryptDES: String = "api/Authenticate/EncryptDES"
     const val hethong_layds_menu_app: String = "api/hethong/layds-menu-app"
 
-
     const val tb_nhanvien_thietbi_insert: String = "api/tb-nhanvien-thietbi/insert"
 
-
     const val danhsach_danhmuc_chucvu_datatable: String = "api/danhsach-danhmuc/chucvu-datatable"
-
 
 
 }

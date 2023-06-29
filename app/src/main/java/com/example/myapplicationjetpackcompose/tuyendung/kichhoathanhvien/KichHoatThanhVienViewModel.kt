@@ -27,6 +27,8 @@ class KichHoatThanhVienViewModel @Inject constructor(
      //private val lookupChucVuViewModel: LookupChucVuViewModel
     ): ViewModel() {
 
+
+
     //var dm_ungvien_cus: dm_ungvien_cus by mutableStateOf(dm_ungvien_cus())
 
    // var dm_ungvien_cus : dm_ungvien_cus = dm_ungvien_cus()

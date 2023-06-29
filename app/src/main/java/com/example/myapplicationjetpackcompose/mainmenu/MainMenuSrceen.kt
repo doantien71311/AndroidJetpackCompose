@@ -125,7 +125,6 @@ fun MainMenuSrceen (
                                     text = item.ten_chucnang ?: "",
                                     //  modifier = Modifier.align(Alignment.CenterHorizontally)
 
-
                                 )
                                 RowsCarMenuSrceen(
                                     navController,

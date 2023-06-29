@@ -119,9 +119,12 @@ fun KichHoatThanhVienScreen (
 
             Column (
 
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier.fillMaxSize()
+                    .background(Color.Red),
+                //verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween,
+
             )
             {
                 Box(modifier = Modifier.fillMaxSize())
@@ -137,18 +140,16 @@ fun KichHoatThanhVienScreen (
                         }
                     }
 
-
                     Row(
                         modifier = Modifier
-//                            .padding(horizontal = 40.dp),
-//                        verticalAlignment = Alignment.Top,
-//                        horizontalArrangement = Arrangement.Center
-                            .padding(50.dp)
+                            .padding(
+
+                            )
                             .fillMaxWidth()
-
-                            .background(Color.Gray),
+                            .background(Color.Gray)
+                           ,
                         horizontalArrangement = Arrangement.Center,
-
+                        verticalAlignment = Alignment.CenterVertically,
                     )
 
                     {
@@ -180,6 +181,8 @@ fun KichHoatThanhVienScreen (
 
 
                 }
+
+
 
 
 

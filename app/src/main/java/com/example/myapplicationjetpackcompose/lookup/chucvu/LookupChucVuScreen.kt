@@ -111,10 +111,15 @@ fun LookupChucVuScreen (
 
                     LazyColumn(
                         modifier = Modifier
-                            // .background(Color.Red)
+                           // .background(Color.Red)
                             .fillMaxSize()
                             // .verticalScroll(state = rememberScrollState())
-                            .padding(it)
+                            .padding (
+
+                                top =  20.dp,
+                                bottom = 20.dp
+
+                            )
                         ,
                         //verticalArrangement = Arrangement.spacedBy(0.dp)
                         verticalArrangement = Arrangement.Top,

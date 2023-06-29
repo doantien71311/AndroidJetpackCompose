@@ -69,7 +69,11 @@ import kotlinx.coroutines.launch
 
 
 import androidx.compose.animation.core.*
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.scaleIn
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -82,6 +86,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.composed
+
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 
@@ -93,6 +98,7 @@ import androidx.compose.ui.unit.dp
 import com.bumptech.glide.load.model.ModelLoader.LoadData
 import com.example.myapplicationjetpackcompose.Destination
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
+import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
 import kotlinx.coroutines.delay
 
 
@@ -101,11 +107,9 @@ import kotlinx.coroutines.delay
 @Composable
 fun ThongTinUngVienScreen (
     navController: NavController,
-    context : Context
+    context : Context,
+    viewModel : ThongTinUngVienViewModel = hiltViewModel()
 ) {
-
-    val thongTinUngVienViewModel : ThongTinUngVienViewModel = hiltViewModel()
-    thongTinUngVienViewModel.loadData()
 
         Scaffold(
 
@@ -121,18 +125,23 @@ fun ThongTinUngVienScreen (
                     }
                 },
                 actions = {
-                    // RowScope here, so these icons will be placed horizontally
-                    IconButton(onClick = {
-                        navController.navigate(MainMenuDestination.NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet.route)
-                    }) {
-                        Icon(Icons.Rounded.AccountBox, contentDescription = null)
-                    }
-                    IconButton(onClick = {  }) {
-                        Icon(Icons.Rounded.ArrowBack, contentDescription = null)
-                    }
-                    IconButton(onClick = {  }) {
-                        Icon(Icons.Rounded.ArrowBack, contentDescription = null)
-                    }
+//                    // RowScope here, so these icons will be placed horizontally
+//                    IconButton(
+//                        onClick = {
+//                        navController.navigate(MainMenuDestination.NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet.route)
+//                    }
+//                    ) {
+//                        Icon(Icons.Rounded.AccountBox, contentDescription = null)
+//
+//                    }
+
+
+//                    IconButton(onClick = {  }) {
+//                        Icon(Icons.Rounded.ArrowBack, contentDescription = null)
+//                    }
+//                    IconButton(onClick = {  }) {
+//                        Icon(Icons.Rounded.ArrowBack, contentDescription = null)
+//                    }
 
                 }
             )
@@ -144,52 +153,98 @@ fun ThongTinUngVienScreen (
             }
 
             LaunchedEffect(key1 = true ) {
-                delay(3000)
+                delay(2000)
                 isLoading = false
 
             }
 
-            val n = 100
-            val para: List<Int> = List(n) { 0 }
+//            val n = 100
+//            val para: List<Int> = List(n) { 0 }
 
             val scrollState = rememberLazyListState()
             LaunchedEffect(Unit) {
-                delay(2000)
-                if (thongTinUngVienViewModel.indexUngVien > -1) {
-                    scrollState.scrollToItem(thongTinUngVienViewModel.indexUngVien, n)
-                }
+
+                delay(1000)
+//                if (viewModel.indexUngVien > -1) {
+//                    scrollState.scrollToItem(viewModel.indexUngVien, 4)
+//                }
+
             }
 
-            Column()  {
+//            AnimatedVisibility(
+//                visible = !isLoading,
+//                enter = expandVertically(
+//                    // Expand from the top.
+//                    expandFrom = Alignment.Top,
+//                    // Overwrites the default animation with tween
+//                    animationSpec = tween(durationMillis = 5000)
+//                ) + fadeIn(
+//                    // Fade in with the initial alpha of 0.3f.
+//                    //initialAlpha = 0.3f,
+//                    //initialAlpha = 0.0f,
+//                    // Overwrites the default animation with tween
+//                    //animationSpec = tween(durationMillis = 20000)
+//                ),
+//                exit = slideOutVertically() + shrinkVertically() + fadeOut()
+//            ) {
 
-                LazyColumn(
-                    state = scrollState,
-                    modifier = Modifier
-                        .background(Color.Red)
-                    // .fillMaxSize()
-                    // .verticalScroll(state = rememberScrollState())
-                    //.padding(it)
-                    ,
-                    //verticalArrangement = Arrangement.spacedBy(0.dp)
-                    verticalArrangement = Arrangement.Center,
-                    //horizontalAlignment = Alignment.CenterHorizontally
 
-                ) {
 
-                    itemsIndexed(
-                        items = para
-                    ) { index, item ->
 
-                        ThongTinUngVienItemsScreen(
-                            navController,
-                            context,
-                            index
-                        )
+            Column(
+                modifier = Modifier.padding(it)
+            )  {
+
+                Row() {
+
+                    Button(onClick = { /*TODO*/ }) {
+                        Text(text = viewModel.soluongPhongVan.toString() + "/" + viewModel.soluongUngVien.toString())
+                    }
+
+                    Button(onClick = {
+
+                        viewModel.loadData()
+
+                    }) {
+                        Text(text = "Bỏ chọn")
+                    }
+
+                }
+                    LazyColumn(
+                        state = scrollState,
+                        modifier = Modifier
+                            .background(Color.Red)
+                        // .fillMaxSize()
+                        // .verticalScroll(state = rememberScrollState())
+                        //.padding(it)
+                        ,
+                        //verticalArrangement = Arrangement.spacedBy(0.dp)
+                        verticalArrangement = Arrangement.Center,
+                        //horizontalAlignment = Alignment.CenterHorizontally
+
+                    ) {
+
+                        itemsIndexed(
+                            items = viewModel.listUngvien
+                        ) { index, item ->
+
+                            ThongTinUngVienItemsScreen(
+                                navController,
+                                context,
+                                0,
+                                viewModel,
+                                item
+
+                            )
+                        }
+
                     }
 
                 }
 
-            }
+           // }
+
+
 
         }
 
@@ -250,11 +305,12 @@ fun LoadingForm (
                     ShimmerListItem (
                         isLoadding = isLoading,
                         contentAfterLoading = {
-                            ThongTinUngVienItemsScreen(
-                                navController,
-                                context,
-                                index
-                            )
+//                            ThongTinUngVienItemsScreen(
+//                                navController,
+//                                context,
+//                                index,
+//                                dm_ungvien_cus()
+//                            )
                         },
                         modifier = Modifier
                             .fillMaxWidth()

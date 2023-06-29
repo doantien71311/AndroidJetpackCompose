@@ -1,5 +1,7 @@
 package com.example.myapplicationjetpackcompose.model
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import com.google.type.DateTime
 import java.util.UUID
@@ -71,6 +73,9 @@ data class dm_ungvien_cus (
     var is_thamgia_hoithao: String?  = null,
     var is_banhang: String?  = null,
     var is_nhaptay: String?  = null,
+
+    //
+    var isAnimatedVisibility: MutableState<Boolean> = mutableStateOf(true),
 )
 
 data class response_dm_ungvien_cus (
