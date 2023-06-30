@@ -80,6 +80,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.rounded.AccountBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.TopAppBarDefaults
 
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -126,6 +127,9 @@ fun ThongTinUngVienScreen (
                         Icon(Icons.Rounded.ArrowBack, "Back")
                     }
                 },
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                ),
                 actions = {
 //                    // RowScope here, so these icons will be placed horizontally
 //                    IconButton(

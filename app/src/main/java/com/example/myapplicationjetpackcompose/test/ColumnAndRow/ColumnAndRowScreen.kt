@@ -58,7 +58,7 @@ fun ColumnAndRowScreen (
             Column(
                 modifier = Modifier
                     .background(Color.Green)
-                    .height(800.dp)
+                    .height(500.dp)
                      .width(300.dp),
 
                 verticalArrangement = Arrangement.Center
@@ -85,16 +85,16 @@ fun ColumnAndRowScreen (
                     .padding(
 //                        start = 50.dp,
 //                        end = 100.dp,
-                        bottom = 50.dp
+                      //  bottom = 50.dp
                     )
                     .height(100.dp)
-                    .width(100.dp)
+                    .width(500.dp)
 
                     .align(
                         alignment = Alignment.CenterHorizontally
                     ),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.Bottom
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
 
             ) {
                 Button(

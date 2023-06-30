@@ -28,6 +28,9 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessibilityNew
+import androidx.compose.material.icons.filled.AddIcCall
+import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
@@ -35,6 +38,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.AccountBox
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.OnlinePrediction
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -49,6 +53,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -61,6 +67,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -108,6 +117,9 @@ fun KichHoatThanhVienScreen (
                         Icon(Icons.Rounded.ArrowBack, "Back")
                     }
                 },
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                      containerColor = MaterialTheme.colorScheme.primaryContainer
+                )
             )
         },
         content = {
@@ -119,36 +131,90 @@ fun KichHoatThanhVienScreen (
 
 
 
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+
+            ) {
 
 
-                    Column( modifier = Modifier
+                Column(
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color.Yellow),
-                        verticalArrangement = Arrangement.SpaceBetween,
-                    ) {
+                        ,
+                    verticalArrangement = Arrangement.SpaceBetween,
+                ) {
 
-                        HorizontalPager(
-                            pageCount = 3,
-                            state = horizontalPagerState
-                        ) { currentPage ->
-                            when (currentPage) {
+                    HorizontalPager(
+                        pageCount = 3,
+                        state = horizontalPagerState
+                    ) { currentPage ->
+                        when (currentPage) {
 
-                                0 -> ThongTinNguoiTuyenDungScreen(horizontalPagerState, scope)
-                                1 -> ThongTinThanhVienScreen(horizontalPagerState, scope)
-                                2 -> ThongTinNganHangScreen(
-                                    horizontalPagerState,
-                                    scope,
-                                    viewModel,
-                                    dm_ungvien_cus
-                                )
+                            0 -> ThongTinNguoiTuyenDungScreen(horizontalPagerState, scope)
+                            1 -> ThongTinThanhVienScreen(horizontalPagerState, scope)
+                            2 -> ThongTinNganHangScreen(
+                                horizontalPagerState,
+                                scope,
+                                viewModel,
+                                dm_ungvien_cus
+                            )
 
-                            }
                         }
-
-                        ThongTinNguoiTuyenDungNutScreen(horizontalPagerState, scope)
                     }
 
+                }
 
+                // ThongTinNguoiTuyenDungNutScreen(horizontalPagerState, scope)
+
+                val pageItems = listOf<Int>(0,1,2)
+
+                Row(
+                    modifier = Modifier
+
+                        .align(
+                            alignment = Alignment.BottomCenter
+                        )
+                    ,
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.Bottom
+                )
+
+                {
+                    pageItems.forEachIndexed { index, item ->
+
+                        Canvas(
+                            modifier = Modifier
+                                .size(50.dp)
+                                .padding(10.dp)
+                                .clickable {
+                                    scope.launch {
+                                        horizontalPagerState.scrollToPage(index)
+                                    }
+                                },
+                            onDraw = {
+//                                drawCircle(
+//                                    color = Color.Green,
+//                                    radius = this.size.minDimension / 2.0f
+//                                )
+                                drawCircle(
+                                    color =  if (horizontalPagerState.currentPage==index)
+                                        Color.Green
+                                        else
+                                        Color.LightGray
+                                    ,
+                                    radius = if (horizontalPagerState.currentPage==index)
+                                        this.size.minDimension / 2.0f
+                                            else
+                                        this.size.minDimension / 3.0f
+                                )
+                            }
+                        )
+                    }
+
+                }
+
+            }
 
         }
 
@@ -169,7 +235,7 @@ fun ThongTinNguoiTuyenDungNutScreen ( horizontalPagerState: PagerState, scope: C
 //                top = 10.dp
 //            )
 //            .align(
-//                alignment = Alignment.CenterHorizontally
+//                alignment = Alignment.BottomCenter
 //            )
             ,
         horizontalArrangement = Arrangement.Center,
@@ -244,6 +310,12 @@ fun ThongTinNguoiTuyenDungScreen ( horizontalPagerState: PagerState, scope: Coro
                 maxLines = 1,
                 value = ma_nsd.value,
                 onValueChange =  { ma_nsd.value = it },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.AccountCircle,
+                        contentDescription = null
+                    )
+                }
 
             )
 
@@ -259,20 +331,15 @@ fun ThongTinNguoiTuyenDungScreen ( horizontalPagerState: PagerState, scope: Coro
                 value = ma_nsd.value,
                 onValueChange =  { ma_nsd.value = it },
 
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.AccessibilityNew,
+                        contentDescription = null
+                    )
+                }
+
                 )
 
-//            Spacer(modifier = Modifier.height(20.dp))
-//
-//            Button(onClick = {
-//
-//                scope.launch {
-//                    horizontalPagerState.scrollToPage(1,0f)
-//                }
-//
-//
-//            }) {
-//                Text(text = "Tiếp theo")
-//            }
 
         }
 
@@ -319,7 +386,12 @@ fun ThongTinThanhVienScreen (horizontalPagerState: PagerState, scope: CoroutineS
                 maxLines = 1,
                 value = ma_nsd2.value,
                 onValueChange =  { ma_nsd2.value = it },
-
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.AccessibilityNew,
+                        contentDescription = null
+                    )
+                }
                 )
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -336,6 +408,12 @@ fun ThongTinThanhVienScreen (horizontalPagerState: PagerState, scope: CoroutineS
                 maxLines = 1,
                 value = ma_nsd2.value,
                 onValueChange =  { ma_nsd2.value = it },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Call,
+                        contentDescription = null
+                    )
+                }
                 )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -354,6 +432,14 @@ fun ThongTinThanhVienScreen (horizontalPagerState: PagerState, scope: CoroutineS
                 maxLines = 1,
                 value = ma_nsd2.value,
                 onValueChange =  { ma_nsd2.value = it },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.AddIcCall,
+                        contentDescription = null
+                    )
+                },
+               isError = true
+
 
                 )
             Spacer(modifier = Modifier.height(20.dp))
@@ -377,14 +463,14 @@ fun ThongTinNganHangScreen (
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Gray)
+
     )
     {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .background(color = Color.Gray),
+                ,
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -396,7 +482,7 @@ fun ThongTinNganHangScreen (
 //                modifier = Modifier
 //                    .fillMaxWidth()
 //                    .padding(
-//                        start = 10.dp,
+//                        start = 10.dpR
 //                        end = 10.dp
 //                    ),
 //                singleLine = true,
@@ -439,8 +525,48 @@ fun ThongTinNganHangScreen (
 
                     Text(text = "Chức vụ")
                     Divider()
-                    Text(text = dm_ungvien_cus.vitri_ungtuyen ?: "")
-                    Text(text = "dsadsadsadsadasd")
+
+                    Row (   modifier = Modifier
+
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .clickable {
+                            viewModel.lookupChucVu.isShowLookup = true
+                        }
+                        ,
+                        horizontalArrangement = Arrangement.Start,
+                        verticalAlignment = Alignment.CenterVertically) {
+
+                        Text(
+                            text = dm_ungvien_cus.vitri_ungtuyen ?: "",
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .width(50.dp)
+                                .clip(RoundedCornerShape(50.dp))
+                                .background(Color.Gray)
+                                .padding(
+                                    start = 5.dp,
+                                    end = 5.dp,
+                                    bottom = 5.dp,
+                                    top = 13.dp,
+                                ),
+                            textAlign = TextAlign.Center,
+                            fontStyle = FontStyle.Normal,
+                            fontWeight = FontWeight.Bold,
+
+                        )
+
+                        Text(
+                            text = "TƯ VẤN TÀI CHÌNH TƯ VẤN TÀI CHÌNH TƯ VẤN TÀI CHÌNH TƯ VẤN TÀI CHÌNH TƯ VẤN TÀI CHÌNH TƯ VẤN TÀI CHÌNH",
+                            fontStyle = FontStyle.Italic,
+                            fontWeight = FontWeight.Bold
+
+                        )
+
+                    }
+
+
+
 
                 }
             }

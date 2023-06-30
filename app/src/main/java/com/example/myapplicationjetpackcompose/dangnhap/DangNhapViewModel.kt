@@ -1,9 +1,11 @@
 package com.example.myapplicationjetpackcompose.dangnhap
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -44,6 +46,9 @@ class DangNhapViewModel @Inject constructor(
 
     var login_enable : Boolean by mutableStateOf(false)
 
+    var isValidation : Boolean by mutableStateOf(true)
+    var messs : String by mutableStateOf("")
+
     fun onMaNsdChanged(ma_nsd: String)
     {
         _ma_nsd.value = ma_nsd.uppercase()
@@ -64,6 +69,17 @@ class DangNhapViewModel @Inject constructor(
 
     fun KiemTra_NSD()
     {
+        isValidation = true
+        messs = ""
+
+        if (this._mat_khau.value.isNullOrBlank())
+        {
+            isValidation = false
+            messs = "Mật khẩu trống"
+            return
+        }
+
+
         viewModelScope.launch {
 
         RetrofitService.IRetrofitService

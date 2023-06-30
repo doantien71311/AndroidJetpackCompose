@@ -25,8 +25,11 @@ import javax.inject.Inject
 class KichHoatThanhVienViewModel @Inject constructor(
     private val dataStoreServies: IDataStoreServies,
      //private val lookupChucVuViewModel: LookupChucVuViewModel
+
     ): ViewModel() {
 
+    var state by mutableStateOf(RegistrationFormState())
+    private val validateEmail : ValidateEmail = ValidateEmail()
 
 
     //var dm_ungvien_cus: dm_ungvien_cus by mutableStateOf(dm_ungvien_cus())
@@ -87,14 +90,16 @@ class KichHoatThanhVienViewModel @Inject constructor(
 
             _dm_ungvien_cus.value?.vitri_ungtuyen = lookupChucVu.rowData.ma_chucvu.toString()
 
-//            if (lookupChucVu.isShowLookup) {
-//
-//                //Gán giá trị
-//                _dm_ungvien_cus.value?.vitri_ungtuyen = lookupChucVu.rowData.ma_chucvu.toString()
-//
-//            }
-
         }
+
+    }
+
+
+    fun kichHoatTaoKhan()
+    {
+        val emailResult = validateEmail.execute(state.email)
+
+
 
     }
 

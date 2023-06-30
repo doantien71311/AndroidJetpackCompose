@@ -2,6 +2,7 @@ package com.example.myapplicationjetpackcompose.dangnhap
 
 
 import android.content.Intent
+import android.view.Gravity
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -73,6 +74,22 @@ fun DangNhapPage(
     if (viewModel.login_enable) {
         val ctx = LocalContext.current
         ctx.startActivity(Intent(ctx, MainMenuActivity::class.java))
+    }
+
+    if (!viewModel.isValidation) {
+
+        Toast.makeText(LocalContext.current,
+            viewModel.messs,
+            Toast.LENGTH_LONG).apply {
+
+            setGravity(Gravity.BOTTOM,0, 0)
+                show()
+
+
+        }
+
+
+
     }
 
 Card(
@@ -242,6 +259,7 @@ Card(
 
                                 }
                             },
+                            isError = true,
                         )
 
 
