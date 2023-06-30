@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -115,84 +116,96 @@ fun KichHoatThanhVienScreen (
             val horizontalPagerState = rememberPagerState()
             val verticalPagerState = rememberPagerState()
             val scope = rememberCoroutineScope()
-            val pageItems = listOf<Int>(0,1,2)
 
-            Column (
 
-                modifier = Modifier.fillMaxSize()
-                    .background(Color.Red),
-                //verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceBetween,
 
-            )
-            {
-                Box(modifier = Modifier.fillMaxSize())
-                {
 
-                    HorizontalPager(pageCount = 3, state = horizontalPagerState) { currentPage ->
-                        when (currentPage) {
 
-                            0 -> ThongTinNguoiTuyenDungScreen(horizontalPagerState, scope)
-                            1 -> ThongTinThanhVienScreen(horizontalPagerState, scope)
-                            2 -> ThongTinNganHangScreen(horizontalPagerState, scope, viewModel, dm_ungvien_cus)
+                    Column( modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.Yellow),
+                        verticalArrangement = Arrangement.SpaceBetween,
+                    ) {
 
-                        }
-                    }
+                        HorizontalPager(
+                            pageCount = 3,
+                            state = horizontalPagerState
+                        ) { currentPage ->
+                            when (currentPage) {
 
-                    Row(
-                        modifier = Modifier
-                            .padding(
+                                0 -> ThongTinNguoiTuyenDungScreen(horizontalPagerState, scope)
+                                1 -> ThongTinThanhVienScreen(horizontalPagerState, scope)
+                                2 -> ThongTinNganHangScreen(
+                                    horizontalPagerState,
+                                    scope,
+                                    viewModel,
+                                    dm_ungvien_cus
+                                )
 
-                            )
-                            .fillMaxWidth()
-                            .background(Color.Gray)
-                           ,
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically,
-                    )
-
-                    {
-                        pageItems.forEachIndexed { index, item ->
-
-                            Canvas(
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(10.dp)
-                                    .clickable {
-                                        scope.launch {
-                                            horizontalPagerState.scrollToPage(index)
-                                        }
-                                    },
-                                onDraw = {
-                                    drawCircle(
-                                        color = Color.White,
-                                        radius = this.size.minDimension / 2.0f
-                                    )
-                                    drawCircle(
-                                        color = Color.Green,
-                                        radius = this.size.minDimension / 3.0f
-                                    )
-                                }
-                            )
+                            }
                         }
 
+                        ThongTinNguoiTuyenDungNutScreen(horizontalPagerState, scope)
                     }
 
 
-                }
 
-
-
-
-
-            }
         }
 
     )
 
 
 }
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@Composable
+fun ThongTinNguoiTuyenDungNutScreen ( horizontalPagerState: PagerState, scope: CoroutineScope)
+{
+    val pageItems = listOf<Int>(0,1,2)
+
+    Row(
+        modifier = Modifier
+            .background(Color.Gray)
+//            .padding(
+//                top = 10.dp
+//            )
+//            .align(
+//                alignment = Alignment.CenterHorizontally
+//            )
+            ,
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.Bottom
+    )
+
+    {
+        pageItems.forEachIndexed { index, item ->
+
+            Canvas(
+                modifier = Modifier
+                    .size(50.dp)
+                    .padding(10.dp)
+                    .clickable {
+                        scope.launch {
+                            horizontalPagerState.scrollToPage(index)
+                        }
+                    },
+                onDraw = {
+                    drawCircle(
+                        color = Color.White,
+                        radius = this.size.minDimension / 2.0f
+                    )
+                    drawCircle(
+                        color = Color.Green,
+                        radius = this.size.minDimension / 3.0f
+                    )
+                }
+            )
+        }
+
+    }
+
+}
+
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun ThongTinNguoiTuyenDungScreen ( horizontalPagerState: PagerState, scope: CoroutineScope)
