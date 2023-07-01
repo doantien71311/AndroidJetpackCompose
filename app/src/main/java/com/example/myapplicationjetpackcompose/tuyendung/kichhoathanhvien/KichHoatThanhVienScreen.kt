@@ -2,6 +2,7 @@ package com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien
 
 import android.annotation.SuppressLint
 import android.provider.Settings.Global
+import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateIntOffsetAsState
@@ -55,7 +56,9 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -67,24 +70,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
+
 import androidx.navigation.NavController
-import androidx.navigation.navOptions
+
+import com.example.myapplicationjetpackcompose.MainViewModel
 import com.example.myapplicationjetpackcompose.lookup.chucvu.LookupChucVuScreen
-import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
-import com.example.myapplicationjetpackcompose.model.dm_chucvu_ds
+
 import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
-import com.example.myapplicationjetpackcompose.tuyendung.phongvan.ThongTinPhongVanScreenItem
-import com.google.type.DateTime
+
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
+
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -103,6 +104,31 @@ fun KichHoatThanhVienScreen (
 {
 
     val dm_ungvien_cus : dm_ungvien_cus by viewModel.dm_ungvien_cus.observeAsState(initial = dm_ungvien_cus())
+
+    val context = LocalContext.current
+    LaunchedEffect(key1 = context )
+    {
+        viewModel.validationEvents.collect { event ->
+
+            when (event) {
+                is KichHoatThanhVienViewModel.ValidationEvent.Success -> {
+
+                    Toast.makeText(
+                        context,
+                        "Kích hoạt thành công",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                }
+
+
+            }
+        }
+
+
+    }
+
+
 
     Scaffold(
 
@@ -420,30 +446,8 @@ fun ThongTinThanhVienScreen (horizontalPagerState: PagerState, scope: CoroutineS
             Divider()
             Spacer(modifier = Modifier.height(20.dp))
 
-            TextField (
-                label = { Text(text = "Email") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = 10.dp,
-                        end = 10.dp
-                    ),
-                singleLine = true,
-                maxLines = 1,
-                value = viewModel.state.email?:"",
-                onValueChange = {
-                    viewModel.handleEvent(KichHoatThanhVienEvent.EmailChanged(it))
-                },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.AddIcCall,
-                        contentDescription = null
-                    )
-                },
-               isError = true
+            ThongTinThanhVienEmail(viewModel)
 
-
-                )
             Spacer(modifier = Modifier.height(20.dp))
             Divider()
         }
@@ -451,6 +455,46 @@ fun ThongTinThanhVienScreen (horizontalPagerState: PagerState, scope: CoroutineS
 
     }
 }
+
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@Composable
+fun ThongTinThanhVienEmail(viewModel: KichHoatThanhVienViewModel)
+{
+
+    TextField (
+        label = { Text(text = "Email") },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = 10.dp,
+                end = 10.dp
+            ),
+        singleLine = true,
+        maxLines = 1,
+        value = viewModel.state.email?:"",
+        onValueChange = {
+            viewModel.handleEvent(KichHoatThanhVienEvent.EmailChanged(it))
+        },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.AddIcCall,
+                contentDescription = null
+            )
+        },
+        isError = viewModel.state.is_email_error
+    )
+
+    if (viewModel.state.is_email_error) {
+        Text(
+            text = viewModel.state.message_email_error,
+            color = MaterialTheme.colorScheme.error,
+            textAlign = TextAlign.Start
+        )
+    }
+}
+
+
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable

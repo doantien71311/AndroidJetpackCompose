@@ -10,6 +10,7 @@ class ValidateEmail {
 
             return ValidationResult(
                 successful = false,
+                isError = true,
                 errorMessage = "Email không được trống"
             )
 
@@ -19,6 +20,7 @@ class ValidateEmail {
 
             return ValidationResult (
                 successful = false,
+                isError = true,
                 errorMessage = "Email không đúng định dạng"
 
             )
@@ -28,6 +30,7 @@ class ValidateEmail {
         return ValidationResult(
 
             successful = true,
+            isError = false,
             errorMessage = ""
         )
 

@@ -1,24 +1,19 @@
 package com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplicationjetpackcompose.lookup.chucvu.LookupChucVuViewModel
 import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
-import com.example.myapplicationjetpackcompose.model.ht_dm_nsd
 import com.example.myapplicationjetpackcompose.services.IDataStoreServies
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,30 +23,42 @@ class KichHoatThanhVienViewModel @Inject constructor(
 
     ): ViewModel() {
 
-   // var state by mutableStateOf(RegistrationFormState())
+
+
+   var state by mutableStateOf(dm_ungvien_cus())
+
+    sealed class ValidationEvent {
+        object Success : ValidationEvent()
+
+    }
+    private val validationEventChannel = Channel<ValidationEvent>()
+    val validationEvents = validationEventChannel.receiveAsFlow()
+
     private val validateEmail : ValidateEmail = ValidateEmail()
+    private var emailResult = validateEmail.execute(state.email?:"")
 
-    var state by mutableStateOf(dm_ungvien_cus())
 
-
-//    private fun updateEmail(email: String) {
-//        uiState.value = uiState.value.copy(
-//            email = email
-//        )
-//    }
 
     fun handleEvent(kichHoatThanhVienEvent: KichHoatThanhVienEvent) {
-        when (kichHoatThanhVienEvent) {
-            is KichHoatThanhVienEvent.EmailChanged -> {
-                //updateEmail(kichHoatThanhVienEvent.emailAddress)
 
+        when (kichHoatThanhVienEvent) {
+
+            is KichHoatThanhVienEvent.EmailChanged -> {
+
+                //Thiết lập giá trị từ ui
                 state = state.copy(
-                    email = kichHoatThanhVienEvent.emailAddress
+                    email = kichHoatThanhVienEvent.emailAddress,
+                )
+
+                //Hiển thị lỗi email nếu có
+                emailResult = validateEmail.execute(state.email?:"")
+                state = state.copy(
+                    is_email_error = emailResult.isError,
+                    message_email_error = emailResult.errorMessage
                 )
 
 
             }
-
         }
     }
 
@@ -102,11 +109,7 @@ class KichHoatThanhVienViewModel @Inject constructor(
 
     }
 
-    fun kichHoatTaiKhoan() {
 
-        val dasdas = this._dm_ungvien_cus.value
-
-    }
 
 
     fun layDuLieuLookupChucVu() {
@@ -120,11 +123,47 @@ class KichHoatThanhVienViewModel @Inject constructor(
     }
 
 
-    fun kichHoatTaoKhan()
+
+    fun kichHoatTaiKhoan()
     {
-        val emailResult = validateEmail.execute(state.email?:"")
+        //Kiểm tra giá trị hợp lệ trước khi lưu
+        emailResult = validateEmail.execute(state.email?:"")
 
 
+        val hasError = listOf(
+            emailResult,
+        ).any {
+
+            it.isError
+
+        }
+
+        if (hasError) {
+
+            state = state.copy(
+                message_email_error = emailResult.errorMessage,
+                is_email_error = true,
+            )
+
+            return
+        }
+
+
+
+
+        saveData()
+
+
+    }
+
+
+    private fun saveData() {
+
+        viewModelScope.launch {
+
+            validationEventChannel.send(ValidationEvent.Success)
+
+        }
 
     }
 

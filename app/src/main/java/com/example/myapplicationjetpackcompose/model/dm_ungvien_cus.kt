@@ -80,8 +80,12 @@ data class dm_ungvien_cus (
     var is_banhang: String?  = null,
     var is_nhaptay: String?  = null,
 
-    //
+    //Tiến thêm vào để tạo hiệu ứng
     var isAnimatedVisibility: MutableState<Boolean> = mutableStateOf(true),
+
+    //Tiến thêm vào để kiểm tra lỗi email
+    var is_email_error: Boolean = true,
+    var message_email_error: String = "",
 )
 
 data class response_dm_ungvien_cus (

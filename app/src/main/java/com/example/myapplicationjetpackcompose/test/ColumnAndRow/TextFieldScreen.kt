@@ -104,9 +104,6 @@ fun TextFieldScreen (
                                 bottom = 5.dp,
                                 top = 13.dp,
                             )
-
-
-
                         ,
                         textAlign = TextAlign.Center,
                         fontStyle = FontStyle.Normal,
@@ -121,8 +118,8 @@ fun TextFieldScreen (
                             .padding(
                                 start = 10.dp
                         ),
-                        text = "TƯ VẤN TÀI CHÌNH TƯ VẤN TÀI CHÌNH TƯ VẤN TÀI CHÌNH TƯ VẤN TÀI CHÌNH TƯ VẤN TÀI CHÌNH TƯ VẤN TÀI CHÌNH",
-                       // text = "TƯ VẤN TÀI CHÌNH",
+                        //text = "TƯ VẤN TÀI CHÌNH TƯ VẤN TÀI CHÌNH TƯ VẤN TÀI CHÌNH TƯ VẤN TÀI CHÌNH TƯ VẤN TÀI CHÌNH TƯ VẤN TÀI CHÌNH",
+                        text = "TƯ VẤN TÀI CHÌNH",
                         fontStyle = FontStyle.Italic,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Start,
