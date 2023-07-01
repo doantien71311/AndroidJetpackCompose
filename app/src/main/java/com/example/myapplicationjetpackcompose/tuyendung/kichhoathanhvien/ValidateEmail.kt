@@ -8,11 +8,10 @@ class ValidateEmail {
 
         if (email.isBlank()) {
 
-            return ValidationResult (
-                 successful = false,
+            return ValidationResult(
+                successful = false,
                 errorMessage = "Email không được trống"
-
-                    )
+            )
 
         }
 

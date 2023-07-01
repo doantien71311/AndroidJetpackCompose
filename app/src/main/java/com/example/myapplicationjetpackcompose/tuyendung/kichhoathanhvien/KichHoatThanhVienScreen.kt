@@ -152,7 +152,7 @@ fun KichHoatThanhVienScreen (
                         when (currentPage) {
 
                             0 -> ThongTinNguoiTuyenDungScreen(horizontalPagerState, scope)
-                            1 -> ThongTinThanhVienScreen(horizontalPagerState, scope)
+                            1 -> ThongTinThanhVienScreen(horizontalPagerState, scope, viewModel)
                             2 -> ThongTinNganHangScreen(
                                 horizontalPagerState,
                                 scope,
@@ -348,7 +348,7 @@ fun ThongTinNguoiTuyenDungScreen ( horizontalPagerState: PagerState, scope: Coro
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun ThongTinThanhVienScreen (horizontalPagerState: PagerState, scope: CoroutineScope)
+fun ThongTinThanhVienScreen (horizontalPagerState: PagerState, scope: CoroutineScope, viewModel: KichHoatThanhVienViewModel)
 {
     val ma_nsd2 = remember {
 
@@ -430,8 +430,10 @@ fun ThongTinThanhVienScreen (horizontalPagerState: PagerState, scope: CoroutineS
                     ),
                 singleLine = true,
                 maxLines = 1,
-                value = ma_nsd2.value,
-                onValueChange =  { ma_nsd2.value = it },
+                value = viewModel.state.email?:"",
+                onValueChange = {
+                    viewModel.handleEvent(KichHoatThanhVienEvent.EmailChanged(it))
+                },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.AddIcCall,

@@ -28,8 +28,33 @@ class KichHoatThanhVienViewModel @Inject constructor(
 
     ): ViewModel() {
 
-    var state by mutableStateOf(RegistrationFormState())
+   // var state by mutableStateOf(RegistrationFormState())
     private val validateEmail : ValidateEmail = ValidateEmail()
+
+    var state by mutableStateOf(dm_ungvien_cus())
+
+
+//    private fun updateEmail(email: String) {
+//        uiState.value = uiState.value.copy(
+//            email = email
+//        )
+//    }
+
+    fun handleEvent(kichHoatThanhVienEvent: KichHoatThanhVienEvent) {
+        when (kichHoatThanhVienEvent) {
+            is KichHoatThanhVienEvent.EmailChanged -> {
+                //updateEmail(kichHoatThanhVienEvent.emailAddress)
+
+                state = state.copy(
+                    email = kichHoatThanhVienEvent.emailAddress
+                )
+
+
+            }
+
+        }
+    }
+
 
 
     //var dm_ungvien_cus: dm_ungvien_cus by mutableStateOf(dm_ungvien_cus())
@@ -97,7 +122,7 @@ class KichHoatThanhVienViewModel @Inject constructor(
 
     fun kichHoatTaoKhan()
     {
-        val emailResult = validateEmail.execute(state.email)
+        val emailResult = validateEmail.execute(state.email?:"")
 
 
 
