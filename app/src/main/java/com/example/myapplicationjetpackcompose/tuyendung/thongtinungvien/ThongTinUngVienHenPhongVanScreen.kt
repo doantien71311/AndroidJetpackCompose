@@ -267,12 +267,7 @@ fun FormHenPhongVanScreen(
 
 
 
-        Text(
 
-            text = "Thời gian nhắc nhở",
-            //  modifier = Modifier.align(Alignment.CenterHorizontally)
-
-        )
 
         ButtonXacNhanHenPhongVanScreen(viewModel)
 
@@ -522,7 +517,12 @@ fun ThoiGianHenNhacNhoScreen (
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 
+    Text(
 
+        text = "Thời gian nhắc nhở",
+        //  modifier = Modifier.align(Alignment.CenterHorizontally)
+
+    )
 
     Spacer(modifier = Modifier.height(10.dp))
 
