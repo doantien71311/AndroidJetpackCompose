@@ -18,7 +18,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessibilityNew
 import androidx.compose.material.icons.filled.AddIcCall
+import androidx.compose.material.icons.filled.Alarm
+import androidx.compose.material.icons.filled.CalendarViewDay
 import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.SettingsSystemDaydream
+import androidx.compose.material.icons.filled.Timelapse
+import androidx.compose.material.icons.filled.Timeline
+import androidx.compose.material.icons.filled.Timer
+import androidx.compose.material.icons.filled.Today
+import androidx.compose.material.icons.filled.ViewDay
 import androidx.compose.material.icons.outlined.Abc
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.OnlinePrediction
@@ -147,7 +156,7 @@ fun TextFieldScreen (
 
                     leadingIcon = {
                         Icon(
-                            imageVector = Icons.Default.AccessibilityNew,
+                            imageVector = Icons.Default.Timer,
                             contentDescription = null
                         )
                     }
