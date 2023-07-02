@@ -27,19 +27,26 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AlarmAdd
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.Today
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.LocalPostOffice
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.OnlinePrediction
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -48,11 +55,13 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -86,7 +95,6 @@ fun ThongTinUngVienHenPhongVanScreen(
         )
     {
         Scaffold(
-
             topBar = {
                 TopAppBar(
                     title = { Text(text = "Hẹn phỏng vấn") },
@@ -98,9 +106,14 @@ fun ThongTinUngVienHenPhongVanScreen(
                             Icon(Icons.Default.Clear, "Thoát")
                         }
                     },
+                    colors = TopAppBarDefaults.smallTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer
+                    ),
                 )
             },
+
             content = {
+
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -112,7 +125,8 @@ fun ThongTinUngVienHenPhongVanScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .fillMaxHeight()
+                            //.fillMaxHeight()
+                           //.verticalScroll(rememberScrollState())
 
                     )
                     {
@@ -120,7 +134,6 @@ fun ThongTinUngVienHenPhongVanScreen(
                         UngVienDanhSachEmailhHenPhongVanScreen(viewModel)
 
                         FormHenPhongVanScreen(viewModel)
-
 
 
                     }
@@ -141,27 +154,28 @@ fun UngVienDanhSachEmailhHenPhongVanScreen(
     viewModel: ThongTinUngVienViewModel
 )
 {
-    Row (
+
+    Column (
 
         modifier = Modifier
             .padding(
-                //bottom = 10.dp,
-                // top = 10.dp,
-                // start = 5.dp,
-                // end = 5.dp,
-                // it
-
             )
+            .height(200.dp)
             .clip(RoundedCornerShape(20.dp))
             .background(color = Color.Red)
-//                        .width(500.dp)
-//                        .height(500.dp)
 
 
     ) {
-        LazyRow(
-            // modifier = Modifier.horizontalScroll(rememberScrollState()),
 
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            text = "Gởi email phỏng vấn (${viewModel.soluongPhongVan.toString()})",
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        Divider()
+
+        LazyColumn(
         ) {
             itemsIndexed(
                 items = viewModel.listPhongVan
@@ -172,16 +186,16 @@ fun UngVienDanhSachEmailhHenPhongVanScreen(
                     shape = MaterialTheme.shapes.small,
                     modifier = Modifier
                         .padding(
-                            //bottom = 10.dp,
-                            // top = 10.dp,
+                            bottom = 5.dp,
+                            top = 5.dp,
                             start = 5.dp,
                             end = 5.dp
 
                         )
-                        .clip(RoundedCornerShape(20.dp))
+                        //.clip(RoundedCornerShape(20.dp))
                         .background(color = Color.Blue)
-                        .width(100.dp)
-                        .height(100.dp)
+                        .fillMaxWidth()
+                        .height(50.dp)
                         .animateContentSize()
 
                 )
@@ -194,12 +208,20 @@ fun UngVienDanhSachEmailhHenPhongVanScreen(
 //                                        )
                             //.width(100.dp)
                             //.height(50.dp)
-                            .fillMaxSize()
+                            .fillMaxWidth()
                             .background(color = Color.Green)
                         // .align(Alignment.CenterHorizontally)
 
                     ) {
-                        Text(text = item.email ?: "")
+                        Text(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(
+                                    start = 10.dp
+                                )
+                            ,
+                            text = item.email ?: ""
+                        )
                     }
                 }
 
@@ -217,47 +239,11 @@ fun FormHenPhongVanScreen(
     viewModel: ThongTinUngVienViewModel
 ) {
 
-    val link_phongvan_online_value: String by viewModel.link_phongvan_online.observeAsState(initial = "")
-    val is_phongvan_online_value: Boolean by viewModel.is_phongvan_online.observeAsState(initial = false)
+        CheckedOnlineHenPhongVanScreen(viewModel)
 
-    Column() {
-
-        Row() {
-            Text(
-                text = "Phỏng vấn online",
-                style = MaterialTheme.typography.bodyLarge,
-                textAlign = TextAlign.Left
-            )
-            Switch(
-                modifier = Modifier.semantics { contentDescription = "" },
-                checked = is_phongvan_online_value,
-                onCheckedChange = { viewModel.onChangedIsPhongVanOnline(it) }
-
-            )
-
-        }
-
+        LinkOnlineHenPhongVanScreen(viewModel)
 
         DiaDiemHenPhongVanScreen(viewModel)
-
-        TextField(
-
-            label = { Text(text = "Link Phỏng vấn online") },
-
-            modifier = Modifier.fillMaxWidth(),
-            value = link_phongvan_online_value,
-            singleLine = true,
-            maxLines = 1,
-            onValueChange = { viewModel.onChangedLinkPhongVanOnline(it) },
-
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Outlined.OnlinePrediction,
-                    contentDescription = null
-                )
-            }
-
-        )
 
         DatePickerHenPhongVanScreen(viewModel)
 
@@ -265,14 +251,40 @@ fun FormHenPhongVanScreen(
 
         CheckHenNhacNhoScreen(viewModel)
 
-
-
-
+        ThoiGianHenNhacNhoScreen(viewModel)
 
         ButtonXacNhanHenPhongVanScreen(viewModel)
 
 
-    }
+
+}
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@Composable()
+fun CheckedOnlineHenPhongVanScreen(
+
+    viewModel: ThongTinUngVienViewModel
+
+) {
+
+    Spacer(modifier = Modifier.height(10.dp))
+    Divider()
+    Spacer(modifier = Modifier.height(10.dp))
+
+    val checkedState = remember { mutableStateOf(true) }
+
+    Text(
+        text = "Phỏng vấn online",
+        style = MaterialTheme.typography.bodyLarge,
+        textAlign = TextAlign.Left
+    )
+
+        Checkbox(
+            checked = checkedState.value,
+            onCheckedChange = { checkedState.value = it }
+        )
+
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -330,6 +342,41 @@ fun DiaDiemHenPhongVanScreen (
         leadingIcon = {
             Icon(
                 imageVector = Icons.Outlined.LocalPostOffice,
+                contentDescription = null
+            )
+        }
+
+    )
+
+    Spacer(modifier = Modifier.height(10.dp))
+
+}
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@Composable()
+fun LinkOnlineHenPhongVanScreen (
+    viewModel: ThongTinUngVienViewModel
+
+) {
+
+    val diadiem_henphongvan_value: String by viewModel.diadiem_henphongvan.observeAsState(initial = "")
+
+    Spacer(modifier = Modifier.height(10.dp))
+
+    TextField(
+
+        label = { Text(text = "Link phỏng vấn online") },
+
+        modifier = Modifier.fillMaxWidth(),
+        value = diadiem_henphongvan_value,
+        singleLine = true,
+        maxLines = 1,
+        onValueChange = { viewModel.onChangedLinkPhongVanOnline(it) },
+
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Outlined.OnlinePrediction,
                 contentDescription = null
             )
         }
@@ -448,7 +495,7 @@ fun DatePickerHenPhongVanScreen (
 
 
 
-    Divider()
+    //Divider()
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(text = "Ngày phỏng vấn",
@@ -501,11 +548,19 @@ fun CheckHenNhacNhoScreen (
 
     val checkedState = remember { mutableStateOf(true) }
 
-    Checkbox(
-        checked = checkedState.value,
-        onCheckedChange = { checkedState.value = it }
-    )
+    Text(text="Nhắc nhở")
+    Row (
+        modifier = Modifier
+        .fillMaxWidth()
+            )
+    {
 
+        Checkbox(
+            checked = checkedState.value,
+            onCheckedChange = { checkedState.value = it }
+        )
+
+    }
     Spacer(modifier = Modifier.height(10.dp))
 
 }
@@ -514,19 +569,64 @@ fun CheckHenNhacNhoScreen (
 @Composable
 fun ThoiGianHenNhacNhoScreen (
     viewModel: ThongTinUngVienViewModel
-) {
+)
+{
     Spacer(modifier = Modifier.height(10.dp))
 
-    Text(
+    val options = listOf("Option 1", "Option 2", "Option 3", "Option 4", "Option 5")
+    var expanded by remember { mutableStateOf(false) }
+    var selectedOptionText by remember { mutableStateOf(options[0]) }
 
-        text = "Thời gian nhắc nhở",
-        //  modifier = Modifier.align(Alignment.CenterHorizontally)
+    // We want to react on tap/press on TextField to show menu
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
+        modifier = Modifier
+            .fillMaxWidth()
 
-    )
+    ) {
+        TextField(
+            // The `menuAnchor` modifier must be passed to the text field for correctness.
+            modifier = Modifier
+                .menuAnchor()
+                .fillMaxWidth(),
+            readOnly = true,
+            value = selectedOptionText,
+            onValueChange = {},
+            label = { Text("Thời gian nhắc việc trước") },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
 
-    Spacer(modifier = Modifier.height(10.dp))
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.AlarmAdd,
+                    contentDescription = null
+                )
+            },
+
+            colors = ExposedDropdownMenuDefaults.textFieldColors(),
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            options.forEach { selectionOption ->
+                DropdownMenuItem(
+                    text = { Text(selectionOption) },
+                    onClick = {
+                        selectedOptionText = selectionOption
+                        expanded = false
+                    },
+                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
 
 
+    }
 }
 
 

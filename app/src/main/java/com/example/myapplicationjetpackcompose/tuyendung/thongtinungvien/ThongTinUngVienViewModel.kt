@@ -27,9 +27,9 @@ class ThongTinUngVienViewModel @Inject constructor (
     var soluongUngVien: Int by mutableStateOf(0)
     var indexUngVien : Int by mutableStateOf(-1)
 
-  //  var listPhongVan : List<dm_ungvien_cus> by mutableStateOf(mutableListOf<dm_ungvien_cus>(dm_ungvien_cus()))
+    var listPhongVan : List<dm_ungvien_cus> by mutableStateOf(mutableListOf<dm_ungvien_cus>())
 
-    var listPhongVan : List<dm_ungvien_cus> by mutableStateOf(mutableListOf<dm_ungvien_cus>(dm_ungvien_cus()))
+    //var listPhongVan : List<dm_ungvien_cus> by mutableStateOf(mutableListOf<dm_ungvien_cus>(dm_ungvien_cus()))
     var soluongPhongVan: Int by mutableStateOf(0)
     var isShowHenPhongVan: Boolean by mutableStateOf(false)
 
@@ -91,7 +91,7 @@ class ThongTinUngVienViewModel @Inject constructor (
 
         this.listUngvien =  mutableListOf<dm_ungvien_cus> (
 
-            dm_ungvien_cus(ten_uv = "Ung72 vien 1", email = "email1@gmail.com"),
+            dm_ungvien_cus(ten_uv = "Ung72 vien 1", email = "mrtienemail1@gmail.com"),
             dm_ungvien_cus(ten_uv = "Ung72 vien 2", email = "email2@gmail.com"),
             dm_ungvien_cus(ten_uv = "Ung72 vien 3", email = "email3@gmail.com"),
             dm_ungvien_cus(ten_uv = "Ung72 vien 4", email = "email4@gmail.com"),
@@ -99,10 +99,12 @@ class ThongTinUngVienViewModel @Inject constructor (
             dm_ungvien_cus(ten_uv = "Ung72 vien 6", email = "email6@gmail.com"),
         )
 
+        this.listPhongVan = mutableListOf<dm_ungvien_cus>()
 
         //Thiết lập các giá trị măc định
-        soluongPhongVan = 0;
+        soluongPhongVan = listPhongVan.size
         soluongUngVien = listUngvien.size
+
 
 
     }

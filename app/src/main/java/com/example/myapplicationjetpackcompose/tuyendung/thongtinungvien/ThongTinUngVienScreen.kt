@@ -202,7 +202,9 @@ fun ThongTinUngVienScreen (
             )  {
 
                 Divider()
-                Row() {
+                Row(
+
+                ) {
 
 
                     Button(onClick = {
@@ -210,7 +212,7 @@ fun ThongTinUngVienScreen (
                         viewModel.isShowHenPhongVan = true
 
                     }) {
-                        Text(text = viewModel.soluongPhongVan.toString() + "/" + viewModel.soluongUngVien.toString())
+                        Text(text = "Đã chọn (${viewModel.soluongPhongVan.toString()}/${viewModel.soluongUngVien.toString()})")
                     }
 
                     Button(onClick = {

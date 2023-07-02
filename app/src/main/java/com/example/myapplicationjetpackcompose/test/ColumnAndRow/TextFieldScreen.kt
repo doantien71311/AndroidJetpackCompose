@@ -19,10 +19,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessibilityNew
 import androidx.compose.material.icons.filled.AddIcCall
 import androidx.compose.material.icons.filled.Alarm
+import androidx.compose.material.icons.filled.AlarmAdd
 import androidx.compose.material.icons.filled.CalendarViewDay
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.PictureAsPdf
+import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.SettingsSystemDaydream
+import androidx.compose.material.icons.filled.TimeToLeave
 import androidx.compose.material.icons.filled.Timelapse
 import androidx.compose.material.icons.filled.Timeline
 import androidx.compose.material.icons.filled.Timer
@@ -156,7 +160,7 @@ fun TextFieldScreen (
 
                     leadingIcon = {
                         Icon(
-                            imageVector = Icons.Default.Timer,
+                            imageVector = Icons.Default.AlarmAdd,
                             contentDescription = null
                         )
                     }
