@@ -23,15 +23,23 @@ import com.example.myapplicationjetpackcompose.services.DataStoreServices
 import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingService
 
 import com.example.myapplicationjetpackcompose.services.IDataStoreServies
+import com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien.KichHoatThanhVienViewModel
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@EntryPoint
+@InstallIn(ActivityComponent::class)
+interface ViewModelFactoryProvider {
 
+    fun kichHoatThanhVienViewModelFactory(): KichHoatThanhVienViewModel.Factory
+}
 
 @Module
 @InstallIn(SingletonComponent::class)

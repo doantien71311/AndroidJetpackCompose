@@ -12,9 +12,9 @@ import com.example.myapplicationjetpackcompose.model.dto_menu_app
 import com.example.myapplicationjetpackcompose.model.dto_menu_app_chitiet
 import com.example.myapplicationjetpackcompose.model.ht_thongtinhdoanhnghiep
 import com.example.myapplicationjetpackcompose.services.IDataStoreServies
+import com.google.type.Date
+import com.google.type.DateTime
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,6 +22,10 @@ class ThongTinUngVienViewModel @Inject constructor (
     private val dataStoreServies: IDataStoreServies
 
 ): ViewModel() {
+
+    var tungay: String by mutableStateOf("")
+    var denngay: String by mutableStateOf("")
+
 
     var listUngvien : List<dm_ungvien_cus> by mutableStateOf(mutableListOf<dm_ungvien_cus>(dm_ungvien_cus()))
     var soluongUngVien: Int by mutableStateOf(0)
@@ -60,6 +64,7 @@ class ThongTinUngVienViewModel @Inject constructor (
 
     init {
 
+        tungay = "tungay"
         loadData()
 
     }
@@ -85,18 +90,37 @@ class ThongTinUngVienViewModel @Inject constructor (
 
     }
 
-
+//    fun DateTime.setDayTime(hourOfDay: Int? = null, minuteOfHour: Int? = null, secondOfMinute: Int? = null) {
+//        var dateTime = this
+//        if(hourOfDay != null) {
+//            dateTime = dateTime.hourOfDay().setCopy(hourOfDay)
+//        }
+//        if(minuteOfHour != null) {
+//            dateTime = dateTime.minuteOfHour().setCopy(minuteOfHour)
+//        }
+//        if(secondOfMinute != null) {
+//            dateTime = dateTime.secondOfMinute().setCopy(secondOfMinute)
+//        }
+//        return dateTime
+//    }
 
     fun loadData() {
 
+
+
+//        val simpleDate = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+//        val currentDate = simpleDate.format(Date())
+
+        val currentDate = DateTime.getDefaultInstance()
+
         this.listUngvien =  mutableListOf<dm_ungvien_cus> (
 
-            dm_ungvien_cus(ten_uv = "Ung72 vien 1", email = "mrtienemail1@gmail.com"),
-            dm_ungvien_cus(ten_uv = "Ung72 vien 2", email = "email2@gmail.com"),
-            dm_ungvien_cus(ten_uv = "Ung72 vien 3", email = "email3@gmail.com"),
-            dm_ungvien_cus(ten_uv = "Ung72 vien 4", email = "email4@gmail.com"),
-            dm_ungvien_cus(ten_uv = "Ung72 vien 5", email = "email5@gmail.com"),
-            dm_ungvien_cus(ten_uv = "Ung72 vien 6", email = "email6@gmail.com"),
+            dm_ungvien_cus(ten_uv = "Ung72 vien 1", email = "mrtienemail1@gmail.com", ngay_dangky = java.util.Date()),
+            dm_ungvien_cus(ten_uv = "Ung72 vien 2", email = "email2@gmail.com", ngay_dangky = java.util.Date()),
+            dm_ungvien_cus(ten_uv = "Ung72 vien 3", email = "email3@gmail.com", ngay_dangky = java.util.Date()),
+            dm_ungvien_cus(ten_uv = "Ung72 vien 4", email = "email4@gmail.com", ngay_dangky = java.util.Date()),
+            dm_ungvien_cus(ten_uv = "Ung72 vien 5", email = "email5@gmail.com", ngay_dangky = java.util.Date()),
+            dm_ungvien_cus(ten_uv = "Ung72 vien 6", email = "email6@gmail.com", ngay_dangky = java.util.Date()),
         )
 
         this.listPhongVan = mutableListOf<dm_ungvien_cus>()

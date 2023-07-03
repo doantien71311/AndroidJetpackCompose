@@ -1,6 +1,7 @@
 package com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.provider.Settings.Global
 import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -76,17 +77,48 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 import androidx.navigation.NavController
 
 import com.example.myapplicationjetpackcompose.MainViewModel
+import com.example.myapplicationjetpackcompose.ViewModelFactoryProvider
 import com.example.myapplicationjetpackcompose.lookup.chucvu.LookupChucVuScreen
 
 import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.android.HiltAndroidApp
 
 import kotlinx.coroutines.CoroutineScope
 
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@Composable
+fun getKichHoatThanhVienViewModel(
+    pKeyvalue: String = "",
+    pTungay: String = "",
+    pDenngay: String = "",
+)
+: KichHoatThanhVienViewModel {
+    val factory = EntryPointAccessors.fromActivity(
+        LocalContext.current as Activity,
+        ViewModelFactoryProvider::class.java
+    )
+        .kichHoatThanhVienViewModelFactory()
+
+    return viewModel(
+        factory = KichHoatThanhVienViewModel.providerMainViewModelFactory
+            (
+            factory,
+            pKeyvalue,
+            pTungay,
+            pDenngay
+        )
+    )
+}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class,
@@ -95,17 +127,22 @@ import kotlinx.coroutines.launch
 @Composable
 fun KichHoatThanhVienScreen (
     navController: NavController,
-    viewModel: KichHoatThanhVienViewModel = hiltViewModel(),
     keyvalue : String? = "",
     tungay: String? = "",
     denngay: String? = "",
+
         )
 
 {
 
-    val dm_ungvien_cus : dm_ungvien_cus by viewModel.dm_ungvien_cus.observeAsState(initial = dm_ungvien_cus())
+    val viewModel: KichHoatThanhVienViewModel = getKichHoatThanhVienViewModel(
+        pKeyvalue = keyvalue?:"",
+        pTungay = tungay?:"",
+        pDenngay = denngay?:"",
+    )
 
     val context = LocalContext.current
+
     LaunchedEffect(key1 = context )
     {
         viewModel.validationEvents.collect { event ->
@@ -179,12 +216,7 @@ fun KichHoatThanhVienScreen (
 
                             0 -> ThongTinNguoiTuyenDungScreen(horizontalPagerState, scope)
                             1 -> ThongTinThanhVienScreen(horizontalPagerState, scope, viewModel)
-                            2 -> ThongTinNganHangScreen(
-                                horizontalPagerState,
-                                scope,
-                                viewModel,
-                                dm_ungvien_cus
-                            )
+                            2 -> ThongTinNganHangScreen(horizontalPagerState, scope, viewModel)
 
                         }
                     }
@@ -248,6 +280,9 @@ fun KichHoatThanhVienScreen (
 
 
 }
+
+
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun ThongTinNguoiTuyenDungNutScreen ( horizontalPagerState: PagerState, scope: CoroutineScope)
@@ -502,7 +537,7 @@ fun ThongTinNganHangScreen (
     horizontalPagerState: PagerState,
     scope: CoroutineScope,
     viewModel: KichHoatThanhVienViewModel,
-    dm_ungvien_cus: dm_ungvien_cus
+
 ) {
 
 
@@ -584,7 +619,7 @@ fun ThongTinNganHangScreen (
                         verticalAlignment = Alignment.CenterVertically) {
 
                         Text(
-                            text = dm_ungvien_cus.vitri_ungtuyen ?: "",
+                            text = viewModel.state.vitri_ungtuyen ?: "",
                             modifier = Modifier
                                 .fillMaxHeight()
                                 .width(50.dp)
@@ -633,7 +668,7 @@ fun ThongTinNganHangScreen (
                     ),
                 singleLine = true,
                 maxLines = 1,
-                value = dm_ungvien_cus.ma_uv?:"",
+                value = viewModel.state.ma_uv?:"",
                 onValueChange = { viewModel.ma_uvOnChanged(it) },
 
 

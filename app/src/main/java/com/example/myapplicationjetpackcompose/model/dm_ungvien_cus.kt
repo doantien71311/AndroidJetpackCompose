@@ -4,6 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import com.google.type.DateTime
+import java.util.Date
 import java.util.UUID
 
 data class dm_ungvien_cus (
@@ -33,7 +34,7 @@ data class dm_ungvien_cus (
     var hinhanh_canhan: String?  = null,
     var vitri_ungtuyen: String? = null,
     var nganhnghe_lamviec: String?  = null,
-    var ngay_dangky: DateTime? = null,
+    var ngay_dangky: Date?=null,
     var ma_nv_tuyendung: String?  = null,
     var duyet_dondangky: Int? = null,
     var ma_chinhanh_duyet: String?  = null,

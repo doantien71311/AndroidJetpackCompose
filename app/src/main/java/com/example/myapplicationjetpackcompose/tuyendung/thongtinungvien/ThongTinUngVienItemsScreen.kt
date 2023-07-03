@@ -52,6 +52,9 @@ import com.example.myapplicationjetpackcompose.NavigationAppHost
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
 import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable()
@@ -197,7 +200,22 @@ fun ThongTinUngVienItemsScreen(
                     Button(
                         onClick = {
 
-                            navController.navigate(MainMenuDestination.NHAPLIEU_NhanSu_KichHoatThanhVien_Duyet.route)
+                            val ab = LocalDate.now()
+
+                            val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss")
+                            //val tungay = para_dm_ungvien_cus.ngay_dangky.format(formatter)
+
+                            navController.navigate(
+
+                                    MainMenuDestination.NHAPLIEU_NhanSu_KichHoatThanhVien_Duyet.passParamater(
+                                        keyvalue = para_dm_ungvien_cus.id.toString(),
+                                        tungay =  "asddasdasda",
+                                        denngay = "asdsadasdasdasd",
+                                    ),
+
+
+                            )
+
 
 
                         },

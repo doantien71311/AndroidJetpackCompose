@@ -3,26 +3,85 @@ package com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.myapplicationjetpackcompose.lookup.chucvu.LookupChucVuViewModel
 import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
 import com.example.myapplicationjetpackcompose.services.IDataStoreServies
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.util.Date
 import javax.inject.Inject
 
-@HiltViewModel
-class KichHoatThanhVienViewModel @Inject constructor(
+//@HiltViewModel
+//@HiltWorker
+class KichHoatThanhVienViewModel @AssistedInject constructor(
     private val dataStoreServies: IDataStoreServies,
-     //private val lookupChucVuViewModel: LookupChucVuViewModel
+
+   // @Assisted private val pKeyvalue: String,
+   // @Assisted private val pTungay: String,
+   // @Assisted private val pDenngay: String,
+
+    @Assisted("pKeyvalue") pKeyvalue: String,
+    @Assisted("pTungay") pTungay: String,
+    @Assisted("pDenngay") pDenngay: String,
 
     ): ViewModel() {
 
+
+    @AssistedFactory
+    interface Factory {
+
+        fun create(
+            //pKeyvalue: String,
+            //pTungay: String,
+            //pDenngay: String,
+
+            @Assisted("pKeyvalue") pKeyvalue: String,
+            @Assisted("pTungay") pTungay: String,
+            @Assisted("pDenngay") pDenngay: String,
+
+        ): KichHoatThanhVienViewModel
+
+    }
+
+    companion object {
+
+        fun providerMainViewModelFactory(
+            factory: Factory,
+            pKevalue: String,
+            pTungay: String ,
+            pDenngay: String,
+
+        ): ViewModelProvider.Factory {
+            return object : ViewModelProvider.Factory {
+
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+
+                    return factory.create(pKevalue, pTungay, pDenngay) as T
+
+                }
+
+            }
+        }
+
+    }
+
+
+
+
+    var tungay: String by mutableStateOf("tungay")
+    var denngay: String by mutableStateOf("denngay")
+    var keyvalue: String by mutableStateOf("denngay")
 
 
    var state by mutableStateOf(dm_ungvien_cus())
@@ -62,7 +121,17 @@ class KichHoatThanhVienViewModel @Inject constructor(
         }
     }
 
+    init {
 
+
+        this.tungay = pTungay ?: ""
+        this.denngay = pDenngay ?: ""
+        this.keyvalue = pKeyvalue ?: ""
+
+        loadData()
+
+
+    }
 
     //var dm_ungvien_cus: dm_ungvien_cus by mutableStateOf(dm_ungvien_cus())
 
@@ -94,18 +163,17 @@ class KichHoatThanhVienViewModel @Inject constructor(
 
     var lookupChucVu: LookupChucVuViewModel = LookupChucVuViewModel(dataStoreServies)
 
-    init {
 
-            loadData()
-
-
-    }
 
     private fun loadData()
     {
+        val _tungay = this.tungay
+        val _denngay = this.denngay
+        val _keyvalue = this.keyvalue
 
-        this._dm_ungvien_cus.value = dm_ungvien_cus()
-        this._dm_ungvien_cus.value?.vitri_ungtuyen = "AG"
+
+     //   this._dm_ungvien_cus.value = dm_ungvien_cus()
+      // this._dm_ungvien_cus.value?.vitri_ungtuyen = "AG"
 
     }
 

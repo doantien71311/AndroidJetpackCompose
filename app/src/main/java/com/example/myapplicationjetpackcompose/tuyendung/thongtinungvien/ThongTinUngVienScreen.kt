@@ -77,13 +77,16 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.outlined.LocalPostOffice
 import androidx.compose.material.icons.rounded.AccountBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -102,7 +105,9 @@ import com.example.myapplicationjetpackcompose.Destination
 import com.example.myapplicationjetpackcompose.lookup.chucvu.LookupChucVuScreen
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
 import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
+import com.google.type.DateTime
 import kotlinx.coroutines.delay
+import java.util.Date
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -200,6 +205,29 @@ fun ThongTinUngVienScreen (
             Column(
                 modifier = Modifier.padding(it)
             )  {
+
+
+
+                TextField(
+
+                    label = { Text(text = "Từ ngày") },
+
+                    modifier = Modifier.fillMaxWidth(),
+                    value = viewModel.tungay,
+                    singleLine = true,
+                    maxLines = 1,
+                    onValueChange = { viewModel.onChangedDiaDiemHenPhongVan(it) },
+
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Outlined.LocalPostOffice,
+                            contentDescription = null
+                        )
+                    }
+
+                )
+
+
 
                 Divider()
                 Row(
