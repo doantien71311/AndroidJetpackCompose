@@ -1,37 +1,22 @@
 package com.example.myapplicationjetpackcompose
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.myapplicationjetpackcompose.model.TokenInfor
 import com.example.myapplicationjetpackcompose.model.ht_dm_nsd
 import com.example.myapplicationjetpackcompose.model.ht_thongtinhdoanhnghiep
-import com.example.myapplicationjetpackcompose.model.response_EncryptDES
-import com.example.myapplicationjetpackcompose.model.response_boolean
-import com.example.myapplicationjetpackcompose.model.response_ht_dm_nsd
-import com.example.myapplicationjetpackcompose.model.response_ht_thongtinhdoanhnghiep
 
 import com.example.myapplicationjetpackcompose.services.IDataStoreServies
-import com.example.myapplicationjetpackcompose.services.RetrofitService
-import com.example.myapplicationjetpackcompose.services.PostData
+
 
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel

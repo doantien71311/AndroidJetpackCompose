@@ -25,4 +25,7 @@ object url_api {
     const val danhsach_danhmuc_chucvu_datatable: String = "api/danhsach-danhmuc/chucvu-datatable"
 
 
+    const val dm_ungvien_layds_ungvien_kichhoat: String = "api/nhaplieu-nhansu/dm-ungvien/layds-ungvien-kichhoat"
+
+
 }

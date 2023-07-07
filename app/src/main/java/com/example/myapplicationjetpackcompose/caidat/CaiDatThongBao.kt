@@ -47,7 +47,7 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.myapplicationjetpackcompose.NavigationAppHost
+//import com.example.myapplicationjetpackcompose.NavigationAppHost
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
 import com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien.ThongTinUngVienItemsScreen
 import com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien.ThongTinUngVienScreen
@@ -202,7 +202,7 @@ fun CaiDatThongBaoPreview() {
         navHostController = rememberNavController()
         val current = LocalContext.current
 
-        NavigationAppHost(navController = navHostController)
+       // NavigationAppHost(navController = navHostController)
 
         CaiDatThongBao (navHostController)
     }

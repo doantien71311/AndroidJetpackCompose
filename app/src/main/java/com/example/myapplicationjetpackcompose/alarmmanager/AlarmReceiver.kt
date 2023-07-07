@@ -1,6 +1,5 @@
 package com.example.myapplicationjetpackcompose.alarmmanager
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -9,19 +8,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.net.toUri
 import com.example.myapplicationjetpackcompose.ParcelizeDataParamater
-import com.example.myapplicationjetpackcompose.Destination
 import com.example.myapplicationjetpackcompose.EnumChannel
 import com.example.myapplicationjetpackcompose.EnumDeepLink
 import com.example.myapplicationjetpackcompose.EnumParcelizeDataParamater
-import com.example.myapplicationjetpackcompose.MainActivity
 import com.example.myapplicationjetpackcompose.R
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuActivity
-import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingService
-import okhttp3.internal.notify
 
 class AlarmReceiver: BroadcastReceiver() {
 

@@ -1,17 +1,11 @@
 package com.example.myapplicationjetpackcompose.alarmmanager
 
 import android.app.AlarmManager
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import com.example.myapplicationjetpackcompose.ParcelizeDataParamater
-import com.example.myapplicationjetpackcompose.Destination
 import com.example.myapplicationjetpackcompose.EnumParcelizeDataParamater
-import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
-import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingService
 import java.time.ZoneId
 
 class AlarmScheduler (

@@ -1,6 +1,5 @@
 package com.example.myapplicationjetpackcompose
 
-import android.app.ListActivity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -10,28 +9,19 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navDeepLink
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import com.example.myapplicationjetpackcompose.DetailScreen
 import com.example.myapplicationjetpackcompose.model.dto_menu_app
 import com.example.myapplicationjetpackcompose.model.dto_menu_app_chitiet
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
@@ -44,7 +34,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 sealed class Destination (val route: String)
 {
-    object  Home: Destination ("home")
+    object  Home: Destination("home")
     object  Profile: Destination("profile")
     object  CarMenu: Destination("carmenu")
     object  List: Destination("List")
@@ -127,7 +117,7 @@ fun NavigationAppHost(navController: NavHostController) {
 
         composable(route = Destination.List.route,
                 deepLinks = ( listOf(navDeepLink {
-            uriPattern = "myapp://details/"+Destination.List.route
+            uriPattern = "myapp://details/"+ Destination.List.route
             action = Intent.ACTION_VIEW
         }))
         )

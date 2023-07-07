@@ -1,17 +1,13 @@
 package com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien
 
 import android.content.Context
-import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,38 +18,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-
-import androidx.compose.foundation.magnifier
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.example.myapplicationjetpackcompose.Destination
-import com.example.myapplicationjetpackcompose.NavigationAppHost
+import com.example.myapplicationjetpackcompose.formatToFullTimeVN
+import com.example.myapplicationjetpackcompose.formatToParamater
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
 import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
-import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
+import kotlinx.datetime.LocalDateTime
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -73,10 +56,10 @@ fun ThongTinUngVienItemsScreen(
         scaleOut(
             animationSpec = tween(durationMillis = 1000)
         )
-               +
+                +
                 shrinkVertically(
-            animationSpec = tween(durationMillis = 1000)
-        )
+                    animationSpec = tween(durationMillis = 1000)
+                )
                 + fadeOut(
             animationSpec = tween(durationMillis = 1000)
         )
@@ -109,6 +92,7 @@ fun ThongTinUngVienItemsScreen(
 
                 .clickable {
 
+
                 },
 //        elevation = CardDefaults.cardElevation(
 //            defaultElevation = 50.dp,
@@ -132,7 +116,7 @@ fun ThongTinUngVienItemsScreen(
             {
 
                 Text(
-                    text = para_dm_ungvien_cus.ten_uv?:"",
+                    text = para_dm_ungvien_cus.ten_uv ?: "",
                     modifier = Modifier.align(Alignment.CenterHorizontally)
 
 
@@ -142,28 +126,22 @@ fun ThongTinUngVienItemsScreen(
                     text = "Điện thoại",
                     modifier = Modifier.align(Alignment.CenterHorizontally)
 
+                )
+
+                Text(
+                    text =  "Ngày đăng ký: ${para_dm_ungvien_cus.ngay_dangky?.formatToFullTimeVN()}",
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+
+                Text(
+                    text = para_dm_ungvien_cus.vitri_ungtuyen ?: "",
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
 
                 )
 
                 Text(
-                    text = "Ngày đăng ký",
+                    text = para_dm_ungvien_cus.email ?: "",
                     modifier = Modifier.align(Alignment.CenterHorizontally)
-
-
-                )
-
-                Text(
-                    text = "Chức vụ ứng tuyển",
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-
-
-                )
-
-                Text(
-                    text = "Email",
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-
-
                 )
 
 
@@ -186,7 +164,7 @@ fun ThongTinUngVienItemsScreen(
                     Button(
                         onClick = {
 
-                                  viewModel.chonPhongVan(para_dm_ungvien_cus)
+                            viewModel.chonPhongVan(para_dm_ungvien_cus)
 
                         },
                         shape = RoundedCornerShape(10.dp),
@@ -207,15 +185,14 @@ fun ThongTinUngVienItemsScreen(
 
                             navController.navigate(
 
-                                    MainMenuDestination.NHAPLIEU_NhanSu_KichHoatThanhVien_Duyet.passParamater(
-                                        keyvalue = para_dm_ungvien_cus.id.toString(),
-                                        tungay =  "asddasdasda",
-                                        denngay = "asdsadasdasdasd",
-                                    ),
+                                MainMenuDestination.NHAPLIEU_NhanSu_KichHoatThanhVien_Duyet.passParamater(
+                                    keyvalue = para_dm_ungvien_cus.id.toString(),
+                                    tungay = "asddasdasda",
+                                    denngay = "asdsadasdasdasd",
+                                ),
 
 
-                            )
-
+                                )
 
 
                         },

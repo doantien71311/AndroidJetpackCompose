@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
+import com.example.myapplicationjetpackcompose.model.PostData
 import com.example.myapplicationjetpackcompose.model.TokenInfor
 import com.example.myapplicationjetpackcompose.model.ht_dm_nsd
 import com.example.myapplicationjetpackcompose.model.ht_thongtinhdoanhnghiep
@@ -19,8 +20,9 @@ import com.example.myapplicationjetpackcompose.model.response_EncryptDES
 import com.example.myapplicationjetpackcompose.model.response_boolean
 import com.example.myapplicationjetpackcompose.model.response_ht_thongtinhdoanhnghiep
 import com.example.myapplicationjetpackcompose.services.IDataStoreServies
-import com.example.myapplicationjetpackcompose.services.PostData
+
 import com.example.myapplicationjetpackcompose.services.RetrofitService
+import com.example.myapplicationjetpackcompose.services.url_api
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -28,6 +30,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
+
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 
 @HiltViewModel
 class DangNhapViewModel @Inject constructor(
@@ -176,35 +182,58 @@ class DangNhapViewModel @Inject constructor(
 
     private fun getToKen() {
 
-        RetrofitService
-            .IRetrofitService
-            .getToken(PostData())
-            .enqueue(object : Callback<TokenInfor?> {
-                override fun onResponse(
-                    call: Call<TokenInfor?>,
-                    response: Response<TokenInfor?>
-                ) {
+        try {
 
-                    viewModelScope.launch {
+           var json_au = "  {\n" +
+                   "      \"Username\" : \"B8BAC6B049709B134AB4B54F57D9E1C0DB068E91091B1047\",\n" +
+                   "       \"Password\" : \"6CC0BCCBEA7D5E8F678F14FC5400E251\"\n" +
+                   "  }"
 
-                        dataStoreServies.saveKeyToken(response.body()?.token.toString())
+            val postData = PostData(url_api.username, url_api.password)
+            val json = Json{ encodeDefaults = true }.encodeToString(PostData.serializer(), postData)
+            val json_js = Json{ encodeDefaults = true }.encodeToString(serializer<PostData>(), postData)
 
-                        LayThongTinDoanhNghiep()
+            RetrofitService
+                .IRetrofitService
+                .getToken(postData)
+                .enqueue(object : Callback<TokenInfor?> {
+                    override fun onResponse(
+                        call: Call<TokenInfor?>,
+                        response: Response<TokenInfor?>
+                    ) {
+
+                        if (response.code() == 400) {
+                            Log.v("Error code 400", response.errorBody().toString());
+                        }
+
+                        viewModelScope.launch {
+
+                            dataStoreServies.saveKeyToken(response.body()?.token.toString())
+
+                            LayThongTinDoanhNghiep()
+                        }
+
+
                     }
 
+                    override fun onFailure(call: Call<TokenInfor?>, t: Throwable) {
 
-                }
+                        var s = t.localizedMessage
+                        Log.e("Faild", t.message.toString())
+                    }
 
-                override fun onFailure(call: Call<TokenInfor?>, t: Throwable) {
+                })
+        }
 
-                    var s = t.localizedMessage
-                    Log.e("Faild", t.message.toString())
-                }
+        catch (e: Exception) {
+            Log.e("Faild", e.message.toString())
+        }
+    }
 
-            })
+
 
 
     }
 
 
-}
+

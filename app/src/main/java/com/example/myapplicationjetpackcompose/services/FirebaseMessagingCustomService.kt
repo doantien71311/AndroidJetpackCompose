@@ -2,9 +2,6 @@ package com.example.myapplicationjetpackcompose.services
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_CANCEL_CURRENT
 import android.app.PendingIntent.FLAG_MUTABLE
@@ -15,29 +12,20 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import androidx.navigation.NavDeepLinkBuilder
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.myapplicationjetpackcompose.EnumChannel
 import com.example.myapplicationjetpackcompose.EnumDeepLink
-import com.example.myapplicationjetpackcompose.LoginActivity
-import com.example.myapplicationjetpackcompose.MainActivity
-import com.example.myapplicationjetpackcompose.MyReceiver
 import com.example.myapplicationjetpackcompose.R
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuActivity
-import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import dagger.hilt.android.qualifiers.ApplicationContext
 
 object EnumFirebaseMessagingService {
 

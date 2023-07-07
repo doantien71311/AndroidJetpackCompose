@@ -1,10 +1,17 @@
 package com.example.myapplicationjetpackcompose.model
 
+import com.example.myapplicationjetpackcompose.services.UUIDSerializer
 import com.google.type.DateTime
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.Serializable
 import java.util.UUID
 
+@Serializable
 data class dm_chucvu_ds (
+
+    @Serializable(with = UUIDSerializer::class)
     var id: UUID = UUID.randomUUID(),
+
     var ma_chucvu: String?  = null,
     var ma_chucvu_old: String?  = null,
     var ma_chucvu_cha: String?  = null,
@@ -28,7 +35,7 @@ data class dm_chucvu_ds (
 //    var phienban: String?  = null,
     var is_dangky_tuyendung: Boolean? = null,
     )
-
+@Serializable
 data class response_dm_chucvu_ds (
 
     val data : List<dm_chucvu_ds> = mutableListOf()

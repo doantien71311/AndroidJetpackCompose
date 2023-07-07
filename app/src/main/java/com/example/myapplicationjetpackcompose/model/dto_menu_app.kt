@@ -1,5 +1,8 @@
 package com.example.myapplicationjetpackcompose.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class dto_menu_app (
 
     val ma_chucnang: String? = null,
@@ -9,6 +12,7 @@ data class dto_menu_app (
     var menu_app_chitiet: List<dto_menu_app_chitiet>? = mutableListOf()
 )
 
+@Serializable
 data class dto_menu_app_chitiet (
 
     var ma_chucnang: String? = null,
@@ -18,7 +22,7 @@ data class dto_menu_app_chitiet (
     var icon_img: String? = null,
 
     )
-
+@Serializable
 data class  response_dto_menu_app (
     var data: List<dto_menu_app>
 ): response_status()

@@ -1,8 +1,10 @@
 package com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -69,46 +71,50 @@ import kotlinx.coroutines.launch
 
 
 import androidx.compose.animation.core.*
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.outlined.LocalPostOffice
-import androidx.compose.material.icons.rounded.AccountBox
+
+import androidx.compose.material.icons.outlined.Today
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.TextField
+
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.composed
 
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.runtime.rememberCoroutineScope
+import com.example.myapplicationjetpackcompose.ViewModelFactoryProvider
+import dagger.hilt.android.EntryPointAccessors
 
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
-import com.bumptech.glide.load.model.ModelLoader.LoadData
-import com.example.myapplicationjetpackcompose.Destination
-import com.example.myapplicationjetpackcompose.lookup.chucvu.LookupChucVuScreen
-import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
-import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
-import com.google.type.DateTime
-import kotlinx.coroutines.delay
-import java.util.Date
 
+@Composable
+fun getThongTinUngVienViewModel(
+    pKeyvalue: String = "",
+    pTungay: String = "",
+    pDenngay: String = "",
+)
+        : ThongTinUngVienViewModel {
+    val factory = EntryPointAccessors.fromActivity(
+        LocalContext.current as Activity,
+        ViewModelFactoryProvider::class.java
+    )
+        .thongTinUngVienViewModelFactory()
+
+    return viewModel(
+        factory = ThongTinUngVienViewModel.providerMainViewModelFactory
+            (
+            factory,
+            pKeyvalue,
+            pTungay,
+            pDenngay
+        )
+    )
+}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
@@ -116,103 +122,99 @@ import java.util.Date
 fun ThongTinUngVienScreen (
     navController: NavController,
     context : Context,
-    viewModel : ThongTinUngVienViewModel = hiltViewModel()
+
+    keyvalue : String? = "",
+    tungay: String? = "",
+    denngay: String? = "",
 ) {
 
-        Scaffold(
+    var viewModel: ThongTinUngVienViewModel = getThongTinUngVienViewModel(
 
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Thông tin ứng viên") },
-                navigationIcon = {
-                    IconButton(onClick = {
-                        navController.navigateUp()
+        pKeyvalue = keyvalue ?: "",
+        pTungay = tungay ?: "",
+        pDenngay = denngay ?: "",
 
-                    }) {
-                        Icon(Icons.Rounded.ArrowBack, "Back")
-                    }
-                },
-                colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
-                ),
-                actions = {
-//                    // RowScope here, so these icons will be placed horizontally
-//                    IconButton(
-//                        onClick = {
-//                        navController.navigate(MainMenuDestination.NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet.route)
-//                    }
-//                    ) {
-//                        Icon(Icons.Rounded.AccountBox, contentDescription = null)
-//
-//                    }
+        )
 
+  //  viewModel.loadData()
 
-//                    IconButton(onClick = {  }) {
-//                        Icon(Icons.Rounded.ArrowBack, contentDescription = null)
-//                    }
-//                    IconButton(onClick = {  }) {
-//                        Icon(Icons.Rounded.ArrowBack, contentDescription = null)
-//                    }
+    val scope = rememberCoroutineScope()
+    val scaffoldState = rememberBottomSheetScaffoldState()
+    val context = LocalContext.current
 
-                }
-            )
-        },
-        content = {
-
-            var isLoading by remember {
-                mutableStateOf(true)
-            }
-
-            LaunchedEffect(key1 = true ) {
-                delay(2000)
-                isLoading = false
-
-            }
-
-//            val n = 100
-//            val para: List<Int> = List(n) { 0 }
-
-            val scrollState = rememberLazyListState()
-            LaunchedEffect(Unit) {
-
-                delay(1000)
-//                if (viewModel.indexUngVien > -1) {
-//                    scrollState.scrollToItem(viewModel.indexUngVien, 4)
-//                }
-
-            }
-
-//            AnimatedVisibility(
-//                visible = !isLoading,
-//                enter = expandVertically(
-//                    // Expand from the top.
-//                    expandFrom = Alignment.Top,
-//                    // Overwrites the default animation with tween
-//                    animationSpec = tween(durationMillis = 5000)
-//                ) + fadeIn(
-//                    // Fade in with the initial alpha of 0.3f.
-//                    //initialAlpha = 0.3f,
-//                    //initialAlpha = 0.0f,
-//                    // Overwrites the default animation with tween
-//                    //animationSpec = tween(durationMillis = 20000)
-//                ),
-//                exit = slideOutVertically() + shrinkVertically() + fadeOut()
+    BottomSheetScaffold(
+        scaffoldState = scaffoldState,
+        sheetPeekHeight = 20.dp,
+        sheetSwipeEnabled = true,
+        sheetContent = {
+//            Box(
+//                Modifier
+//                    .fillMaxWidth()
+//                    .height(128.dp),
+//                contentAlignment = Alignment.Center
 //            ) {
+//
+//            }
+
+            Column (
+                Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
 
+                OutlinedTextField(
+                    label = { Text(text = "Từ ngày") },
+                    value = "Example",
+                    enabled = false,
+
+                    // readOnly = true,
+
+                    onValueChange = {},
+
+//                    colors = TextFieldDefaults.textFieldColors(
+//                        disabledTextColor = LocalContentColor.current.copy(LocalContentAlpha.current),
+//                        disabledLabelColor =  MaterialTheme.colorScheme.onSurface.copy(ContentAlpha.medium)
+//                    ),
+
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+
+                            Toast
+                                .makeText(
+                                    context,
+                                    "Từ ngày",
+                                    Toast.LENGTH_LONG
+                                )
+                                .show()
+
+                        },
+
+                    )
 
 
-            Column(
-                modifier = Modifier.padding(it)
-            )  {
-
-
+                Spacer(Modifier.height(10.dp))
 
                 TextField(
 
                     label = { Text(text = "Từ ngày") },
+                    enabled = false,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
 
-                    modifier = Modifier.fillMaxWidth(),
+                            Toast
+                                .makeText(
+                                    context,
+                                    "Từ ngày",
+                                    Toast.LENGTH_LONG
+                                )
+                                .show()
+
+
+                        },
                     value = viewModel.tungay,
                     singleLine = true,
                     maxLines = 1,
@@ -220,279 +222,206 @@ fun ThongTinUngVienScreen (
 
                     leadingIcon = {
                         Icon(
-                            imageVector = Icons.Outlined.LocalPostOffice,
+                            imageVector = Icons.Outlined.Today,
+                            contentDescription = null
+                        )
+                    }
+
+                )
+                Spacer(Modifier.height(10.dp))
+
+                TextField(
+
+                    label = { Text(text = "Dến ngày") },
+                    readOnly = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+
+                            Toast
+                                .makeText(
+                                    context,
+                                    "Đến ngày",
+                                    Toast.LENGTH_LONG
+                                )
+                                .show()
+
+
+                        },
+                    value = viewModel.tungay,
+                    singleLine = true,
+                    maxLines = 1,
+                    onValueChange = { viewModel.onChangedDiaDiemHenPhongVan(it) },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Today,
                             contentDescription = null
                         )
                     }
 
                 )
 
-
-
-                Divider()
-                Row(
-
+                Spacer(Modifier.height(10.dp))
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    onClick = {
+                        scope.launch { scaffoldState.bottomSheetState.partialExpand() }
+                    }
                 ) {
-
-
-                    Button(onClick = {
-
-                        viewModel.isShowHenPhongVan = true
-
-                    }) {
-                        Text(text = "Đã chọn (${viewModel.soluongPhongVan.toString()}/${viewModel.soluongUngVien.toString()})")
-                    }
-
-                    Button(onClick = {
-
-                        viewModel.loadData()
-
-                    }) {
-                        Text(text = "Bỏ chọn")
-                    }
-
+                    Text("Tìm kiếm")
                 }
-                    LazyColumn(
-                        state = scrollState,
-                        modifier = Modifier
-                            .background(Color.Red)
-                        // .fillMaxSize()
-                        // .verticalScroll(state = rememberScrollState())
-                        //.padding(it)
-                        ,
-                        //verticalArrangement = Arrangement.spacedBy(0.dp)
-                        verticalArrangement = Arrangement.Center,
-                        //horizontalAlignment = Alignment.CenterHorizontally
+            }
+        }) { innerPadding ->
 
-                    ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = "Thông tin ứng viên") },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            navController.navigateUp()
 
-                        itemsIndexed(
-                            items = viewModel.listUngvien
-                        ) { index, item ->
+                        }) {
+                            Icon(Icons.Rounded.ArrowBack, "Back")
+                        }
+                    },
+                    colors = TopAppBarDefaults.smallTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer
+                    ),
+                    actions = {
 
-                            ThongTinUngVienItemsScreen(
-                                navController,
-                                context,
-                                0,
-                                viewModel,
-                                item
+                        IconButton(
+                            onClick = {
 
-                            )
+                                scope.launch {
+                                    scaffoldState.bottomSheetState.expand()
+                                }
+
+                            }
+                        ) {
+
+                            Icon(Icons.Rounded.Search, contentDescription = null)
+
                         }
 
+
                     }
+                )
+            },
+            content = {
 
-                }
-
-           // }
-
-
-
-        }
-
-    )
-
-    if (viewModel.isShowHenPhongVan ) {
-        ThongTinUngVienHenPhongVanScreen(
-            viewModel = viewModel,
-
-        )
-    }
-
-
-
-}
-
-@Composable
-fun LoadingForm (
-    navController: NavController,
-    context : Context
-
-) {
-
-    var isLoading by remember {
-        mutableStateOf(true)
-    }
-
-    LaunchedEffect(key1 = true ) {
-        delay(3000)
-        isLoading = false
-
-    }
-
-    val n = 100
-    val para: List<Int> = List(n) { 0 }
-
-    val scrollState = rememberLazyListState()
-    LaunchedEffect(Unit) {
-        delay(1000)
-        scrollState.scrollToItem(99, n)
-    }
-
-    Column()  {
-
-
-
-            LazyColumn(
-                state = scrollState,
-                modifier = Modifier
-                    .background(Color.Red)
-                // .fillMaxSize()
-                // .verticalScroll(state = rememberScrollState())
-                //.padding(it)
-                ,
-                //verticalArrangement = Arrangement.spacedBy(0.dp)
-                verticalArrangement = Arrangement.Center,
-                //horizontalAlignment = Alignment.CenterHorizontally
-
-            ) {
-
-                itemsIndexed(
-                    items = para
-                ) { index, item ->
-
-                    ShimmerListItem (
-                        isLoadding = isLoading,
-                        contentAfterLoading = {
-//                            ThongTinUngVienItemsScreen(
-//                                navController,
-//                                context,
-//                                index,
-//                                dm_ungvien_cus()
-//                            )
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    )
-                }
+                ThongTinUngVienScreen(
+                    navController,
+                    context,
+                    viewModel
+                )
 
             }
 
-        }
+        )
+    }
 
-
-
-
-
+    if (viewModel.isShowHenPhongVan) {
+        ThongTinUngVienHenPhongVanScreen(
+            viewModel = viewModel,
+        )
+    }
 
 
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
-fun LoadingAnimation(
-    modifier: Modifier = Modifier,
-    circleSize: Dp = 25.dp,
-    circleColor: Color = Color.Magenta,
-    spaceBetween: Dp = 10.dp,
-    travelDistance: Dp = 20.dp
+fun ThongTinUngVienScreen (
+    navController: NavController,
+    context : Context,
+    viewModel: ThongTinUngVienViewModel
 ) {
-    val circles = listOf(
-        remember { Animatable(initialValue = 0f) },
-        remember { Animatable(initialValue = 0f) },
-        remember { Animatable(initialValue = 0f) }
-    )
 
-    circles.forEachIndexed { index, animatable ->
-        LaunchedEffect(key1 = animatable) {
-            delay(index * 100L)
-            animatable.animateTo(
-                targetValue = 1f,
-                animationSpec = infiniteRepeatable(
-                    animation = keyframes {
-                        durationMillis = 1200
-                        0.0f at 0 with LinearOutSlowInEasing
-                        1.0f at 300 with LinearOutSlowInEasing
-                        0.0f at 600 with LinearOutSlowInEasing
-                        0.0f at 1200 with LinearOutSlowInEasing
-                    },
-                    repeatMode = RepeatMode.Restart
-                )
-            )
-        }
-    }
-
-    val circleValues = circles.map { it.value }
-    val distance = with(LocalDensity.current) { travelDistance.toPx() }
-
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(spaceBetween)
+    Column(
+       // modifier = Modifier.padding(it)
     ) {
-        circleValues.forEach { value ->
-            Box(
-                modifier = Modifier
-                    .size(circleSize)
-                    .graphicsLayer {
-                        translationY = -value * distance
-                    }
-                    .background(
-                        color = circleColor,
-                        shape = CircleShape
-                    )
-            )
-        }
+
+        ButtonThongTinUngVienScreen(viewModel)
+        //
+        DanhSachThongTinUngVienScreen(
+            navController,
+            context,
+            viewModel
+        )
+        //
     }
+
+
 
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
-fun ShimmerListItem(
-    isLoadding: Boolean,
-    contentAfterLoading: @Composable () -> Unit,
-    modifier: Modifier = Modifier
+fun ButtonThongTinUngVienScreen (
+    viewModel: ThongTinUngVienViewModel
+) {
+    Divider()
+    Row(
+    ) {
 
-)
-{
 
-    if (isLoadding) {
+        Button(onClick = {
 
-        Row(modifier = modifier) {
-            Box(
-                modifier = Modifier
-                    .size(100.dp)
-                    .shimerEffect()
-            )
+            viewModel.isShowHenPhongVan = true
 
+        }) {
+            Text(text = "Đã chọn (${viewModel.soluongPhongVan.toString()}/${viewModel.soluongUngVien.toString()})")
         }
 
-    }
-    else {
+        Button(onClick = {
 
-        contentAfterLoading()
+            viewModel.loadData()
+
+        }) {
+            Text(text = "Bỏ chọn")
+        }
+
     }
 
 }
-fun Modifier.shimerEffect(): Modifier = composed {
 
-    var size by remember {
-        mutableStateOf(IntSize.Zero)
-    }
 
-    val transition = rememberInfiniteTransition()
-    val startOffsetX by transition.animateFloat(
-        initialValue = -2 * size.width.toFloat(),
-        targetValue = 2 * size.width.toFloat(),
-        animationSpec = infiniteRepeatable(
-            animation = tween(1000)
-        )
-    )
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@Composable
+fun DanhSachThongTinUngVienScreen (
+    navController: NavController,
+    context : Context,
+    viewModel: ThongTinUngVienViewModel
+) {
+    val scrollState = rememberLazyListState()
+    LazyColumn(
+        state = scrollState,
+        modifier = Modifier
+            .background(Color.Red),
+        verticalArrangement = Arrangement.Center,
 
-    background(
-        brush = Brush.linearGradient(
-            colors = listOf(
-                Color(0xFFB8B5B5),
-                Color(0xFF8F8B8B),
-                Color(0xFFB8B5B5)
-            ),
-            start = Offset(startOffsetX,0f),
-            end = Offset (startOffsetX + size.width.toFloat(), size.height.toFloat())
-        )
-    )
-        .onGloballyPositioned {
-            size = it.size
+        ) {
+
+        itemsIndexed(
+            items = viewModel.listUngvien
+        ) { index, item ->
+
+            ThongTinUngVienItemsScreen(
+                navController,
+                context,
+                0,
+                viewModel,
+                item
+
+            )
         }
 
+    }
 
 }
 

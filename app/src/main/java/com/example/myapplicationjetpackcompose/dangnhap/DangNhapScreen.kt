@@ -219,12 +219,12 @@ Card(
                             maxLines = 1,
                             enabled = true,
                             readOnly = false,
-                            colors = TextFieldDefaults.textFieldColors(
-                                textColor = Color(0xFF636262),
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent,
-
-                            ),
+//                            colors = TextFieldDefaults.textFieldColors(
+//                                textColor = Color(0xFF636262),
+//                                focusedIndicatorColor = Color.Transparent,
+//                                unfocusedIndicatorColor = Color.Transparent,
+//
+//                            ),
 
                             visualTransformation =
                             if (!showPassword.value) PasswordVisualTransformation() else VisualTransformation.None,

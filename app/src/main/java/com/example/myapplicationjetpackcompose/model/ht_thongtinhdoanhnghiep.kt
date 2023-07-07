@@ -1,5 +1,8 @@
 package com.example.myapplicationjetpackcompose.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ht_thongtinhdoanhnghiep (
 
     val ten_dv: String? = "",
@@ -9,6 +12,7 @@ data class ht_thongtinhdoanhnghiep (
 
     )
 
+@Serializable
 data class response_ht_thongtinhdoanhnghiep (
 
     val data : ht_thongtinhdoanhnghiep = ht_thongtinhdoanhnghiep()

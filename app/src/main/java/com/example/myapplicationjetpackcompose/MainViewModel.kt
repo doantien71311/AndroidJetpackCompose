@@ -1,12 +1,11 @@
 package com.example.myapplicationjetpackcompose
 
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModel
+import com.example.myapplicationjetpackcompose.CommonDataParamater
 import com.example.myapplicationjetpackcompose.alarmmanager.AlarmItem
-import com.example.myapplicationjetpackcompose.alarmmanager.AlarmScheduler
 import com.example.myapplicationjetpackcompose.alarmmanager.IAlarmScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDateTime

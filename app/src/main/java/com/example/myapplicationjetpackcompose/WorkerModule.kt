@@ -7,23 +7,18 @@ import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.ComposeNavigator
-import androidx.navigation.compose.DialogNavigator
 import com.example.myapplicationjetpackcompose.alarmmanager.AlarmScheduler
 import com.example.myapplicationjetpackcompose.alarmmanager.IAlarmScheduler
-import com.example.myapplicationjetpackcompose.lookup.chucvu.ILookupChucVuViewModel
-import com.example.myapplicationjetpackcompose.lookup.chucvu.LookupChucVuViewModel
+import com.example.myapplicationjetpackcompose.MainActivity
 
 import com.example.myapplicationjetpackcompose.services.DataStoreServices
-import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingService
 
 import com.example.myapplicationjetpackcompose.services.IDataStoreServies
 import com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien.KichHoatThanhVienViewModel
+import com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien.ThongTinUngVienViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.EntryPoint
@@ -31,7 +26,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @EntryPoint
@@ -39,6 +33,8 @@ import javax.inject.Singleton
 interface ViewModelFactoryProvider {
 
     fun kichHoatThanhVienViewModelFactory(): KichHoatThanhVienViewModel.Factory
+
+    fun thongTinUngVienViewModelFactory(): ThongTinUngVienViewModel.Factory
 }
 
 @Module

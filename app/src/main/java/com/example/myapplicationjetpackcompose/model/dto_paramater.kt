@@ -1,5 +1,8 @@
 package com.example.myapplicationjetpackcompose.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class dto_paramater(
     var ma_nv: String,
     var ma_nsd: String,

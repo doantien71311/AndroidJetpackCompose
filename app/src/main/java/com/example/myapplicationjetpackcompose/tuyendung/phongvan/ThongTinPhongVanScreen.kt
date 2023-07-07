@@ -61,7 +61,9 @@ import com.example.myapplicationjetpackcompose.mainmenu.MainMenuItemsScreen
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuViewModel
 import com.example.myapplicationjetpackcompose.model.dto_menu_app
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
+
 import com.google.android.material.color.utilities.MaterialDynamicColors.primary
+
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
