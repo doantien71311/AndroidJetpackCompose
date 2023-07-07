@@ -27,5 +27,9 @@ object url_api {
 
     const val dm_ungvien_layds_ungvien_kichhoat: String = "api/nhaplieu-nhansu/dm-ungvien/layds-ungvien-kichhoat"
 
+    const val dm_ungvien_henphongvan: String = "api/nhaplieu-nhansu/dm-ungvien/henphongvan"
+    const val dm_ungvien_emailphongvan: String = "api/nhaplieu-nhansu/dm-ungvien/emailphongvan"
+    const val dm_ungvien_henphongvan_goiemail: String = "api/nhaplieu-nhansu/dm-ungvien/henphongvan-goiemail"
+
 
 }

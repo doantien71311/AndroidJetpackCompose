@@ -3,6 +3,7 @@ package com.example.myapplicationjetpackcompose.services
 
 import com.example.myapplicationjetpackcompose.model.PostData
 import com.example.myapplicationjetpackcompose.model.TokenInfor
+import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
 import com.example.myapplicationjetpackcompose.model.dto_menu_app
 import com.example.myapplicationjetpackcompose.model.dto_paramater
 import com.example.myapplicationjetpackcompose.model.ht_dm_nsd
@@ -86,6 +87,24 @@ interface IRetrofitService {
     ): Call<response_dm_ungvien_cus?>
 
 
+    @POST(url_api.dm_ungvien_henphongvan_goiemail)
+    open fun getUngVienHenPhongVanGoiEmail(
+        @Header("Authorization") token: String,
+        @Body list_dm_ungvien_cus: List<dm_ungvien_cus>
+    ): Call<response_dm_ungvien_cus?>
+
+
+    @POST(url_api.dm_ungvien_emailphongvan)
+    open fun getUngVienEmailPhongVan(
+        @Header("Authorization") token: String,
+        @Body list_dm_ungvien_cus: List<dm_ungvien_cus>
+    ): Call<response_dm_ungvien_cus?>
+
+    @POST(url_api.dm_ungvien_henphongvan)
+    open fun getUngVienHenPhongVan(
+        @Header("Authorization") token: String,
+        @Body list_dm_ungvien_cus: List<dm_ungvien_cus>
+    ): Call<response_dm_ungvien_cus?>
 
 
 
