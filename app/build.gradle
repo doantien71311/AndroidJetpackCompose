@@ -122,17 +122,12 @@ dependencies {
 //    //end retrofit  connect api
 
 
-
     // Kotlin serialization, api
     implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0'
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     //implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.11'
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1'
     implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
-
-    //implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:0.11.1"
-    //implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
-
 
 
     //Tiến thêm vào để luu thông tin đăng nhập, token

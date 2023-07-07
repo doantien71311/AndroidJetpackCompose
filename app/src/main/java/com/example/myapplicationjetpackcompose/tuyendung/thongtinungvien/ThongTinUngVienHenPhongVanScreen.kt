@@ -114,19 +114,13 @@ fun ThongTinUngVienHenPhongVanScreen(
 
             content = {
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Yellow)
-                        .padding(it)
-                )
-                {
-
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .background(Color.Yellow)
+                            .padding(it)
                             //.fillMaxHeight()
-                           //.verticalScroll(rememberScrollState())
+                           .verticalScroll(rememberScrollState())
 
                     )
                     {
@@ -138,7 +132,7 @@ fun ThongTinUngVienHenPhongVanScreen(
 
                     }
 
-                }
+
             }
 
         )
@@ -238,6 +232,11 @@ fun UngVienDanhSachEmailhHenPhongVanScreen(
 fun FormHenPhongVanScreen(
     viewModel: ThongTinUngVienViewModel
 ) {
+    Column(
+        modifier = Modifier
+
+
+    ) {
 
         CheckedOnlineHenPhongVanScreen(viewModel)
 
@@ -255,7 +254,7 @@ fun FormHenPhongVanScreen(
 
         ButtonXacNhanHenPhongVanScreen(viewModel)
 
-
+    }
 
 }
 
@@ -313,6 +312,7 @@ fun ButtonXacNhanHenPhongVanScreen(
     ) {
         Text(text = "Xác nhận")
     }
+    Spacer(modifier = Modifier.height(20.dp))
 }
 
 

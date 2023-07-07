@@ -88,6 +88,7 @@ import androidx.compose.material3.rememberBottomSheetScaffoldState
 
 
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.focus.focusModifier
 import com.example.myapplicationjetpackcompose.ViewModelFactoryProvider
 import dagger.hilt.android.EntryPointAccessors
 
@@ -310,12 +311,18 @@ fun ThongTinUngVienScreen (
                 )
             },
             content = {
+                Column(
+                    modifier = Modifier.padding(it)
+                ) {
+
+                ButtonThongTinUngVienScreen(viewModel)
 
                 ThongTinUngVienScreen(
                     navController,
                     context,
                     viewModel
                 )
+                }
 
             }
 
@@ -344,8 +351,6 @@ fun ThongTinUngVienScreen (
        // modifier = Modifier.padding(it)
     ) {
 
-        ButtonThongTinUngVienScreen(viewModel)
-        //
         DanhSachThongTinUngVienScreen(
             navController,
             context,
@@ -365,7 +370,10 @@ fun ButtonThongTinUngVienScreen (
     viewModel: ThongTinUngVienViewModel
 ) {
     Divider()
-    Row(
+    Row (
+            modifier = Modifier
+                .height(50.dp)
+
     ) {
 
 
@@ -373,7 +381,11 @@ fun ButtonThongTinUngVienScreen (
 
             viewModel.isShowHenPhongVan = true
 
-        }) {
+        },
+            modifier = Modifier
+                .fillMaxHeight()
+
+        ) {
             Text(text = "Đã chọn (${viewModel.soluongPhongVan.toString()}/${viewModel.soluongUngVien.toString()})")
         }
 
@@ -381,11 +393,15 @@ fun ButtonThongTinUngVienScreen (
 
             viewModel.loadData()
 
-        }) {
+        },
+            modifier = Modifier
+                .fillMaxHeight()
+        ) {
             Text(text = "Bỏ chọn")
         }
 
     }
+    Divider()
 
 }
 
