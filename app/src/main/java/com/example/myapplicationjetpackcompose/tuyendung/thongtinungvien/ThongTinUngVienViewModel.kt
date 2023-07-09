@@ -11,20 +11,28 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.myapplicationjetpackcompose.CommonDataParamater
 import com.example.myapplicationjetpackcompose.EnumCoKhong
+import com.example.myapplicationjetpackcompose.EnumDuyetChungTu
+import com.example.myapplicationjetpackcompose.EnumStatus
+import com.example.myapplicationjetpackcompose.LocalDateTimeGetNow
 import com.example.myapplicationjetpackcompose.alarmmanager.AlarmItem
 import com.example.myapplicationjetpackcompose.alarmmanager.IAlarmScheduler
+import com.example.myapplicationjetpackcompose.changeHourMinute
 import com.example.myapplicationjetpackcompose.formatToDateVN
 import com.example.myapplicationjetpackcompose.formatToFullTimeVN
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
+import com.example.myapplicationjetpackcompose.model.PostData
 import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
 import com.example.myapplicationjetpackcompose.model.dto_menu_app
 import com.example.myapplicationjetpackcompose.model.dto_menu_app_chitiet
 import com.example.myapplicationjetpackcompose.model.ht_thongtinhdoanhnghiep
+import com.example.myapplicationjetpackcompose.model.response_data
 import com.example.myapplicationjetpackcompose.model.response_dm_chucvu_ds
 import com.example.myapplicationjetpackcompose.model.response_dm_ungvien_cus
 import com.example.myapplicationjetpackcompose.model.response_ht_thongtinhdoanhnghiep
+import com.example.myapplicationjetpackcompose.model.thoigian
 import com.example.myapplicationjetpackcompose.services.IDataStoreServies
 import com.example.myapplicationjetpackcompose.services.RetrofitService
+import com.example.myapplicationjetpackcompose.services.url_api
 import com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien.KichHoatThanhVienEvent
 import com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien.KichHoatThanhVienViewModel
 import com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien.ValidateEmail
@@ -38,11 +46,16 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.toJavaLocalDateTime
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.time.LocalDateTime
 import javax.inject.Inject
+
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 
 //@HiltViewModel
 class ThongTinUngVienViewModel @AssistedInject constructor (
@@ -100,7 +113,11 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
     var soluongPhongVan: Int by mutableStateOf(0)
     var isShowHenPhongVan: Boolean by mutableStateOf(false)
 
-    var statePhongVan by mutableStateOf(dm_ungvien_cus())
+    var statePhongVan by mutableStateOf(dm_ungvien_cus(
+        duyet_henphongvan = EnumDuyetChungTu.DaDuyet,
+        ngay_henphongvan = LocalDateTimeGetNow()
+
+    ))
     sealed class ValidationEvent {
         object Success : ValidationEvent()
 
@@ -128,6 +145,85 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
                 )
 
             }
+
+            is ThongTinUngVienHenPhongVanEvent.LinkPhongVanOnlineChanged -> {
+
+                //Thiết lập giá trị từ ui
+                statePhongVan = statePhongVan.copy(
+                    link_phongvan_online = ThongTinUngVienHenPhongVanEvent.link_phongvan_online,
+                )
+
+
+
+            }
+
+            is ThongTinUngVienHenPhongVanEvent.DiaDiemHenPhongVanChanged -> {
+
+                //Thiết lập giá trị từ ui
+                statePhongVan = statePhongVan.copy(
+                    diadiem_henphongvan = ThongTinUngVienHenPhongVanEvent.diadiem_henphongvan,
+                )
+
+
+
+            }
+
+            is ThongTinUngVienHenPhongVanEvent.IsPhongVanOnLineChanged -> {
+
+                //Thiết lập giá trị từ ui
+                statePhongVan = statePhongVan.copy(
+                    is_phongvan_online = ThongTinUngVienHenPhongVanEvent.is_phongvan_online,
+                )
+
+
+            }
+
+            is ThongTinUngVienHenPhongVanEvent.IsNhacnhoChanged -> {
+
+                //Thiết lập giá trị từ ui
+                statePhongVan = statePhongVan.copy(
+                    is_nhacnho = if (ThongTinUngVienHenPhongVanEvent.is_nhacnho) {
+                        EnumCoKhong.C
+                    } else {
+                        EnumCoKhong.K
+                    },
+                )
+
+                //Số phút nhắc nhở trả về 0
+                if (statePhongVan.is_nhacnho == EnumCoKhong.K) {
+                    statePhongVan = statePhongVan.copy(
+                        sophut_nhacnho = 0
+                    )
+
+                }
+
+            }
+
+            is ThongTinUngVienHenPhongVanEvent.SophutNhacNhoOnLineChanged -> {
+
+                //Thiết lập giá trị từ ui
+                statePhongVan = statePhongVan.copy(
+                    sophut_nhacnho = ThongTinUngVienHenPhongVanEvent.sophut_nhacnho
+                )
+
+
+            }
+
+
+            is ThongTinUngVienHenPhongVanEvent.ThoiGianHenPhongVanOnLineChanged -> {
+
+                val ngay_henphongvan = statePhongVan.ngay_henphongvan?.changeHourMinute(
+                    ThongTinUngVienHenPhongVanEvent.hour,
+                    ThongTinUngVienHenPhongVanEvent.minute,
+                )
+                //Thiết lập giá trị từ ui
+                statePhongVan = statePhongVan.copy(
+                    ngay_henphongvan = ngay_henphongvan
+                )
+
+            }
+
+            else -> {}
         }
     }
 
@@ -183,7 +279,7 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
         this.listUngvien.drop(this.listUngvien.indexOf(para_dm_ungvien_cus))
 
 
-        //Thêm vào danh sách phỏng vấn
+        //Thêm vào danh sách phỏng vấn, tình trạng đã duyễt hẹn phỏng vấn
         listPhongVan += para_dm_ungvien_cus
 
         //Thiết lập lại số lượng phỏng vấn
@@ -194,7 +290,6 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
     }
 
     fun loadData() {
-
 
         viewModelScope.launch {
             RetrofitService.IRetrofitService
@@ -268,10 +363,28 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
 
     }
 
-    fun xacNhanHenPhongVan() {
+    fun xacNhanHenPhongVanGoiEmail() {
 
 
-        var list_dm_ungvien_cus =  this.listPhongVan.toMutableList()
+        //Tạo dữ liệu data để kết nối api
+        var list_dm_ungvien_cus = this.listPhongVan.toList()
+
+        for (item in list_dm_ungvien_cus) {
+
+            item.duyet_henphongvan = statePhongVan.duyet_henphongvan
+
+            item.is_phongvan_online = statePhongVan.is_phongvan_online
+            item.link_phongvan_online = statePhongVan.link_phongvan_online
+            item.diadiem_henphongvan = statePhongVan.diadiem_henphongvan
+            item.ngay_henphongvan = statePhongVan.ngay_henphongvan
+
+            item.is_nhacnho = statePhongVan.is_nhacnho
+            item.sophut_nhacnho = statePhongVan.sophut_nhacnho
+
+        }
+
+
+
 
         //Kết nối api
         viewModelScope.launch {
@@ -280,20 +393,31 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
                     token = dataStoreServies.getBearToken(),
                     list_dm_ungvien_cus = list_dm_ungvien_cus
                 )
-                .enqueue(object : Callback<response_dm_ungvien_cus?> {
+                .enqueue(object : Callback<response_data?> {
                     override fun onResponse(
-                        call: Call<response_dm_ungvien_cus?>,
-                        response: Response<response_dm_ungvien_cus?>
+                        call: Call<response_data?>,
+                        response: Response<response_data?>
                     ) {
 
-                        response.body()?.data?.let {
-                            val response_data = response.body()?.data
+                        response.body()?.let {
+
+                            //Lưu thông tin phỏng vấn thành công thì sẽ hẹn giờ phỏng vấn
+                            if ((it.status ?: "") == EnumStatus.OK) {
+
+                                for (item in list_dm_ungvien_cus) {
+
+                                    nhacNho(item)
+
+                                }
+
+                            }
+
                         }
 
                     }
 
                     override fun onFailure(
-                        call: Call<response_dm_ungvien_cus?>,
+                        call: Call<response_data?>,
                         t: Throwable
                     ) {
 
@@ -307,4 +431,6 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
         }
 
     }
+
+
 }

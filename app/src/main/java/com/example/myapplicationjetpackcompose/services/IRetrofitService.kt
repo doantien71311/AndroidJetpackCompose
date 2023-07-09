@@ -91,20 +91,20 @@ interface IRetrofitService {
     open fun getUngVienHenPhongVanGoiEmail(
         @Header("Authorization") token: String,
         @Body list_dm_ungvien_cus: List<dm_ungvien_cus>
-    ): Call<response_dm_ungvien_cus?>
+    ): Call<response_data?>
 
 
     @POST(url_api.dm_ungvien_emailphongvan)
     open fun getUngVienEmailPhongVan(
         @Header("Authorization") token: String,
-        @Body list_dm_ungvien_cus: List<dm_ungvien_cus>
-    ): Call<response_dm_ungvien_cus?>
+        @Body dm_ungvien_cus: dm_ungvien_cus
+    ): Call<response_data?>
 
     @POST(url_api.dm_ungvien_henphongvan)
     open fun getUngVienHenPhongVan(
         @Header("Authorization") token: String,
         @Body list_dm_ungvien_cus: List<dm_ungvien_cus>
-    ): Call<response_dm_ungvien_cus?>
+    ): Call<response_data?>
 
 
 

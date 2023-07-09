@@ -7,12 +7,15 @@ package com.example.myapplicationjetpackcompose.services
 //import com.google.gson.JsonElement
 //import com.google.gson.JsonParseException
 
+import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -35,6 +38,8 @@ object UUIDSerializer : KSerializer<UUID> {
         encoder.encodeString(value.toString())
     }
 }
+
+
 
 
 
@@ -61,10 +66,12 @@ object RetrofitService {
 
         val client = OkHttpClient()
 
+
         var json = kotlinx.serialization.json.Json {
             isLenient = true
             ignoreUnknownKeys = true
             encodeDefaults = true
+
         }
 
 

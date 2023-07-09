@@ -7,6 +7,7 @@ import com.example.myapplicationjetpackcompose.services.UUIDSerializer
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.serializers.LocalDateTimeIso8601Serializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import java.util.UUID
 
 @Serializable
@@ -114,10 +115,18 @@ data class dm_ungvien_cus (
  var sophut_nhacnho:  Int? = null,
 
     //Tiến thêm vào để tạo hiệu ứng
-    var isAnimatedVisibility: MutableState<Boolean> = mutableStateOf(true),
+ //Tiến thêm vào để không serialization khi pass data api
+  @kotlinx.serialization.Transient
+   var isAnimatedVisibility: MutableState<Boolean> = mutableStateOf(true),
+
 
     //Tiến thêm vào để kiểm tra lỗi email
+    //Tiến thêm vào để không serialization khi pass data api
+    @kotlinx.serialization.Transient
     var is_email_error: Boolean = true,
+
+   //Tiến thêm vào để không serialization khi pass data api
+   @kotlinx.serialization.Transient
     var message_email_error: String = "",
 )
 

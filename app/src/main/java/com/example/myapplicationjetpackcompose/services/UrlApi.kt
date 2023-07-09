@@ -15,8 +15,9 @@ object url_api {
 
     const val authenticate_login: String = "api/Authenticate/login"
     const val thongtin_doanhnghiep_datatable: String = "api/danhsach-danhmuc/thongtin-doanhnghiep-datatable"
-    const val hethong_nguoisudung_laytt_nsd: String = "api/hethong/nguoisudung/laytt_nsd"
-    const val hethong_nguoisudung_kiemtra_nsd: String = "api/hethong/nguoisudung/kiemtra_nsd"
+    const val hethong_nguoisudung_laytt_nsd: String = "api/hethong/nguoisudung/laytt-nsd"
+
+    const val hethong_nguoisudung_kiemtra_nsd: String = "api/hethong/nguoisudung/kiemtra-nsd"
     const val authenticate_encryptDES: String = "api/Authenticate/EncryptDES"
     const val hethong_layds_menu_app: String = "api/hethong/layds-menu-app"
 

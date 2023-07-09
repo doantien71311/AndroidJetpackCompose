@@ -190,8 +190,10 @@ class DangNhapViewModel @Inject constructor(
                    "  }"
 
             val postData = PostData(url_api.username, url_api.password)
-            val json = Json{ encodeDefaults = true }.encodeToString(PostData.serializer(), postData)
-            val json_js = Json{ encodeDefaults = true }.encodeToString(serializer<PostData>(), postData)
+            val json = Json {encodeDefaults = true
+
+            }.encodeToString(PostData.serializer(), postData)
+            val json_js = Json.encodeToString(serializer<PostData>(), postData)
 
             RetrofitService
                 .IRetrofitService
