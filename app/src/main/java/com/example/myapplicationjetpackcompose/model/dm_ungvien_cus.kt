@@ -128,6 +128,20 @@ data class dm_ungvien_cus (
    //Tiến thêm vào để không serialization khi pass data api
    @kotlinx.serialization.Transient
     var message_email_error: String = "",
+
+   //Tiến thêm vào để không serialization khi pass data api
+   @kotlinx.serialization.Transient
+   var is_error_link_phongvan_online: Boolean = false,
+
+  //Tiến thêm vào để không serialization khi pass data api
+  @kotlinx.serialization.Transient
+  var message_error_link_phongvan_online: String? = "",
+
+
+   //Tiến thêm vào để không serialization khi pass data api
+   @kotlinx.serialization.Transient
+   var message_error_diadiem_henphongvan: String? = "",
+
 )
 
 @Serializable

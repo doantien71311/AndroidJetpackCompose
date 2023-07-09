@@ -17,8 +17,10 @@ import com.example.myapplicationjetpackcompose.LocalDateTimeGetNow
 import com.example.myapplicationjetpackcompose.alarmmanager.AlarmItem
 import com.example.myapplicationjetpackcompose.alarmmanager.IAlarmScheduler
 import com.example.myapplicationjetpackcompose.changeHourMinute
+import com.example.myapplicationjetpackcompose.changeYearMonthDay
 import com.example.myapplicationjetpackcompose.formatToDateVN
 import com.example.myapplicationjetpackcompose.formatToFullTimeVN
+import com.example.myapplicationjetpackcompose.formatToTimeDayVN
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
 import com.example.myapplicationjetpackcompose.model.PostData
 import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
@@ -115,9 +117,12 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
 
     var statePhongVan by mutableStateOf(dm_ungvien_cus(
         duyet_henphongvan = EnumDuyetChungTu.DaDuyet,
-        ngay_henphongvan = LocalDateTimeGetNow()
+        ngay_henphongvan = LocalDateTimeGetNow(),
+        is_phongvan_online = false,
+        is_nhacnho = EnumCoKhong.C
 
     ))
+
     sealed class ValidationEvent {
         object Success : ValidationEvent()
 
@@ -175,6 +180,19 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
                     is_phongvan_online = ThongTinUngVienHenPhongVanEvent.is_phongvan_online,
                 )
 
+                statePhongVan = if ((statePhongVan.is_phongvan_online)==true){
+
+                    statePhongVan.copy(
+                        diadiem_henphongvan = "",
+                    )
+
+                } else {
+
+                    statePhongVan.copy(
+                        link_phongvan_online = "",
+                    )
+                }
+
 
             }
 
@@ -223,34 +241,27 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
 
             }
 
+            is ThongTinUngVienHenPhongVanEvent.NgayHenPhongVanOnLineChanged -> {
+
+                val ngay_henphongvan = statePhongVan.ngay_henphongvan?.changeYearMonthDay(
+                    ThongTinUngVienHenPhongVanEvent.year,
+                    ThongTinUngVienHenPhongVanEvent.month,
+                    ThongTinUngVienHenPhongVanEvent.day,
+                )
+                //Thiết lập giá trị từ ui
+                statePhongVan = statePhongVan.copy(
+                    ngay_henphongvan = ngay_henphongvan
+                )
+
+            }
+
             else -> {}
         }
     }
 
 
 
-    private val _diadiem_henphongvan = MutableLiveData<String>()
-    val diadiem_henphongvan : LiveData<String> = _diadiem_henphongvan
-    fun onChangedDiaDiemHenPhongVan(diadiem_henphongvan: String)
-    {
-        _diadiem_henphongvan.value = diadiem_henphongvan
 
-    }
-
-    private val _link_phongvan_online = MutableLiveData<String>()
-    val link_phongvan_online : LiveData<String> = _link_phongvan_online
-    fun onChangedLinkPhongVanOnline(link_phongvan_online: String)
-    {
-        _link_phongvan_online.value = link_phongvan_online
-
-    }
-
-    private val _is_phongvan_online = MutableLiveData<Boolean>()
-    val is_phongvan_online : LiveData<Boolean> = _is_phongvan_online
-    fun onChangedIsPhongVanOnline(is_phongvan_online: Boolean) {
-        _is_phongvan_online.value = is_phongvan_online
-
-    }
 
 
 
@@ -340,19 +351,20 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
 
     }
 
-    fun nhacNho( dmUngvienCus: dm_ungvien_cus) {
+    fun nhacNhoHenPhongVan( dmUngvienCus: dm_ungvien_cus) {
 
         if (dmUngvienCus.is_nhacnho ?: "" == EnumCoKhong.C) {
 
             dmUngvienCus.ngay_henphongvan?.let {
                 alarmScheduler.scheduleManager(
                     AlarmItem(
-                        it.toJavaLocalDateTime().plusMinutes((dmUngvienCus.sophut_nhacnho ?: 0).toLong()),
+                        it.toJavaLocalDateTime()
+                            .plusMinutes(-(dmUngvienCus.sophut_nhacnho ?: 0).toLong()),
                         "Đã hẹn nhắc nhở",
                         CommonDataParamater(
                             ma_chucnang = MainMenuDestination.NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet.route,
-                            m_title = dmUngvienCus.ten_uv?:"",
-                            m_text =  dmUngvienCus.ngay_henphongvan!!.formatToFullTimeVN()
+                            m_title = "Phỏng vấn ${dmUngvienCus.ten_uv ?: ""}",
+                            m_text = "Lúc ${dmUngvienCus.ngay_henphongvan?.formatToTimeDayVN()}"
                         )
                     )
                 )
@@ -386,7 +398,10 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
 
 
 
-        //Kết nối api
+
+
+
+        //Kết nối api, xác nhận phỏng vấn, gởi email
         viewModelScope.launch {
             RetrofitService.IRetrofitService
                 .getUngVienHenPhongVanGoiEmail(
@@ -406,7 +421,7 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
 
                                 for (item in list_dm_ungvien_cus) {
 
-                                    nhacNho(item)
+                                    nhacNhoHenPhongVan(item)
 
                                 }
 

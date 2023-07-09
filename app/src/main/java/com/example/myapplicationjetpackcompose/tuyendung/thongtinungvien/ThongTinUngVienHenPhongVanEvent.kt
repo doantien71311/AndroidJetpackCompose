@@ -12,7 +12,7 @@ sealed class ThongTinUngVienHenPhongVanEvent {
 
     class IsPhongVanOnLineChanged(val is_phongvan_online: Boolean): ThongTinUngVienHenPhongVanEvent()
 
-    class NgayHenPhongVanOnLineChanged(val ngay_henphongvan: LocalDateTime): ThongTinUngVienHenPhongVanEvent()
+    class NgayHenPhongVanOnLineChanged(val year: Int, val month: Int, val day: Int): ThongTinUngVienHenPhongVanEvent()
     class ThoiGianHenPhongVanOnLineChanged(val hour: Int, val minute: Int): ThongTinUngVienHenPhongVanEvent()
 
     class IsNhacnhoChanged(val is_nhacnho: Boolean): ThongTinUngVienHenPhongVanEvent()

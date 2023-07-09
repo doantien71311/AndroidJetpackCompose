@@ -22,28 +22,36 @@ fun LocalDateTime?.formatToFullTimeVN(): String{
 
 }
 
-fun LocalDateTime?.formatToTimeVN(): String{
+
+fun LocalDateTime?.formatToTimeDayVN(): String{
     if (this == null)
         return ""
 
 
-    return this.hour.toString()
+    return this.hour.toString().padStart(2,'0')
         .plus(":")
-        .plus(this.minute)
-        .plus(":")
-        .plus(this.second)
-
+        .plus(this.minute.toString().padStart(2,'0'))
+        .plus(" ")
+        .plus(this.getThuTrongTuanVN())
+        .plus(", ")
+        .plus(this.dayOfMonth.toString().padStart(2,'0'))
+        .plus("/")
+        .plus(this.month.value.toString().padStart(2,'0'))
+        .plus("/")
+        .plus(this.year.toString())
 
 }
 
-fun LocalDateTime?.formatToHourMinuteVN(): String{
+
+fun LocalDateTime?.formatToHourMinuteVN(): String {
+
     if (this == null)
         return ""
 
 
-    return this.hour.toString()
+    return this.hour.toString().padStart(2,'0')
         .plus(":")
-        .plus(this.minute)
+        .plus(this.minute.toString().padStart(2,'0'))
 
 
 }
@@ -63,7 +71,21 @@ fun LocalDateTime?.formatToDateVN(): String{
 
 }
 
+fun LocalDateTime?.formatToThuNgayThangNamVN(): String{
+    if (this == null)
+        return ""
 
+
+    return this.getThuTrongTuanVN()
+        .plus(", ")
+        .plus(this.dayOfMonth.toString().padStart(2,'0'))
+        .plus("/")
+        .plus(this.month.value.toString().padStart(2,'0'))
+        .plus("/")
+        .plus(this.year.toString())
+
+
+}
 
 
 fun LocalDateTime?.formatToParamater(): String{
@@ -100,10 +122,7 @@ fun LocalDateTimeGetNow(): LocalDateTime {
 
 }
 
-fun LocalDateTime.setHour(hour: Int ):  LocalDateTime {
 
-        return kotlinx.datetime.LocalDateTime(this.year, this.month, this.dayOfMonth, hour, this.minute, this.second)
-}
 
 fun LocalDateTime.changeHourMinute(hour: Int , minute: Int ):  LocalDateTime {
 
@@ -115,5 +134,36 @@ fun LocalDateTime.changeHourMinute(hour: Int , minute: Int ):  LocalDateTime {
         minute,
         this.second
     )
+}
+
+
+
+fun LocalDateTime.changeYearMonthDay(year: Int , month: Int, day: Int):  LocalDateTime {
+
+    return kotlinx.datetime.LocalDateTime(
+        year,
+        month,
+        day,
+        this.hour,
+        this.minute,
+        this.second
+    )
+}
+
+fun LocalDateTime?.getThuTrongTuanVN():  String {
+
+    if (this == null)
+        return ""
+
+    return when (this.dayOfWeek.value) {
+        1 -> "Thứ hai"
+        2 -> "Thứ ba"
+        3 -> "Thứ tư"
+        4 -> "Thứ năm"
+        5 -> "Thứ sáu"
+        6 -> "Thứ bảy"
+        7 -> "Chủ nhật"
+        else -> "Khác"
+    }
 }
 

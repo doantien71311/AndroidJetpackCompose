@@ -219,7 +219,7 @@ fun ThongTinUngVienScreen (
                     value = viewModel.tungay,
                     singleLine = true,
                     maxLines = 1,
-                    onValueChange = { viewModel.onChangedDiaDiemHenPhongVan(it) },
+                    onValueChange = {  },
 
                     leadingIcon = {
                         Icon(
@@ -252,7 +252,9 @@ fun ThongTinUngVienScreen (
                     value = viewModel.tungay,
                     singleLine = true,
                     maxLines = 1,
-                    onValueChange = { viewModel.onChangedDiaDiemHenPhongVan(it) },
+                    onValueChange = {
+
+                                    },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Outlined.Today,

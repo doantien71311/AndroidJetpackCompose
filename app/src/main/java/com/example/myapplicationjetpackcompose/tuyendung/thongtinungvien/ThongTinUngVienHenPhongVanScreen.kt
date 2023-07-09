@@ -6,8 +6,11 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -86,7 +89,8 @@ import com.example.myapplicationjetpackcompose.EnumCoKhong
 import com.example.myapplicationjetpackcompose.changeHourMinute
 import com.example.myapplicationjetpackcompose.formatToDateVN
 import com.example.myapplicationjetpackcompose.formatToHourMinuteVN
-import com.example.myapplicationjetpackcompose.formatToTimeVN
+import com.example.myapplicationjetpackcompose.formatToThuNgayThangNamVN
+
 import com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien.KichHoatThanhVienEvent
 import java.util.Calendar
 import java.util.Date
@@ -282,11 +286,14 @@ fun CheckedOnlineHenPhongVanScreen(
 ) {
 
     Spacer(modifier = Modifier.height(10.dp))
-    Divider()
-    Spacer(modifier = Modifier.height(10.dp))
-
 
     Text(
+        modifier = Modifier
+            .padding(
+                start = 10.dp,
+                end = 10.dp
+            )
+            .fillMaxWidth(),
         text = "Phỏng vấn online",
         style = MaterialTheme.typography.bodyLarge,
         textAlign = TextAlign.Left
@@ -294,43 +301,23 @@ fun CheckedOnlineHenPhongVanScreen(
 
 
     Checkbox(
+//        modifier = Modifier
+//            .padding(
+//                start = 10.dp,
+//                end = 10.dp
+//            )
+//            .fillMaxWidth(),
         checked = viewModel.statePhongVan.is_phongvan_online?: false,
         onCheckedChange = {
             viewModel.handleEvent(ThongTinUngVienHenPhongVanEvent.IsPhongVanOnLineChanged(it))
 
         }
     )
-
-}
-
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
-@Composable()
-fun ButtonXacNhanHenPhongVanScreen(
-
-    viewModel: ThongTinUngVienViewModel
-
-) {
     Spacer(modifier = Modifier.height(10.dp))
 
-    Button(
-
-        onClick = {
-            viewModel.xacNhanHenPhongVanGoiEmail()
-        },
-        shape = RoundedCornerShape(10.dp),
-        modifier = Modifier
-            .padding(
-                start = 20.dp,
-                end = 20.dp
-            )
-            .fillMaxWidth()
-            .height(40.dp)
-    ) {
-        Text(text = "Xác nhận")
-    }
-    Spacer(modifier = Modifier.height(20.dp))
 }
+
+
 
 
 
@@ -342,7 +329,11 @@ fun DiaDiemHenPhongVanScreen (
 
 ) {
 
+    AnimatedVisibility (
+        visible = !(viewModel.statePhongVan.is_phongvan_online?:false),
 
+            )
+    {
 
     Spacer(modifier = Modifier.height(10.dp))
 
@@ -350,7 +341,13 @@ fun DiaDiemHenPhongVanScreen (
 
         label = { Text(text = "Địa diểm phỏng vấn") },
 
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .padding(
+                start = 10.dp,
+                end = 10.dp
+            )
+            .fillMaxWidth()
+        ,
         value = viewModel.statePhongVan.diadiem_henphongvan?:"",
         singleLine = true,
         maxLines = 1,
@@ -366,6 +363,7 @@ fun DiaDiemHenPhongVanScreen (
     )
 
     Spacer(modifier = Modifier.height(10.dp))
+    }
 
 }
 
@@ -377,14 +375,22 @@ fun LinkOnlineHenPhongVanScreen (
 
 ) {
 
+    AnimatedVisibility (
+        visible = (viewModel.statePhongVan.is_phongvan_online?:false),
 
+    ) {
     Spacer(modifier = Modifier.height(10.dp))
 
     TextField(
 
         label = { Text(text = "Link phỏng vấn online") },
 
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .padding(
+                start = 10.dp,
+                end = 10.dp
+            )
+            .fillMaxWidth(),
         value = viewModel.statePhongVan.link_phongvan_online?:"",
         singleLine = true,
         maxLines = 1,
@@ -402,6 +408,7 @@ fun LinkOnlineHenPhongVanScreen (
     )
 
     Spacer(modifier = Modifier.height(10.dp))
+    }
 
 }
 
@@ -413,41 +420,20 @@ fun TimePickerHenPhongVanScreen(
 
 )
 {
+    Spacer(modifier = Modifier.height(10.dp))
     // Fetching local context
     val mContext = LocalContext.current
-
-    // Declaring and initializing a calendar
-    val mCalendar = Calendar.getInstance()
-   // val mHour = mCalendar[Calendar.HOUR_OF_DAY]
-    //val mMinute = mCalendar[Calendar.MINUTE]
-
-      val mHour = viewModel.statePhongVan.ngay_henphongvan?.hour
-      val mMinute =viewModel.statePhongVan.ngay_henphongvan?.minute
-
-    // Value for storing time as a string
-    val mTime = remember { mutableStateOf("Chọn thời gian") }
-
-    // Creating a TimePicker dialod
-//    val mTimePickerDialog = TimePickerDialog(
-//        mContext,
-//        {_, mHour : Int, mMinute: Int ->
-//            //mTime.value = "$mHour:$mMinute"
-//        }, mHour, mMinute, false
-//    )
 
     val mTimePickerDialog = TimePickerDialog(
         mContext,
         {_, mHour : Int, mMinute: Int ->
 
-           // viewModel.statePhongVan.ngay_henphongvan =
-             //   viewModel.statePhongVan.ngay_henphongvan?.changeHourMinute(mHour, mMinute)
 
             viewModel.handleEvent(ThongTinUngVienHenPhongVanEvent.ThoiGianHenPhongVanOnLineChanged(mHour, mMinute ))
-           // viewModel.statePhongVan.ngay_henphongvan.minute = mHour
-            //mTime.value = "$mHour:$mMinute"
+
         },
-        mHour?:0,
-        mMinute?:0,
+        viewModel.statePhongVan.ngay_henphongvan?.hour?:0,
+        viewModel.statePhongVan.ngay_henphongvan?.minute?:0,
         true
     )
 
@@ -456,12 +442,13 @@ fun TimePickerHenPhongVanScreen(
         value = viewModel.statePhongVan.ngay_henphongvan.formatToHourMinuteVN(),
         enabled = false,
         onValueChange = {
-
-            //viewModel.handleEvent(ThongTinUngVienHenPhongVanEvent.NgayHenPhongVanOnLineChanged(it))
-
         },
         modifier = Modifier
             .fillMaxWidth()
+            .padding(
+                start = 10.dp,
+                end = 10.dp
+            )
             .clickable {
 
                 mTimePickerDialog.show()
@@ -487,46 +474,32 @@ fun TimePickerHenPhongVanScreen(
 fun DatePickerHenPhongVanScreen (
     viewModel: ThongTinUngVienViewModel
 ) {
+    Spacer(modifier = Modifier.height(10.dp))
     // Fetching the Local Context
     val mContext = LocalContext.current
 
-    // Declaring integer values
-    // for year, month and day
-    val mYear: Int
-    val mMonth: Int
-    val mDay: Int
-
-    // Initializing a Calendar
-    val mCalendar = Calendar.getInstance()
-
-    // Fetching current year, month and day
-    mYear = mCalendar.get(Calendar.YEAR)
-    mMonth = mCalendar.get(Calendar.MONTH)
-    mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
-
-    mCalendar.time = Date()
-
-    // Declaring a string value to
-    // store date in string format
-    val mDate = remember { mutableStateOf("Chọn ngày") }
-
-    // Declaring DatePickerDialog and setting
-    // initial values as current values (present year, month and day)
     val mDatePickerDialog = DatePickerDialog(
         mContext,
         { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
-            mDate.value = "$mDayOfMonth/${mMonth}/$mYear"
-        }, mYear, mMonth, mDay
+            viewModel.handleEvent(ThongTinUngVienHenPhongVanEvent.NgayHenPhongVanOnLineChanged(mYear, mMonth, mDayOfMonth  ))
+        },
+        viewModel.statePhongVan.ngay_henphongvan?.year?:0,
+        viewModel.statePhongVan.ngay_henphongvan?.monthNumber?:0,
+        viewModel.statePhongVan.ngay_henphongvan?.dayOfMonth?:0
     )
 
 
     OutlinedTextField(
         label = { Text(text = "Ngày hẹn phỏng vấn") },
-        value = viewModel.statePhongVan.ngay_henphongvan.formatToDateVN(),
+        value = viewModel.statePhongVan.ngay_henphongvan.formatToThuNgayThangNamVN(),
         enabled = false,
         onValueChange = {},
         modifier = Modifier
             .fillMaxWidth()
+            .padding(
+                start = 10.dp,
+                end = 10.dp
+            )
             .clickable {
 
                 mDatePickerDialog.show()
@@ -552,30 +525,29 @@ fun DatePickerHenPhongVanScreen (
 fun CheckHenNhacNhoScreen (
     viewModel: ThongTinUngVienViewModel
 ) {
+
     Spacer(modifier = Modifier.height(10.dp))
 
 
-
-    Text(text="Nhắc nhở")
-    Row (
+    Text(
         modifier = Modifier
-        .fillMaxWidth()
-            )
-    {
-
-
-
-        Checkbox(
-            checked = (viewModel.statePhongVan.is_nhacnho?:"") == EnumCoKhong.C,
-            onCheckedChange = {
-
-                viewModel.handleEvent(ThongTinUngVienHenPhongVanEvent.IsNhacnhoChanged(it))
-
-
-            }
+        .padding(
+            start = 10.dp,
+            end = 10.dp
         )
+        .fillMaxWidth(),
+        text="Nhắc nhở"
+    )
+    Checkbox(
+        checked = (viewModel.statePhongVan.is_nhacnho?:"") == EnumCoKhong.C,
+        onCheckedChange = {
 
-    }
+            viewModel.handleEvent(ThongTinUngVienHenPhongVanEvent.IsNhacnhoChanged(it))
+
+
+        }
+    )
+
     Spacer(modifier = Modifier.height(10.dp))
 
 }
@@ -586,12 +558,17 @@ fun ThoiGianHenNhacNhoScreen (
     viewModel: ThongTinUngVienViewModel
 )
 {
-    Spacer(modifier = Modifier.height(10.dp))
+   // Spacer(modifier = Modifier.height(10.dp))
 
     OutlinedTextField(
         modifier = Modifier
+            .padding(
+                start = 10.dp,
+                end = 10.dp
+            )
                .fillMaxWidth(),
         value = (viewModel.statePhongVan.sophut_nhacnho?:0).toString(),
+        readOnly = (viewModel.statePhongVan.is_nhacnho?:"") != EnumCoKhong.C,
         onValueChange = {
             viewModel.handleEvent(ThongTinUngVienHenPhongVanEvent
                 .SophutNhacNhoOnLineChanged( it.toIntOrNull()))
@@ -605,6 +582,35 @@ fun ThoiGianHenNhacNhoScreen (
             )
         }
     )
+}
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@Composable()
+fun ButtonXacNhanHenPhongVanScreen(
+
+    viewModel: ThongTinUngVienViewModel
+
+) {
+    Spacer(modifier = Modifier.height(10.dp))
+
+    Button(
+
+        onClick = {
+            viewModel.xacNhanHenPhongVanGoiEmail()
+        },
+        shape = RoundedCornerShape(10.dp),
+        modifier = Modifier
+            .padding(
+                start = 10.dp,
+                end = 10.dp
+            )
+            .fillMaxWidth()
+            .height(40.dp)
+    ) {
+        Text(text = "Xác nhận")
+    }
+    Spacer(modifier = Modifier.height(20.dp))
 }
 
 //@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
