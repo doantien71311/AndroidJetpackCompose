@@ -37,7 +37,9 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AlarmAdd
+import androidx.compose.material.icons.filled.BookmarkRemove
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.PersonRemove
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.Today
 import androidx.compose.material.icons.outlined.AccessTime
@@ -170,8 +172,7 @@ fun UngVienDanhSachEmailhHenPhongVanScreen(
     Column (
 
         modifier = Modifier
-            .padding(
-            )
+            .padding()
             .height(200.dp)
             .clip(RoundedCornerShape(20.dp))
             .background(color = Color.Red)
@@ -225,15 +226,61 @@ fun UngVienDanhSachEmailhHenPhongVanScreen(
                         // .align(Alignment.CenterHorizontally)
 
                     ) {
-                        Text(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(
-                                    start = 10.dp
-                                )
-                            ,
-                            text = item.email ?: ""
+
+                        Row (
+                                modifier = Modifier
+                                    //.fillMaxHeight()
+                                    .align(
+                                        alignment = Alignment.Start
+                                    ),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+
                         )
+                        {
+
+                            IconButton(
+                                modifier = Modifier
+                                ,
+                                onClick = {
+                                        viewModel.huyChonPhongVan(item)
+                                }) {
+                                Icon(Icons.Default.PersonRemove, "Huỷ")
+                            }
+
+                        Column (
+                            modifier = Modifier
+
+                        )
+
+                        {
+                            Text(
+                                modifier = Modifier
+                                    //.fillMaxWidth()
+                                    .padding(
+                                        start = 10.dp
+                                    )
+                                ,
+                                text = item.ten_uv ?: ""
+                            )
+
+                            Text(
+                                modifier = Modifier
+                                   // .fillMaxWidth()
+                                    .padding(
+                                        start = 10.dp
+                                    )
+                                ,
+                                text = item.email ?: ""
+                            )
+                        }
+
+
+
+
+
+                        }
+
                     }
                 }
 
@@ -475,16 +522,17 @@ fun DatePickerHenPhongVanScreen (
     viewModel: ThongTinUngVienViewModel
 ) {
     Spacer(modifier = Modifier.height(10.dp))
+
     // Fetching the Local Context
     val mContext = LocalContext.current
 
     val mDatePickerDialog = DatePickerDialog(
         mContext,
         { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
-            viewModel.handleEvent(ThongTinUngVienHenPhongVanEvent.NgayHenPhongVanOnLineChanged(mYear, mMonth, mDayOfMonth  ))
+            viewModel.handleEvent(ThongTinUngVienHenPhongVanEvent.NgayHenPhongVanOnLineChanged(mYear, mMonth + 1, mDayOfMonth  ))
         },
         viewModel.statePhongVan.ngay_henphongvan?.year?:0,
-        viewModel.statePhongVan.ngay_henphongvan?.monthNumber?:0,
+        (viewModel.statePhongVan.ngay_henphongvan?.monthNumber?:0) -1 ,
         viewModel.statePhongVan.ngay_henphongvan?.dayOfMonth?:0
     )
 
@@ -531,11 +579,11 @@ fun CheckHenNhacNhoScreen (
 
     Text(
         modifier = Modifier
-        .padding(
-            start = 10.dp,
-            end = 10.dp
-        )
-        .fillMaxWidth(),
+            .padding(
+                start = 10.dp,
+                end = 10.dp
+            )
+            .fillMaxWidth(),
         text="Nhắc nhở"
     )
     Checkbox(
@@ -566,7 +614,7 @@ fun ThoiGianHenNhacNhoScreen (
                 start = 10.dp,
                 end = 10.dp
             )
-               .fillMaxWidth(),
+            .fillMaxWidth(),
         value = (viewModel.statePhongVan.sophut_nhacnho?:0).toString(),
         readOnly = (viewModel.statePhongVan.is_nhacnho?:"") != EnumCoKhong.C,
         onValueChange = {

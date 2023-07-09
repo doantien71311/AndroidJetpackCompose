@@ -1,6 +1,7 @@
 package com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien
 
 import android.util.Log
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -44,9 +45,13 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.datetime.toJavaLocalDateTime
 
 import retrofit2.Call
@@ -282,13 +287,8 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
 
     fun chonPhongVan(para_dm_ungvien_cus: dm_ungvien_cus) {
 
-
-        //Cho phép hiệu ứng
+        //Cho phép hiệu ứng, biến mất
         para_dm_ungvien_cus.isAnimatedVisibility.value = false
-
-        //Loại bỏ dòng đã chọn
-        this.listUngvien.drop(this.listUngvien.indexOf(para_dm_ungvien_cus))
-
 
         //Thêm vào danh sách phỏng vấn, tình trạng đã duyễt hẹn phỏng vấn
         listPhongVan += para_dm_ungvien_cus
@@ -296,7 +296,18 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
         //Thiết lập lại số lượng phỏng vấn
         soluongPhongVan = listPhongVan.size
 
+    }
 
+    fun huyChonPhongVan(para_dm_ungvien_cus: dm_ungvien_cus) {
+
+        //Cho phép xuất hiện lạ trong danh sách ứng viên
+        para_dm_ungvien_cus.isAnimatedVisibility.value = true
+
+        //Loại bỏ dòng đã chọn
+        this.listPhongVan -= para_dm_ungvien_cus
+
+        //Thiết lập lại số lượng phỏng vấn
+        soluongPhongVan = listPhongVan.size
 
     }
 

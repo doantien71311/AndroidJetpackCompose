@@ -7,6 +7,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -24,6 +25,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +37,9 @@ import com.example.myapplicationjetpackcompose.formatToFullTimeVN
 import com.example.myapplicationjetpackcompose.formatToParamater
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
 import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -56,13 +61,18 @@ fun ThongTinUngVienItemsScreen(
         scaleOut(
             animationSpec = tween(durationMillis = 1000)
         )
-                +
-                shrinkVertically(
-                    animationSpec = tween(durationMillis = 1000)
-                )
+//                +
+//                shrinkVertically(
+//                    animationSpec = tween(durationMillis = 1000)
+//                )
                 + fadeOut(
             animationSpec = tween(durationMillis = 1000)
         )
+                + shrinkOut(
+                animationSpec = tween(durationMillis = 2000),
+                        shrinkTowards = Alignment.BottomCenter
+        )
+
     ) {
 
         Card(
@@ -164,7 +174,11 @@ fun ThongTinUngVienItemsScreen(
                     Button(
                         onClick = {
 
-                            viewModel.chonPhongVan(para_dm_ungvien_cus)
+
+
+                                    viewModel.chonPhongVan(para_dm_ungvien_cus)
+
+
 
                         },
                         shape = RoundedCornerShape(10.dp),

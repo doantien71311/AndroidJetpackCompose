@@ -20,10 +20,17 @@ import androidx.compose.material.icons.filled.AccessibilityNew
 import androidx.compose.material.icons.filled.AddIcCall
 import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material.icons.filled.AlarmAdd
+import androidx.compose.material.icons.filled.BookmarkRemove
 import androidx.compose.material.icons.filled.CalendarViewDay
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.DeleteForever
+import androidx.compose.material.icons.filled.PersonRemove
 import androidx.compose.material.icons.filled.PictureAsPdf
+import androidx.compose.material.icons.filled.Recycling
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.RemoveShoppingCart
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.SettingsSystemDaydream
 import androidx.compose.material.icons.filled.TimeToLeave
@@ -160,7 +167,7 @@ fun TextFieldScreen (
 
                     leadingIcon = {
                         Icon(
-                            imageVector = Icons.Default.AlarmAdd,
+                            imageVector = Icons.Default.PersonRemove,
                             contentDescription = null
                         )
                     }

@@ -91,10 +91,10 @@ fun ColumnAndRowScreen (
                     .width(500.dp)
 
                     .align(
-                        alignment = Alignment.CenterHorizontally
+                        alignment = Alignment.End
                     ),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top
 
             ) {
                 Button(
@@ -109,6 +109,20 @@ fun ColumnAndRowScreen (
 
                 ) {
                     Text(text = "Nút Row")
+                }
+
+                Button(
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier
+                        .background(Color.Blue)
+                        .height(70.dp)
+                        .align(
+                            Alignment.CenterVertically
+                        )
+
+
+                ) {
+                    Text(text = "Nút Row 2")
                 }
 
             }

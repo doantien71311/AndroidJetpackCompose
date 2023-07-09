@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.net.toUri
 import com.example.myapplicationjetpackcompose.ParcelizeDataParamater
@@ -19,6 +20,7 @@ import com.example.myapplicationjetpackcompose.mainmenu.MainMenuActivity
 
 class AlarmReceiver: BroadcastReceiver() {
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onReceive(context: Context, intent: Intent) {
 
 //        val message = intent?.getStringExtra("EXTRA_MESSAGE")
