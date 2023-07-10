@@ -13,11 +13,9 @@ fun LocalDateTime?.formatToFullTimeVN(): String{
         .plus("/")
         .plus(this.year.toString())
         .plus(" ")
-        .plus(this.hour.toString())
+        .plus(this.hour.toString().padStart(2,'0'))
         .plus(":")
-        .plus(this.minute)
-        .plus(":")
-        .plus(this.second)
+        .plus(this.minute.toString().padStart(2,'0'))
 
 
 }

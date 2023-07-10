@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -42,6 +43,22 @@ import androidx.compose.material.icons.filled.ViewDay
 import androidx.compose.material.icons.outlined.Abc
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.OnlinePrediction
+import androidx.compose.material.icons.rounded.AddBusiness
+import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Clear
+import androidx.compose.material.icons.rounded.ClearAll
+import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.DeleteForever
+import androidx.compose.material.icons.rounded.DeleteSweep
+import androidx.compose.material.icons.rounded.FolderDelete
+import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.PersonAdd
+import androidx.compose.material.icons.rounded.PersonAddAlt
+import androidx.compose.material.icons.rounded.Refresh
+import androidx.compose.material.icons.rounded.RemoveFromQueue
+import androidx.compose.material.icons.rounded.Undo
+import androidx.compose.material.icons.rounded.UnfoldMoreDouble
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -173,6 +190,41 @@ fun TextFieldScreen (
                     }
 
                 )
+
+                Button(
+                    onClick = {
+
+
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+
+                    Icon(
+                        imageVector = Icons.Rounded.Refresh,
+                        modifier = Modifier.size(50.dp)
+                            .padding(
+                                end = 5.dp
+                            ),
+                        contentDescription = "drawable icons",
+                        //tint = Color.Unspecified
+                    )
+                    Icon(
+                        imageVector = Icons.Rounded.RemoveFromQueue,
+                        modifier = Modifier.size(50.dp)
+                            .padding(
+                                end = 5.dp
+                            ),
+                        contentDescription = "drawable icons",
+                        //tint = Color.Unspecified
+                    )
+                    Text(
+                        text = "Button",
+                        color = Color.Black,
+                        textAlign = TextAlign.Center,
+
+                    )
+                }
             }
         }
     }

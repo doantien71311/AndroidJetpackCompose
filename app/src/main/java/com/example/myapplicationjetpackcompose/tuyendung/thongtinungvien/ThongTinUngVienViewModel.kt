@@ -2,6 +2,7 @@ package com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien
 
 import android.util.Log
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -111,6 +112,7 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
     var denngay: String by mutableStateOf("")
     var kevalue: String by mutableStateOf("")
 
+    var isAnimatedButtonChon: MutableState<Boolean>  =  mutableStateOf(true)
 
     var listUngvien : List<dm_ungvien_cus> by mutableStateOf(mutableListOf<dm_ungvien_cus>())
     var soluongUngVien: Int by mutableStateOf(0)
@@ -124,7 +126,9 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
         duyet_henphongvan = EnumDuyetChungTu.DaDuyet,
         ngay_henphongvan = LocalDateTimeGetNow(),
         is_phongvan_online = false,
-        is_nhacnho = EnumCoKhong.C
+        is_nhacnho = EnumCoKhong.C,
+        link_phongvan_online = "",
+        diadiem_henphongvan = ""
 
     ))
 
@@ -289,12 +293,14 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
 
         //Cho phép hiệu ứng, biến mất
         para_dm_ungvien_cus.isAnimatedVisibility.value = false
+        isAnimatedButtonChon.value = true
 
         //Thêm vào danh sách phỏng vấn, tình trạng đã duyễt hẹn phỏng vấn
         listPhongVan += para_dm_ungvien_cus
 
         //Thiết lập lại số lượng phỏng vấn
         soluongPhongVan = listPhongVan.size
+
 
     }
 

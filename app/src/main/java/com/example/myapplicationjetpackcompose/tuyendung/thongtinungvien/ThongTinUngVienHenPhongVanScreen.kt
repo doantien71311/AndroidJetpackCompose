@@ -80,6 +80,8 @@ import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -117,7 +119,11 @@ fun ThongTinUngVienHenPhongVanScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(text = "Hẹn phỏng vấn") },
+                    title = {
+                        Column () {
+                        Text(text = "Hẹn phỏng vấn (${viewModel.soluongPhongVan.toString()})")
+                        }
+                            },
                     navigationIcon = {
                         IconButton(onClick = {
                             viewModel.isShowHenPhongVan = false
@@ -137,7 +143,7 @@ fun ThongTinUngVienHenPhongVanScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color.Yellow)
+                            //.background(Color.Yellow)
                             .padding(it)
                             //.fillMaxHeight()
                             .verticalScroll(rememberScrollState())
@@ -146,6 +152,8 @@ fun ThongTinUngVienHenPhongVanScreen(
                     {
 
                         UngVienDanhSachEmailhHenPhongVanScreen(viewModel)
+
+                        Divider()
 
                         FormHenPhongVanScreen(viewModel)
 
@@ -173,23 +181,30 @@ fun UngVienDanhSachEmailhHenPhongVanScreen(
 
         modifier = Modifier
             .padding()
-            .height(200.dp)
-            .clip(RoundedCornerShape(20.dp))
-            .background(color = Color.Red)
+            .height(
+
+                if (viewModel.listPhongVan.isEmpty())
+                    0.dp
+                else if (viewModel.listPhongVan.size == 1 )
+                    60.dp
+                else if (viewModel.listPhongVan.size == 2 )
+                    120.dp
+                else
+                    180.dp
+
+
+            )
+            //.clip(RoundedCornerShape(20.dp))
+            //.background(MaterialTheme.colorScheme.primaryContainer)
 
 
     ) {
 
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(
-            text = "Gởi email phỏng vấn (${viewModel.soluongPhongVan.toString()})",
-            textAlign = TextAlign.Center
-        )
-        Spacer(modifier = Modifier.height(10.dp))
         Divider()
 
         LazyColumn(
-        ) {
+        )
+        {
             itemsIndexed(
                 items = viewModel.listPhongVan
             ) { index, item ->
@@ -206,9 +221,32 @@ fun UngVienDanhSachEmailhHenPhongVanScreen(
 
                         )
                         //.clip(RoundedCornerShape(20.dp))
-                        .background(color = Color.Blue)
+                        // .background(color = Color.Blue)
+
                         .fillMaxWidth()
-                        .height(50.dp)
+                        .height(
+
+                   50.dp
+
+
+
+//                             when (viewModel.listPhongVan.size) {
+//                                is 0 -> {
+//                                    return 0.dp
+//                                }
+//
+//                                is 0 -> {
+//                                    0.dp
+//                                }
+//
+//                                else -> {
+//                                    50.dp
+//                                }
+//                            }
+
+
+
+                        )
                         .animateContentSize()
 
                 )
@@ -216,37 +254,27 @@ fun UngVienDanhSachEmailhHenPhongVanScreen(
 
                     Column (
                         modifier = Modifier
-//                                        .padding(
-//                                            it
-//                                        )
-                            //.width(100.dp)
-                            //.height(50.dp)
                             .fillMaxWidth()
-                            .background(color = Color.Green)
-                        // .align(Alignment.CenterHorizontally)
+                            .fillMaxHeight()
+//                            .background(
+//                                MaterialTheme.colorScheme.surfaceVariant
+//                            )
+
 
                     ) {
 
                         Row (
                                 modifier = Modifier
-                                    //.fillMaxHeight()
-                                    .align(
-                                        alignment = Alignment.Start
-                                    ),
+                                    //.background(color = Color.Magenta)
+                                    .fillMaxWidth()
+                                    ,
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
 
                         )
                         {
 
-                            IconButton(
-                                modifier = Modifier
-                                ,
-                                onClick = {
-                                        viewModel.huyChonPhongVan(item)
-                                }) {
-                                Icon(Icons.Default.PersonRemove, "Huỷ")
-                            }
+
 
                         Column (
                             modifier = Modifier
@@ -260,8 +288,12 @@ fun UngVienDanhSachEmailhHenPhongVanScreen(
                                     .padding(
                                         start = 10.dp
                                     )
+                                    .align(
+                                        alignment = Alignment.Start
+                                    )
                                 ,
-                                text = item.ten_uv ?: ""
+                                text = item.ten_uv ?: "",
+                                fontWeight = FontWeight.Bold,
                             )
 
                             Text(
@@ -271,12 +303,26 @@ fun UngVienDanhSachEmailhHenPhongVanScreen(
                                         start = 10.dp
                                     )
                                 ,
-                                text = item.email ?: ""
+                                text = item.email ?: "",
+                                fontWeight = FontWeight.Bold,
+                                fontStyle = FontStyle.Italic
                             )
                         }
 
 
+                            IconButton(
+                                modifier = Modifier
 
+                                ,
+                                onClick = {
+                                    viewModel.huyChonPhongVan(item)
+                                }) {
+                                Icon(
+                                    Icons.Default.PersonRemove, "Huỷ",
+                                    modifier = Modifier.size(30.dp)
+
+                                )
+                            }
 
 
                         }
@@ -286,6 +332,8 @@ fun UngVienDanhSachEmailhHenPhongVanScreen(
 
             }
         }
+
+       // Divider()
     }
 
 }
@@ -297,6 +345,9 @@ fun UngVienDanhSachEmailhHenPhongVanScreen(
 fun FormHenPhongVanScreen(
     viewModel: ThongTinUngVienViewModel
 ) {
+
+
+
     Column(
         modifier = Modifier
 
@@ -376,40 +427,45 @@ fun DiaDiemHenPhongVanScreen (
 
 ) {
 
-    AnimatedVisibility (
-        visible = !(viewModel.statePhongVan.is_phongvan_online?:false),
+    AnimatedVisibility(
+        visible = !(viewModel.statePhongVan.is_phongvan_online ?: false),
 
-            )
+        )
     {
 
-    Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
-    TextField(
+        OutlinedTextField(
 
-        label = { Text(text = "Địa diểm phỏng vấn") },
+            label = { Text(text = "Địa diểm phỏng vấn") },
 
-        modifier = Modifier
-            .padding(
-                start = 10.dp,
-                end = 10.dp
-            )
-            .fillMaxWidth()
-        ,
-        value = viewModel.statePhongVan.diadiem_henphongvan?:"",
-        singleLine = true,
-        maxLines = 1,
-        onValueChange = { viewModel.handleEvent(ThongTinUngVienHenPhongVanEvent.DiaDiemHenPhongVanChanged(it)) },
+            modifier = Modifier
+                .padding(
+                    start = 10.dp,
+                    end = 10.dp
+                )
+                .fillMaxWidth(),
+            value = viewModel.statePhongVan.diadiem_henphongvan ?: "",
+            singleLine = true,
+            maxLines = 1,
+            onValueChange = {
+                viewModel.handleEvent(
+                    ThongTinUngVienHenPhongVanEvent.DiaDiemHenPhongVanChanged(
+                        it
+                    )
+                )
+            },
 
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Outlined.LocalPostOffice,
-                contentDescription = null
-            )
-        }
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.LocalPostOffice,
+                    contentDescription = null
+                )
+            }
 
-    )
+        )
 
-    Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(10.dp))
     }
 
 }
@@ -428,7 +484,7 @@ fun LinkOnlineHenPhongVanScreen (
     ) {
     Spacer(modifier = Modifier.height(10.dp))
 
-    TextField(
+        OutlinedTextField(
 
         label = { Text(text = "Link phỏng vấn online") },
 

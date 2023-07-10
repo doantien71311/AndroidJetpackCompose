@@ -1,4 +1,9 @@
-package com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien
+package com.example.myapplicationjetpackcompose.test.ColumnAndRow
+
+import com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien.ThongTinUngVienViewModel
+import com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien.getThongTinUngVienViewModel
+
+
 
 import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
@@ -11,6 +16,7 @@ import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,12 +29,22 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddIcCall
+import androidx.compose.material.icons.filled.AirplanemodeActive
 import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckBox
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.ChecklistRtl
+import androidx.compose.material.icons.filled.Checkroom
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material.icons.filled.PersonAddAlt
 import androidx.compose.material.icons.filled.PersonRemove
 import androidx.compose.material.icons.filled.Today
+import androidx.compose.material.icons.outlined.Today
+import androidx.compose.material.icons.rounded.PersonAddAlt
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -42,6 +58,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -67,15 +84,10 @@ import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable()
-fun ThongTinUngVienItemsScreen(
-
-    navController: NavController,
-    context : Context,
+fun ThongTinUngVienItemsTestScreen(
     pos: Int,
-    viewModel: ThongTinUngVienViewModel,
     para_dm_ungvien_cus: dm_ungvien_cus
 )
-
 {
 
     AnimatedVisibility(
@@ -113,7 +125,7 @@ fun ThongTinUngVienItemsScreen(
                 //.clip(RoundedCornerShape(0.dp))
                 //.background(color = Color.Blue)
                 .fillMaxWidth()
-                .height(250.dp)
+                .height(300.dp)
                 .animateContentSize()
 
 
@@ -125,7 +137,7 @@ fun ThongTinUngVienItemsScreen(
 //            defaultElevation = 50.dp,
 //            focusedElevation = 100.dp
 //        ),
-            //  border = BorderStroke(2.dp, Color.Black),
+          //  border = BorderStroke(2.dp, Color.Black),
         ) {
 
             Column(
@@ -136,17 +148,25 @@ fun ThongTinUngVienItemsScreen(
                         } else {
                             //MaterialTheme.colorScheme.background
                             MaterialTheme.colorScheme.surfaceVariant
+
                         }
                     )
                     .fillMaxWidth()
-                    .fillMaxHeight(),
-              //  verticalArrangement = Arrangement.SpaceBetween
+                    .fillMaxHeight()
+                ,
+                verticalArrangement = Arrangement.SpaceBetween
+                   // .height(250.dp)
+//                    .padding(
+//                        start = 5.dp,
+//                        end= 5.dp,
+//                    )
+
             )
             {
 
                 Row (
                     modifier = Modifier
-                        .background(color = MaterialTheme.colorScheme.outlineVariant)
+                       .background(color = MaterialTheme.colorScheme.outlineVariant)
                         .padding(
                             start = 5.dp,
                             end= 5.dp,
@@ -155,7 +175,7 @@ fun ThongTinUngVienItemsScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
 
-                ) {
+                    ) {
 
                     Text(
                         text = para_dm_ungvien_cus.ten_uv ?: "",
@@ -166,37 +186,37 @@ fun ThongTinUngVienItemsScreen(
                         fontWeight = FontWeight.Bold,
 
 
-                        )
+                    )
 
                     Row () {
                         IconButton(
                             modifier = Modifier,
                             onClick = {
-                                viewModel.chonPhongVan(para_dm_ungvien_cus)
+                                //iewModel.chonPhongVan(para_dm_ungvien_cus)
                             }) {
                             Icon(Icons.Default.PersonAddAlt,
                                 "Hẹn phỏng vấn",
-                                // modifier = Modifier.size(30.dp)
+                               // modifier = Modifier.size(30.dp)
                             )
                         }
 
                         IconButton(
                             modifier = Modifier,
                             onClick = {
-                                navController.navigate(
-
-                                    MainMenuDestination.NHAPLIEU_NhanSu_KichHoatThanhVien_Duyet.passParamater(
-                                        keyvalue = para_dm_ungvien_cus.id.toString(),
-                                        tungay = "asddasdasda",
-                                        denngay = "asdsadasdasdasd",
-                                    ),
-
-
-                                    )
+//                                navController.navigate(
+//
+//                                    MainMenuDestination.NHAPLIEU_NhanSu_KichHoatThanhVien_Duyet.passParamater(
+//                                        keyvalue = para_dm_ungvien_cus.id.toString(),
+//                                        tungay = "asddasdasda",
+//                                        denngay = "asdsadasdasdasd",
+//                                    ),
+//
+//
+//                                    )
                             }) {
                             Icon(Icons.Default.CheckCircle,
                                 "Kích hoạt",
-                                //  modifier = Modifier.size(30.dp)
+                                  //  modifier = Modifier.size(30.dp)
                             )
                         }
                     }
@@ -244,94 +264,18 @@ fun ThongTinUngVienItemsScreen(
                         Text(
                             text = "Vị trí ứng tuyển",
                             fontStyle = FontStyle.Italic,
+
                             )
 
                         Text(
                             text = "${para_dm_ungvien_cus.ten_vitri_ungtuyen ?: ""}",
+                            fontStyle = FontStyle.Normal,
                             fontWeight = FontWeight.Bold,
+
+
                             )
 
                     }
-                }
-
-
-                Row (
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-
-                        ) {
-
-                    Row(
-                        modifier = Modifier.padding(
-                            bottom = 5.dp,
-                            start = 5.dp,
-                            end = 5.dp,
-                        ),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Call,
-                            contentDescription = null,
-                            modifier = Modifier.size(40.dp),
-
-
-                            )
-                        Column(
-                            modifier = Modifier.padding(
-                                start = 5.dp
-                            )
-                        ) {
-                            Text(
-                                text = "Điện thoại",
-                                fontStyle = FontStyle.Italic,
-                            )
-
-                            Text(
-                                text = "${para_dm_ungvien_cus.so_dienthoai ?: ""}",
-                                fontWeight = FontWeight.Bold,
-                            )
-
-                        }
-
-
-                    }
-
-
-
-                    Row(
-                        modifier = Modifier.padding(
-                            bottom = 5.dp,
-                            start = 5.dp,
-                            end = 5.dp,
-                        ),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Today,
-                            contentDescription = null,
-                            modifier = Modifier.size(40.dp),
-                        )
-
-                        Column(
-                            modifier = Modifier.padding(
-                                start = 5.dp
-                            )
-                        ) {
-                            Text(
-                                text = "Ngày đăng ký",
-                                fontStyle = FontStyle.Italic,
-
-                                )
-
-                            Text(
-                                text = "${para_dm_ungvien_cus.ngay_dangky?.formatToFullTimeVN() ?: ""}",
-                                fontWeight = FontWeight.Bold,
-                            )
-                        }
-
-                    }
-
                 }
 
 
@@ -340,6 +284,76 @@ fun ThongTinUngVienItemsScreen(
                         bottom = 5.dp,
                         start = 5.dp,
                         end=5.dp,
+                    ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Call,
+                        contentDescription = null,
+                        modifier = Modifier.size(40.dp),
+
+
+                    )
+                    Column(
+                        modifier = Modifier.padding(
+                            start = 5.dp
+                        )
+                    ) {
+                        Text(
+                            text = "Điện thoại",
+                        )
+
+                        Text(
+                            text = "${para_dm_ungvien_cus.so_dienthoai ?: ""}",
+                        )
+
+                    }
+
+
+                }
+
+
+
+                Row (
+                    modifier = Modifier.padding(
+                        bottom = 5.dp,
+                        start = 5.dp,
+                        end=5.dp,
+                    ),
+                    verticalAlignment = Alignment.CenterVertically
+                        ) {
+                    Icon(
+                        imageVector = Icons.Default.Today,
+                        contentDescription = null,
+                        modifier = Modifier.size(40.dp),
+                    )
+
+                    Column(
+                        modifier = Modifier.padding(
+                            start = 5.dp
+                        )
+                    ) {
+                    Text(
+                        text = "Ngày đăng ký"
+
+                        )
+
+                    Text(
+                        text = "${para_dm_ungvien_cus.ngay_dangky?.formatToFullTimeVN()?:""}",
+
+                        )
+                    }
+
+                }
+
+
+
+
+                Row(
+                    modifier = Modifier.padding(
+                        bottom = 10.dp,
+                        start = 5.dp,
+                        end = 5.dp,
                     ),
                     verticalAlignment = Alignment.CenterVertically
 
@@ -353,15 +367,14 @@ fun ThongTinUngVienItemsScreen(
                         modifier = Modifier.padding(
                             start = 5.dp
                         )
-                    ) {
-                        Text(
-                            text = "Email",
-                            fontStyle = FontStyle.Italic,
+                            ) {
+                    Text(
+                        text = "Email",
 
-                            )
+                    )
                         Text(
                             text = "${para_dm_ungvien_cus.email ?: ""}",
-                            fontWeight = FontWeight.Bold,
+
                             )
                     }
                 }
@@ -380,23 +393,20 @@ fun ThongTinUngVienItemsScreen(
 @Preview(showBackground = true)
 //@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
-fun ThongTinUngVienItemsScreenPreview() {
+fun ThongTinUngVienItemsScreenTestPreview() {
 
-    lateinit var navHostController: NavHostController
 
     MyApplicationJetpackComposeTheme {
 
-        navHostController = rememberNavController()
-        val current = LocalContext.current
-
-        NavigationAppHost(navController = navHostController)
-
-        ThongTinUngVienItemsScreen (navHostController,
-            current,
+        ThongTinUngVienItemsTestScreen (
             99,
-          getThongTinUngVienViewModel(),
             dm_ungvien_cus(
-
+                ten_uv = "Nguyễn văn thị aaaaa dfgdgdf",
+                vitri_ungtuyen = "FC",
+                ten_vitri_ungtuyen = "asdsadasdasd asdasdas",
+                //ngay_dangky =  kotlinx.datetime.LocalDateTime(2023,12,31,59,59,59),
+                email = "mrtienasdsad@gmail.com",
+                so_dienthoai = "12451545651564"
 
             )
         )

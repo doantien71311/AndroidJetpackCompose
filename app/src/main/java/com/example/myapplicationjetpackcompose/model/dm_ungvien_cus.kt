@@ -114,6 +114,8 @@ data class dm_ungvien_cus (
  var is_nhacnho:  String? = null,
  var sophut_nhacnho:  Int? = null,
 
+ var ten_vitri_ungtuyen: String? = null,
+
     //Tiến thêm vào để tạo hiệu ứng
  //Tiến thêm vào để không serialization khi pass data api
   @kotlinx.serialization.Transient

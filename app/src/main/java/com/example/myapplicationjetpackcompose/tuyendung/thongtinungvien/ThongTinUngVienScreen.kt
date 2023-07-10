@@ -71,10 +71,17 @@ import kotlinx.coroutines.launch
 
 
 import androidx.compose.animation.core.*
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.filled.PersonRemove
+
 
 import androidx.compose.material.icons.outlined.Today
+import androidx.compose.material.icons.rounded.PersonAddAlt
+import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
@@ -89,6 +96,7 @@ import androidx.compose.material3.rememberBottomSheetScaffoldState
 
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.text.style.TextAlign
 import com.example.myapplicationjetpackcompose.ViewModelFactoryProvider
 import dagger.hilt.android.EntryPointAccessors
 
@@ -136,8 +144,6 @@ fun ThongTinUngVienScreen (
         pDenngay = denngay ?: "",
 
         )
-
-  //  viewModel.loadData()
 
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState()
@@ -371,25 +377,56 @@ fun ThongTinUngVienScreen (
 fun ButtonThongTinUngVienScreen (
     viewModel: ThongTinUngVienViewModel
 ) {
+   // Spacer(modifier = Modifier.height(10.dp))
     Divider()
+    //Spacer(modifier = Modifier.height(10.dp))
     Row (
             modifier = Modifier
+
+                .fillMaxWidth()
                 .height(50.dp)
+                .background(MaterialTheme.colorScheme.primaryContainer),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically
 
     ) {
 
 
-        Button(onClick = {
 
-            viewModel.isShowHenPhongVan = true
+            Button(
+                onClick = {
 
-        },
-            modifier = Modifier
-                .fillMaxHeight()
+                    viewModel.isShowHenPhongVan = true
 
-        ) {
-            Text(text = "Đã chọn (${viewModel.soluongPhongVan.toString()}/${viewModel.soluongUngVien.toString()})")
-        }
+                },
+                modifier = Modifier
+                    .padding(5.dp)
+                    .fillMaxHeight(),
+
+
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.PersonAddAlt,
+                    modifier = Modifier
+                        .size(30.dp)
+                        .padding(
+                            end = 5.dp
+                        ),
+                    contentDescription = "drawable icons",
+
+                )
+
+                Column() {
+
+                    Text(text = "Đã chọn ${viewModel.soluongPhongVan.toString()}/${viewModel.soluongUngVien.toString()}")
+
+                }
+            }
+
+
+
+
+
 
         Button(onClick = {
 
@@ -398,11 +435,25 @@ fun ButtonThongTinUngVienScreen (
         },
             modifier = Modifier
                 .fillMaxHeight()
+                .padding(5.dp)
         ) {
+            Icon(
+                imageVector = Icons.Rounded.Refresh,
+                modifier = Modifier
+                    .size(30.dp)
+                    .padding(
+                        end = 5.dp
+                    ),
+                contentDescription = "drawable icons",
+
+                )
+
+
             Text(text = "Bỏ chọn")
         }
 
     }
+    //Spacer(modifier = Modifier.height(10.dp))
     Divider()
 
 }
@@ -419,8 +470,9 @@ fun DanhSachThongTinUngVienScreen (
     val scrollState = rememberLazyListState()
     LazyColumn(
         state = scrollState,
-        modifier = Modifier
-            .background(Color.Red),
+//        modifier = Modifier
+//            .background(Color.Red)
+//        ,
         verticalArrangement = Arrangement.Center,
 
         ) {
