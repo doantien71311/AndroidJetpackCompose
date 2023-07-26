@@ -122,7 +122,21 @@ fun ColumnAndRowScreen (
 
 
                 ) {
-                    Text(text = "Nút Row 2")
+                    Text(text = "Nút Row 3")
+                }
+
+                Button(
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier
+                        .background(Color.Blue)
+                        .height(70.dp)
+                        .align(
+                            Alignment.CenterVertically
+                        )
+
+
+                ) {
+                    Text(text = "Nút Row 4")
                 }
 
             }

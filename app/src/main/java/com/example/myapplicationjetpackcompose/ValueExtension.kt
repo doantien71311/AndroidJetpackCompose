@@ -121,6 +121,50 @@ fun LocalDateTimeGetNow(): LocalDateTime {
 }
 
 
+fun LocalDateTime.LocalDateTimeGetDauNam(): LocalDateTime {
+
+    val mCalendar = Calendar.getInstance()
+    val mYear = mCalendar.get(Calendar.YEAR)
+
+    return kotlinx.datetime.LocalDateTime(mYear, 1, 1, 0, 0)
+
+
+}
+
+fun LocalDateTime.LocalDateTimeGetCuoiNam(): LocalDateTime {
+
+    val mCalendar = Calendar.getInstance()
+    val mYear = mCalendar.get(Calendar.YEAR)
+
+    return kotlinx.datetime.LocalDateTime(mYear, 12, 31, 23, 59)
+
+
+}
+
+fun LocalDateTime.LocalDateTimeGetDauThang(): LocalDateTime {
+
+    val mCalendar = Calendar.getInstance()
+    val mYear = mCalendar.get(Calendar.YEAR)
+    val mMonth = mCalendar.get(Calendar.MONTH) + 1
+
+    return kotlinx.datetime.LocalDateTime(mYear, mMonth, 1, 0, 0)
+
+
+}
+
+fun LocalDateTime.LocalDateTimeGetCuoiThang(): LocalDateTime {
+
+    val mCalendar = Calendar.getInstance()
+    val mYear = mCalendar.get(Calendar.YEAR)
+    val mMonth = mCalendar.get(Calendar.MONTH) + 1
+    val mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
+
+    return kotlinx.datetime.LocalDateTime(mYear, mMonth, mDay, 23, 59)
+
+
+}
+
+
 
 fun LocalDateTime.changeHourMinute(hour: Int , minute: Int ):  LocalDateTime {
 
@@ -133,8 +177,6 @@ fun LocalDateTime.changeHourMinute(hour: Int , minute: Int ):  LocalDateTime {
         this.second
     )
 }
-
-
 
 fun LocalDateTime.changeYearMonthDay(year: Int , month: Int, day: Int):  LocalDateTime {
 

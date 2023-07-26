@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -29,6 +30,7 @@ import com.example.myapplicationjetpackcompose.HomeScreen
 import com.example.myapplicationjetpackcompose.caidat.CaiDatThongBao
 import com.example.myapplicationjetpackcompose.dangnhap.DangNhapPage
 import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienScreen
+import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienViewModel
 import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingService
 import com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien.KichHoatThanhVienScreen
 import com.example.myapplicationjetpackcompose.tuyendung.phongvan.ThongTinPhongVanScreen
@@ -50,6 +52,7 @@ class MainMenuActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
             MyApplicationJetpackComposeTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -116,6 +119,8 @@ class MainMenuActivity : ComponentActivity() {
 
                 }
             }
+
+
         }
 
     }
@@ -156,7 +161,13 @@ class MainMenuActivity : ComponentActivity() {
 
             composable(route = MainMenuDestination.DANHMUC_NhanVien.route)
             {
-                NhanVienScreen(navController, context)
+                val nhanVienViewModel = hiltViewModel<NhanVienViewModel>()
+                NhanVienScreen(
+                    navController, context,
+                    state = nhanVienViewModel.state,
+                    onEvent = nhanVienViewModel::onEvent
+                )
+
             }
 
             navigation(
@@ -180,15 +191,38 @@ class MainMenuActivity : ComponentActivity() {
                 }
 
                 composable(route = MainMenuDestination.NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet.route,
+                    arguments = listOf(
+
+                        navArgument(EnumArgument.keyvalue) {
+                            type = NavType.StringType
+                            defaultValue = ""
+                        },
+
+                        navArgument(EnumArgument.tungay) {
+                            type = NavType.StringType
+                            defaultValue = ""
+                        },
+
+                        navArgument(EnumArgument.denngay) {
+                            type = NavType.StringType
+                            defaultValue = ""
+                        }
+                    ),
                     deepLinks = (listOf(navDeepLink {
                         uriPattern =
                             EnumDeepLink.MyAppDeepLink + MainMenuDestination.NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet.route
                         action = Intent.ACTION_VIEW
                     }
                     )))
-                {
-                    ThongTinPhongVanScreen(navController, context)
+                { backstackEntry ->
+
+                    ThongTinPhongVanScreen(navController
+                        , keyvalue = backstackEntry.arguments?.getString(EnumArgument.keyvalue)
+                        , tungay = backstackEntry.arguments?.getString(EnumArgument.tungay)
+                        , denngay = backstackEntry.arguments?.getString(EnumArgument.denngay)
+                    )
                 }
+
 
 
                 composable(route = MainMenuDestination.NHAPLIEU_NhanSu_KichHoatThanhVien_Duyet.route,

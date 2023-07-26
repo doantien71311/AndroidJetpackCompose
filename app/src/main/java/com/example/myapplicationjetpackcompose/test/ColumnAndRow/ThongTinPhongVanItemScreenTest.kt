@@ -1,6 +1,5 @@
-package com.example.myapplicationjetpackcompose.tuyendung.phongvan
+package com.example.myapplicationjetpackcompose.test.ColumnAndRow
 
-import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
@@ -8,14 +7,16 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkOut
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+
+
+
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,12 +27,22 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.CopyAll
+import androidx.compose.material.icons.filled.Copyright
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.LockClock
+import androidx.compose.material.icons.filled.PersonAddAlt
+import androidx.compose.material.icons.filled.PersonAddAlt1
+import androidx.compose.material.icons.filled.PersonOff
 import androidx.compose.material.icons.filled.PersonRemoveAlt1
 import androidx.compose.material.icons.filled.PunchClock
+import androidx.compose.material.icons.filled.TimeToLeave
+import androidx.compose.material.icons.filled.Timelapse
+import androidx.compose.material.icons.filled.Timeline
 import androidx.compose.material.icons.filled.Timer
+import androidx.compose.material.icons.filled.TimerOff
 import androidx.compose.material.icons.filled.Today
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
@@ -48,22 +59,24 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.myapplicationjetpackcompose.EnumCoKhong
+import com.example.myapplicationjetpackcompose.LocalDateTimeGetNow
+import com.example.myapplicationjetpackcompose.formatToDateVN
 import com.example.myapplicationjetpackcompose.formatToFullTimeVN
 import com.example.myapplicationjetpackcompose.formatToHourMinuteVN
 import com.example.myapplicationjetpackcompose.formatToThuNgayThangNamVN
-import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
+import com.example.myapplicationjetpackcompose.formatToTimeDayVN
 import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
+import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable()
-fun ThongTinPhongVanScreenItem (
-    navController: NavController,
+fun ThongTinPhongVanItemScreenTest(
     pos: Int,
     para_dm_ungvien_cus: dm_ungvien_cus
-        )
+)
 {
 
     AnimatedVisibility(
@@ -171,11 +184,11 @@ fun ThongTinPhongVanScreenItem (
                         modifier = Modifier
 
                             .padding(
-                                0.dp
+                               0.dp
                             ),
                         horizontalArrangement = Arrangement.End,
 
-                        ) {
+                            ) {
 
                         IconButton(
                             modifier = Modifier,
@@ -224,6 +237,7 @@ fun ThongTinPhongVanScreenItem (
                     }
                 }
                 //endregion tile tên thành viên
+
 
 
                 //region Thời gian hẹn phỏng vấn
@@ -455,7 +469,7 @@ fun ThongTinPhongVanScreenItem (
                         ,
                         horizontalArrangement = Arrangement.SpaceBetween
 
-                    )
+                            )
                     {
 
                         Column(
@@ -473,7 +487,7 @@ fun ThongTinPhongVanScreenItem (
                                     top = 0.dp,
                                 ),
                                 enabled = false,
-                                checked = para_dm_ungvien_cus.is_nhacnho== EnumCoKhong.C ,
+                                checked = para_dm_ungvien_cus.is_nhacnho==EnumCoKhong.C ,
                                 onCheckedChange = {
 
                                 }
@@ -677,5 +691,34 @@ fun ThongTinPhongVanScreenItem (
 
         }
 
+    }
+}
+
+@Preview(showBackground = true)
+//@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+@Composable
+fun ThongTinPhongVanItemScreenTestPreview() {
+
+
+    MyApplicationJetpackComposeTheme {
+
+        ThongTinPhongVanItemScreenTest (
+            99,
+            dm_ungvien_cus(
+                ten_uv = "Nguyễn văn thị aaaaa",
+                vitri_ungtuyen = "FC",
+                ten_vitri_ungtuyen = "asdsadasdasd asdasdas",
+                is_phongvan_online = true,
+                diadiem_henphongvan = "Số 47, đ0ong sada saduasdgad, pung82sd sadadas, quan dalsdsad, hochi1 minh",
+                link_phongvan_online = "https://vnexpress.net/tai-sao-my-thua-kem-trung-quoc-ve-tau-cao-toc-4625670.html",
+                ngay_dangky =  LocalDateTimeGetNow(),
+                email = "mrtienasdsad@gmail.com",
+                so_dienthoai = "12451545651564",
+                ngay_henphongvan =  LocalDateTimeGetNow(),
+                sophut_nhacnho = 15,
+                is_nhacnho = "C"
+
+            )
+        )
     }
 }

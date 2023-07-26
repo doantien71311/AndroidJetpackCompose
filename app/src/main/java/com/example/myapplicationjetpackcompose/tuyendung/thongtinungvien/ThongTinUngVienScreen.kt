@@ -80,7 +80,13 @@ import androidx.compose.material.icons.filled.PersonRemove
 
 
 import androidx.compose.material.icons.outlined.Today
+import androidx.compose.material.icons.rounded.ArrowForward
+import androidx.compose.material.icons.rounded.ArrowRight
+import androidx.compose.material.icons.rounded.ArrowRightAlt
+import androidx.compose.material.icons.rounded.GolfCourse
+import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.PersonAddAlt
+import androidx.compose.material.icons.rounded.PersonAddAlt1
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.BottomSheetScaffold
@@ -98,6 +104,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.text.style.TextAlign
 import com.example.myapplicationjetpackcompose.ViewModelFactoryProvider
+import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
 import dagger.hilt.android.EntryPointAccessors
 
 
@@ -131,7 +138,6 @@ fun getThongTinUngVienViewModel(
 fun ThongTinUngVienScreen (
     navController: NavController,
     context : Context,
-
     keyvalue : String? = "",
     tungay: String? = "",
     denngay: String? = "",
@@ -314,6 +320,22 @@ fun ThongTinUngVienScreen (
 
                         }
 
+                        IconButton(onClick = {
+
+                            navController.navigate(
+
+                                MainMenuDestination.NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet.passParamater (
+                                    keyvalue = "",
+                                    tungay = "asddasdasda",
+                                    denngay = "asdsadasdasdasd",
+                                ),
+
+                                )
+
+                        }) {
+                            Icon(Icons.Rounded.ArrowForward, contentDescription = null)
+                        }
+
 
                     }
                 )
@@ -366,8 +388,6 @@ fun ThongTinUngVienScreen (
         )
         //
     }
-
-
 
 }
 
@@ -483,7 +503,6 @@ fun DanhSachThongTinUngVienScreen (
 
             ThongTinUngVienItemsScreen(
                 navController,
-                context,
                 0,
                 viewModel,
                 item

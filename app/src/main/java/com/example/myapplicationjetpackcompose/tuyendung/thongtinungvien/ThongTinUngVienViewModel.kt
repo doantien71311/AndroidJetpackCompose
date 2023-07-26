@@ -360,12 +360,6 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
 
         }
 
-
-
-
-
-
-
     }
 
     fun nhacNhoHenPhongVan( dmUngvienCus: dm_ungvien_cus) {
@@ -441,6 +435,8 @@ class ThongTinUngVienViewModel @AssistedInject constructor (
                                     nhacNhoHenPhongVan(item)
 
                                 }
+
+
 
                             }
 

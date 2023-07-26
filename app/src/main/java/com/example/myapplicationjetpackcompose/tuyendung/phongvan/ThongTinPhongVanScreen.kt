@@ -97,7 +97,10 @@ import com.bumptech.glide.load.model.ModelLoader.LoadData
 import com.example.myapplicationjetpackcompose.Destination
 import com.example.myapplicationjetpackcompose.LoginViewModel
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination
+import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
+import com.example.myapplicationjetpackcompose.test.ColumnAndRow.ColumnAndRowScreen
 import com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien.ThongTinUngVienItemsScreen
+import com.example.myapplicationjetpackcompose.tuyendung.thongtinungvien.ThongTinUngVienScreen
 import kotlinx.coroutines.delay
 
 
@@ -106,7 +109,9 @@ import kotlinx.coroutines.delay
 @Composable
 fun ThongTinPhongVanScreen (
     navController: NavController,
-    context : Context,
+    keyvalue : String? = "",
+    tungay: String? = "",
+    denngay: String? = "",
     viewModel: ThongTnPhongVanViewModel = hiltViewModel()
 ) {
 
@@ -136,6 +141,7 @@ fun ThongTinPhongVanScreen (
             )
         },
         content = {
+
             val scrollState = rememberLazyListState()
 
             Column(
@@ -190,15 +196,14 @@ fun ThongTinPhongVanScreen (
 
                             ThongTinPhongVanScreenItem(
                                 navController,
-                                context,
-                                index
+                                index,
+                                dm_ungvien_cus()
                             )
                         }
 
                     }
 
                 }
-
 
 
                 }
@@ -212,3 +217,68 @@ fun ThongTinPhongVanScreen (
 
 
 }
+
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@Composable
+fun ThongTinPhongVanTestScreen (
+   // navController: NavController,
+    keyvalue : String? = "",
+    tungay: String? = "",
+    denngay: String? = "",
+    viewModel: ThongTnPhongVanViewModel = hiltViewModel()
+) {
+
+    Scaffold(
+
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Thông tin phỏng vấn") },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        //navController.navigateUp()
+
+                    }) {
+                        Icon(Icons.Rounded.ArrowBack, "Back")
+                    }
+                },
+                actions = {
+
+                    IconButton(onClick = {}) {
+                        Icon(Icons.Rounded.AccountBox, contentDescription = null)
+                    }
+                    IconButton(onClick = {}) {
+                        Icon(Icons.Rounded.Info, contentDescription = null)
+                    }
+
+                }
+            )
+        },
+        content = {
+
+            val scrollState = rememberLazyListState()
+
+            Column(
+                modifier = Modifier
+                    .background(Color.Red)
+                    .fillMaxSize()
+                    .padding(it),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            )  {
+
+            }
+
+
+
+        }
+
+    )
+
+
+
+}
+
+
+

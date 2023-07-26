@@ -68,9 +68,7 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalAnimationApi::class)
 @Composable()
 fun ThongTinUngVienItemsScreen(
-
     navController: NavController,
-    context : Context,
     pos: Int,
     viewModel: ThongTinUngVienViewModel,
     para_dm_ungvien_cus: dm_ungvien_cus
@@ -115,8 +113,6 @@ fun ThongTinUngVienItemsScreen(
                 .fillMaxWidth()
                 .height(250.dp)
                 .animateContentSize()
-
-
                 .clickable {
 
 
@@ -144,6 +140,7 @@ fun ThongTinUngVienItemsScreen(
             )
             {
 
+                //region title tên ứng viên
                 Row (
                     modifier = Modifier
                         .background(color = MaterialTheme.colorScheme.outlineVariant)
@@ -187,8 +184,8 @@ fun ThongTinUngVienItemsScreen(
 
                                     MainMenuDestination.NHAPLIEU_NhanSu_KichHoatThanhVien_Duyet.passParamater(
                                         keyvalue = para_dm_ungvien_cus.id.toString(),
-                                        tungay = "asddasdasda",
-                                        denngay = "asdsadasdasdasd",
+                                        tungay = "",
+                                        denngay = "",
                                     ),
 
 
@@ -201,60 +198,9 @@ fun ThongTinUngVienItemsScreen(
                         }
                     }
                 }
+                //endregion title tên ứng viên
 
-                Row(
-                    modifier = Modifier.padding(
-                        bottom = 5.dp,
-                        top = 5.dp,
-                        start = 5.dp,
-                        end=5.dp,
-                    ),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-//                    Icon(
-//                        imageVector = Icons.Default.AddIcCall,
-//                        contentDescription = null
-//                    )
-
-
-                    Text(
-                        text = para_dm_ungvien_cus.vitri_ungtuyen ?: "",
-                        modifier = Modifier
-                            .width(50.dp)
-                            .height(50.dp)
-                            .clip(RoundedCornerShape(30.dp))
-                            .background(color = Color.Green)
-                            .padding(
-                                start = 5.dp,
-                                end = 5.dp,
-                                bottom = 5.dp,
-                                top = 13.dp,
-                            ),
-                        textAlign = TextAlign.Center,
-                        fontStyle = FontStyle.Normal,
-                        fontWeight = FontWeight.Bold,
-
-                        )
-
-                    Column (
-                        modifier = Modifier.padding(
-                            start = 5.dp
-                        )
-                    ) {
-                        Text(
-                            text = "Vị trí ứng tuyển",
-                            fontStyle = FontStyle.Italic,
-                            )
-
-                        Text(
-                            text = "${para_dm_ungvien_cus.ten_vitri_ungtuyen ?: ""}",
-                            fontWeight = FontWeight.Bold,
-                            )
-
-                    }
-                }
-
-
+                //region điện thoại, ngày đăng ký
                 Row (
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -334,7 +280,9 @@ fun ThongTinUngVienItemsScreen(
 
                 }
 
+                //endregion  điện thoại đăng ký
 
+                //region email
                 Row(
                     modifier = Modifier.padding(
                         bottom = 5.dp,
@@ -366,8 +314,61 @@ fun ThongTinUngVienItemsScreen(
                     }
                 }
 
+                //endregion email
+
+                //region vị trí ứng tuyển
+                Row(
+                    modifier = Modifier.padding(
+                        bottom = 5.dp,
+                        top = 5.dp,
+                        start = 5.dp,
+                        end=5.dp,
+                    ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+//                    Icon(
+//                        imageVector = Icons.Default.AddIcCall,
+//                        contentDescription = null
+//                    )
 
 
+                    Text(
+                        text = para_dm_ungvien_cus.vitri_ungtuyen ?: "",
+                        modifier = Modifier
+                            .width(50.dp)
+                            .height(50.dp)
+                            .clip(RoundedCornerShape(30.dp))
+                            .background(color = Color.Green)
+                            .padding(
+                                start = 5.dp,
+                                end = 5.dp,
+                                bottom = 5.dp,
+                                top = 13.dp,
+                            ),
+                        textAlign = TextAlign.Center,
+                        fontStyle = FontStyle.Normal,
+                        fontWeight = FontWeight.Bold,
+
+                        )
+
+                    Column (
+                        modifier = Modifier.padding(
+                            start = 5.dp
+                        )
+                    ) {
+                        Text(
+                            text = "Vị trí ứng tuyển",
+                            fontStyle = FontStyle.Italic,
+                        )
+
+                        Text(
+                            text = "${para_dm_ungvien_cus.ten_vitri_ungtuyen ?: ""}",
+                            fontWeight = FontWeight.Bold,
+                        )
+
+                    }
+                }
+                //endregion vị trí ứng tuyển
 
             }
 
@@ -392,12 +393,10 @@ fun ThongTinUngVienItemsScreenPreview() {
         NavigationAppHost(navController = navHostController)
 
         ThongTinUngVienItemsScreen (navHostController,
-            current,
+
             99,
           getThongTinUngVienViewModel(),
             dm_ungvien_cus(
-
-
             )
         )
     }
