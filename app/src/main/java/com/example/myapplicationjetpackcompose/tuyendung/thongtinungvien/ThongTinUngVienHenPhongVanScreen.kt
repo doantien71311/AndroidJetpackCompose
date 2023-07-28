@@ -91,7 +91,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.myapplicationjetpackcompose.EnumCoKhong
 import com.example.myapplicationjetpackcompose.changeHourMinute
-import com.example.myapplicationjetpackcompose.formatToDateVN
+import com.example.myapplicationjetpackcompose.formatToNgayThangNamVN
 import com.example.myapplicationjetpackcompose.formatToHourMinuteVN
 import com.example.myapplicationjetpackcompose.formatToThuNgayThangNamVN
 

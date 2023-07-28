@@ -11,6 +11,7 @@ import com.example.myapplicationjetpackcompose.model.response_EncryptDES
 import com.example.myapplicationjetpackcompose.model.response_boolean
 import com.example.myapplicationjetpackcompose.model.response_data
 import com.example.myapplicationjetpackcompose.model.response_dm_chucvu_ds
+import com.example.myapplicationjetpackcompose.model.response_dm_nhanvien_cus
 import com.example.myapplicationjetpackcompose.model.response_dm_ungvien_cus
 import com.example.myapplicationjetpackcompose.model.response_dto_menu_app
 import com.example.myapplicationjetpackcompose.model.response_ht_thongtinhdoanhnghiep
@@ -105,6 +106,15 @@ interface IRetrofitService {
         @Header("Authorization") token: String,
         @Body list_dm_ungvien_cus: List<dm_ungvien_cus>
     ): Call<response_data?>
+
+
+    //region nhân viên
+    @GET(url_api.danhmuc_nhanvien_layds)
+    open fun getNhanVienLayDS(
+        @Header("Authorization") token: String,
+        @Query("ma_nv") ma_nv: String,
+    ): Call<response_dm_nhanvien_cus?>
+    //endregion nhân viên
 
 
 

@@ -33,4 +33,11 @@ object url_api {
     const val dm_ungvien_henphongvan_goiemail: String = "api/nhaplieu-nhansu/dm-ungvien/henphongvan-goiemail"
 
 
+    //region nhân viên
+    const val danhmuc_nhanvien_layds: String = "api/danhmuc-nhanvien/layds"
+    //endregion nhân viên
+
+
+
+
 }

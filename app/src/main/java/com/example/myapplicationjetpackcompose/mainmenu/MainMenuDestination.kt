@@ -13,6 +13,16 @@ sealed class MainMenuDestination (val route: String)
     object  NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet: MainMenuDestination("NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet")
 
     object  NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet: MainMenuDestination("NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet")
+    {
+        fun passParamater(keyvalue: String = "", tungay: String = "", denngay: String = ""): String {
+
+            return EnumMainMenu.NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet
+                .plus("?")
+                .plus(EnumArgument.keyvalue + "=$keyvalue")
+                .plus( EnumArgument.tungay + "=$tungay")
+                .plus( EnumArgument.denngay + "=$denngay")
+        }
+    }
 
     object  NHAPLIEU_NhanSu_KichHoatThanhVien_Duyet: MainMenuDestination (
 

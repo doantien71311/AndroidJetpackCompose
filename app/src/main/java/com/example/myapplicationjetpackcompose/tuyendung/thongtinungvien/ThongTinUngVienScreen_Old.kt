@@ -422,7 +422,6 @@ fun ThongTinUngVienScreen_Old (
 
                             ThongTinUngVienItemsScreen(
                                 navController,
-                                context,
                                 0,
                                 viewModel,
                                 item

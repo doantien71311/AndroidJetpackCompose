@@ -4,8 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-   <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
@@ -13,14 +12,33 @@
         android:name=".MyApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyApplicationJetpackCompose"
-        android:enableOnBackInvokedCallback="true"
-        >
+        android:theme="@style/Theme.MyApplicationJetpackCompose">
+
+
+        <activity
+            android:name=".HiltPreviewActivity"
+            android:exported="false"
+            android:label="@string/title_activity_hilt_preview"
+            android:theme="@style/Theme.MyApplicationJetpackCompose" >
+
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />-->
+<!--            </intent-filter>-->
+
+        </activity>
+
+
 
         <activity
             android:name=".LoginActivity"
@@ -28,33 +46,31 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.MyApplicationJetpackCompose">
 
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
 
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyApplicationJetpackCompose">
 
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-
-<!--            <intent-filter android:autoVerify="true">-->
-<!--            <category android:name="android.intent.category.DEFAULT" />-->
-<!--&lt;!&ndash;            <category android:name="android.intent.category.BROWSABLE" />&ndash;&gt;-->
-<!--            <action android:name="android.intent.action.VIEW" />-->
-<!--            <data android:scheme="myapp" />-->
-<!--            <data android:host="details" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
 
 
+            <!-- <intent-filter android:autoVerify="true"> -->
+            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+            <!-- &lt;!&ndash;            <category android:name="android.intent.category.BROWSABLE" />&ndash;&gt; -->
+            <!-- <action android:name="android.intent.action.VIEW" /> -->
+            <!-- <data android:scheme="myapp" /> -->
+            <!-- <data android:host="details" /> -->
+            <!-- </intent-filter> -->
 
         </activity>
 
@@ -63,66 +79,57 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyApplicationJetpackCompose">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
 
+            <!-- <intent-filter android:autoVerify="true"> -->
+            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+            <!-- <category android:name="android.intent.category.BROWSABLE" /> -->
+            <!-- <action android:name="android.intent.action.VIEW" /> -->
 
-<!--            <intent-filter android:autoVerify="true">-->
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <category android:name="android.intent.category.BROWSABLE" />-->
-<!--                <action android:name="android.intent.action.VIEW" />-->
+
+            <!-- <data android:scheme="myapp" /> -->
+            <!-- &lt;!&ndash;                <data android:scheme="deeplink" />&ndash;&gt; -->
+            <!-- <data android:host="details" /> -->
 
 
-<!--                <data android:scheme="myapp" />-->
-<!--&lt;!&ndash;                <data android:scheme="deeplink" />&ndash;&gt;-->
-<!--                <data android:host="details" />-->
-
-<!--&lt;!&ndash;                <data&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:host="myapplicationjetpackcompose.page.link"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:scheme=" https"&ndash;&gt;-->
-<!--&lt;!&ndash;                    tools:ignore="AppLinkUrlError" />&ndash;&gt;-->
-<!--            </intent-filter>-->
-
+            <!-- &lt;!&ndash;                <data&ndash;&gt; -->
+            <!-- &lt;!&ndash;                    android:host="myapplicationjetpackcompose.page.link"&ndash;&gt; -->
+            <!-- &lt;!&ndash;                    android:scheme=" https"&ndash;&gt; -->
+            <!-- &lt;!&ndash;                    tools:ignore="AppLinkUrlError" />&ndash;&gt; -->
+            <!-- </intent-filter> -->
 
         </activity>
 
         <service
             android:name=".services.CustomFirebaseMessagingService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>
-
-
-
-<!--       Set custom default icon. This is used when no icon is set for incoming notification messages.&ndash;&gt;-->
-<!--     See README(https://goo.gl/l4GJaQ) for more. &ndash;&gt;-->
+        </service> <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.&ndash;&gt; -->
+        <!-- See README(https://goo.gl/l4GJaQ) for more. &ndash;&gt; -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_launcher_background" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
-        <receiver android:name=".alarmmanager.AlarmReceiver"></receiver>
-
-
-
+        <receiver android:name=".alarmmanager.AlarmReceiver" />
     </application>
-
 
 </manifest>
