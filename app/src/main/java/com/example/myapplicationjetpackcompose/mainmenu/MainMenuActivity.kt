@@ -158,7 +158,7 @@ class MainMenuActivity : ComponentActivity() {
 
 
 
-
+            //region Nhân viên
             composable(route = MainMenuDestination.DANHMUC_NhanVien.route)
             {
                 val nhanVienViewModel = hiltViewModel<NhanVienViewModel>()
@@ -169,12 +169,15 @@ class MainMenuActivity : ComponentActivity() {
                 )
 
             }
+            //endregion Nhân viên
 
             navigation(
                 startDestination = MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route,
                 route = "nested_graph_route"
             )
             {
+
+                //region thông tin ứng viên
                 composable(
                     route = MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route,
                     deepLinks = (listOf(navDeepLink {
@@ -223,7 +226,9 @@ class MainMenuActivity : ComponentActivity() {
                     )
                 }
 
+                //endregion thông tin ứng viên
 
+                //region Kích hoạt thành viên
 
                 composable(route = MainMenuDestination.NHAPLIEU_NhanSu_KichHoatThanhVien_Duyet.route,
                     arguments = listOf(
@@ -258,6 +263,7 @@ class MainMenuActivity : ComponentActivity() {
                     )
                 }
 
+                //endregion Kích hoạt thành viên
 
 
             }

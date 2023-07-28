@@ -63,7 +63,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplicationjetpackcompose.EnumCoKhong
 import com.example.myapplicationjetpackcompose.LocalDateTimeGetNow
-import com.example.myapplicationjetpackcompose.formatToDateVN
+import com.example.myapplicationjetpackcompose.formatToNgayThangNamVN
 import com.example.myapplicationjetpackcompose.formatToFullTimeVN
 import com.example.myapplicationjetpackcompose.formatToHourMinuteVN
 import com.example.myapplicationjetpackcompose.formatToThuNgayThangNamVN

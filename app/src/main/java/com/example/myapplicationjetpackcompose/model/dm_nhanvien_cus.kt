@@ -17,7 +17,20 @@ data class dm_nhanvien_cus (
  var id: UUID = UUID.randomUUID(),
  var ma_nv: String?  = null,
  var ten_nv: String?  = null,
+ var hinhanh_daidien_url: String? = null,
 
+ var ma_chucvu: String? = null,
+ var ten_chucvu: String? = null,
+
+ var ma_chinhanh: String? = null,
+ var ten_chinhanh: String? = null,
+
+ var dienthoai_lienhe: String? = null,
+ var email: String? = null,
+ @Serializable(with = LocalDateTimeIso8601Serializer::class)
+ var ngaysinh: LocalDateTime? = null,
+ @Serializable(with = LocalDateTimeIso8601Serializer::class)
+ var ngayvaolam: LocalDateTime? = null,
 
 )
 

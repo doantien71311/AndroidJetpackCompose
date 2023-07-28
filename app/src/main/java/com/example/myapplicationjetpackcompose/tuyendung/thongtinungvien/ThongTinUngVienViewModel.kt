@@ -20,7 +20,7 @@ import com.example.myapplicationjetpackcompose.alarmmanager.AlarmItem
 import com.example.myapplicationjetpackcompose.alarmmanager.IAlarmScheduler
 import com.example.myapplicationjetpackcompose.changeHourMinute
 import com.example.myapplicationjetpackcompose.changeYearMonthDay
-import com.example.myapplicationjetpackcompose.formatToDateVN
+import com.example.myapplicationjetpackcompose.formatToNgayThangNamVN
 import com.example.myapplicationjetpackcompose.formatToFullTimeVN
 import com.example.myapplicationjetpackcompose.formatToTimeDayVN
 import com.example.myapplicationjetpackcompose.mainmenu.MainMenuDestination

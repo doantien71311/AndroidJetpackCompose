@@ -55,7 +55,7 @@ fun LocalDateTime?.formatToHourMinuteVN(): String {
 }
 
 
-fun LocalDateTime?.formatToDateVN(): String{
+fun LocalDateTime?.formatToNgayThangNamVN(): String{
     if (this == null)
         return ""
 
