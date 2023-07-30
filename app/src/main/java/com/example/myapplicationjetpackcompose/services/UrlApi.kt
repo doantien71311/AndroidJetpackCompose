@@ -35,6 +35,8 @@ object url_api {
 
     //region nhân viên
     const val danhmuc_nhanvien_layds: String = "api/danhmuc-nhanvien/layds"
+    const val hethong_file_upload_image_nhanvien_daidien: String = "api/hethong/file-upload/image-nhanvien-daidien"
+
     //endregion nhân viên
 
 

@@ -8,4 +8,6 @@ object EnumMainMenu {
     const val NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet =
         "NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet"
 
+    const val DANHMUC_NhanVien_Edit = "DANHMUC_NhanVien_Edit"
+
 }

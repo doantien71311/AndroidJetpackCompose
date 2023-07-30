@@ -29,6 +29,8 @@ import com.example.myapplicationjetpackcompose.EnumDeepLink
 import com.example.myapplicationjetpackcompose.HomeScreen
 import com.example.myapplicationjetpackcompose.caidat.CaiDatThongBao
 import com.example.myapplicationjetpackcompose.dangnhap.DangNhapPage
+import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienEditItemScreen
+import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienEditViewModel
 import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienScreen
 import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienViewModel
 import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingService
@@ -169,6 +171,40 @@ class MainMenuActivity : ComponentActivity() {
                 )
 
             }
+
+            composable(route = MainMenuDestination.DANHMUC_NhanVien_Edit.route,
+                arguments = listOf(
+
+                    navArgument(EnumArgument.keyvalue) {
+                        type = NavType.StringType
+                        defaultValue = ""
+                    },
+
+                    navArgument(EnumArgument.tungay) {
+                        type = NavType.StringType
+                        defaultValue = ""
+                    },
+
+                    navArgument(EnumArgument.denngay) {
+                        type = NavType.StringType
+                        defaultValue = ""
+                    }
+                ),
+            )
+            { backstackEntry ->
+
+                val nhanVienEditViewModel = getNhanVienEditViewModel(
+                    pKeyvalue = backstackEntry.arguments?.getString(EnumArgument.keyvalue)?:""
+                )
+
+                NhanVienEditItemScreen(
+                    navController, context,
+                    state = nhanVienEditViewModel.state,
+                    onEvent = nhanVienEditViewModel::onEvent
+                )
+
+            }
+
             //endregion Nhân viên
 
             navigation(
@@ -281,6 +317,8 @@ class MainMenuActivity : ComponentActivity() {
                     CaiDatThongBao(navController)
                 }
             }
+
+
 
         }
     }

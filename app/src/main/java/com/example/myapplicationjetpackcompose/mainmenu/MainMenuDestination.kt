@@ -9,18 +9,43 @@ sealed class MainMenuDestination (val route: String)
 {
     object  MAINMENU: MainMenuDestination("MAINMENU")
     object  DANHMUC_NhanVien: MainMenuDestination("DANHMUC_NhanVien")
+    object  DANHMUC_NhanVien_Edit: MainMenuDestination(
+        EnumMainMenu.DANHMUC_NhanVien_Edit
+            .plus( "?")
+            .plus("${EnumArgument.keyvalue}={${EnumArgument.keyvalue}}")
+            .plus( "${EnumArgument.tungay}={${EnumArgument.tungay}}")
+            .plus( "${EnumArgument.denngay}={${EnumArgument.denngay}}")
+    ) {
+        fun passParamater(
+            keyvalue: String = "",
+            tungay: String = "",
+            denngay: String = ""
+        ): String {
+
+          return EnumMainMenu.DANHMUC_NhanVien_Edit
+                .plus("?")
+                .plus(EnumArgument.keyvalue + "=$keyvalue")
+                .plus(EnumArgument.tungay + "=$tungay")
+                .plus(EnumArgument.denngay + "=$denngay")
+        }
+    }
+
+
     object  Home: MainMenuDestination("home")
     object  NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet: MainMenuDestination("NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet")
 
-    object  NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet: MainMenuDestination("NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet")
-    {
-        fun passParamater(keyvalue: String = "", tungay: String = "", denngay: String = ""): String {
+    object  NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet: MainMenuDestination(EnumMainMenu.NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet) {
+        fun passParamater(
+            keyvalue: String = "",
+            tungay: String = "",
+            denngay: String = ""
+        ): String {
 
             return EnumMainMenu.NHAPLIEU_NhanSu_ThongTinPhongVan_Duyet
                 .plus("?")
                 .plus(EnumArgument.keyvalue + "=$keyvalue")
-                .plus( EnumArgument.tungay + "=$tungay")
-                .plus( EnumArgument.denngay + "=$denngay")
+                .plus(EnumArgument.tungay + "=$tungay")
+                .plus(EnumArgument.denngay + "=$denngay")
         }
     }
 

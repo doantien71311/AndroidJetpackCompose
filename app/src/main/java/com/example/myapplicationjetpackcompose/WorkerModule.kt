@@ -13,6 +13,7 @@ import androidx.core.net.toUri
 import com.example.myapplicationjetpackcompose.alarmmanager.AlarmScheduler
 import com.example.myapplicationjetpackcompose.alarmmanager.IAlarmScheduler
 import com.example.myapplicationjetpackcompose.MainActivity
+import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienEditViewModel
 
 import com.example.myapplicationjetpackcompose.services.DataStoreServices
 
@@ -35,6 +36,8 @@ interface ViewModelFactoryProvider {
     fun kichHoatThanhVienViewModelFactory(): KichHoatThanhVienViewModel.Factory
 
     fun thongTinUngVienViewModelFactory(): ThongTinUngVienViewModel.Factory
+
+    fun nhanVienEditViewModelFactory(): NhanVienEditViewModel.Factory
 }
 
 @Module

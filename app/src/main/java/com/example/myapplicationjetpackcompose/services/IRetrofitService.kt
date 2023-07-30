@@ -4,8 +4,6 @@ package com.example.myapplicationjetpackcompose.services
 import com.example.myapplicationjetpackcompose.model.PostData
 import com.example.myapplicationjetpackcompose.model.TokenInfor
 import com.example.myapplicationjetpackcompose.model.dm_ungvien_cus
-import com.example.myapplicationjetpackcompose.model.dto_menu_app
-import com.example.myapplicationjetpackcompose.model.dto_paramater
 import com.example.myapplicationjetpackcompose.model.ht_dm_nsd
 import com.example.myapplicationjetpackcompose.model.response_EncryptDES
 import com.example.myapplicationjetpackcompose.model.response_boolean
@@ -16,22 +14,20 @@ import com.example.myapplicationjetpackcompose.model.response_dm_ungvien_cus
 import com.example.myapplicationjetpackcompose.model.response_dto_menu_app
 import com.example.myapplicationjetpackcompose.model.response_ht_thongtinhdoanhnghiep
 import com.example.myapplicationjetpackcompose.model.tb_nhanvien_thietbi
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
-import retrofit2.http.Headers
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 import retrofit2.http.Url
-
-
 
 
 interface IRetrofitService {
@@ -113,7 +109,18 @@ interface IRetrofitService {
     open fun getNhanVienLayDS(
         @Header("Authorization") token: String,
         @Query("ma_nv") ma_nv: String,
+        @Query("id") id: String = "",
     ): Call<response_dm_nhanvien_cus?>
+
+    @Multipart
+    @POST(url_api.hethong_file_upload_image_nhanvien_daidien)
+    fun uploadImageNhanvienDaidien(
+        @Header("Authorization") token: String,
+        //@Part("file") name: RequestBody?,
+        @Part("file") image: MultipartBody.Part,
+
+        ): Call<response_data?>
+
     //endregion nhân viên
 
 
