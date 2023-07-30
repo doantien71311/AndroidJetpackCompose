@@ -25,6 +25,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.net.URL
 
 
 class NhanVienEditViewModel @AssistedInject constructor (
@@ -85,6 +86,11 @@ class NhanVienEditViewModel @AssistedInject constructor (
                 saveData()
             }
 
+            is NhanVienEditEvent.UploadImageNhanvienDaidien -> {
+
+                uploadImageNhanvienDaidien()
+            }
+
         }
 
     }
@@ -132,23 +138,33 @@ class NhanVienEditViewModel @AssistedInject constructor (
 
     }
 
-    private fun uploadImageNhanvienDaidien(file: File) {
+    private fun uploadImageNhanvienDaidien() {
 
         // Pass it like this
-       // val file = File(RealPathUtils.getRealPathFromURI_API19(context, uri))
+       //val file = File(RealPathUtils.getRealPathFromURI_API19(context, uri))
         //val requestFile: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+
+//        // MultipartBody.Part is used to send also the actual file name
+//        val body: MultipartBody.Part = MultipartBody.Part.createFormData(
+//            "image",
+//            file.name,
+//         //   requestFile
+//
+//            file.asRequestBody()
+//        )
+
+        // Add another part within the multipart request
+       // val fullName: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), "Your Name")
+
+
+        val file = File("content://media/picker/0/com.android.providers.media.photopicker/media/1000000033")
 
         // MultipartBody.Part is used to send also the actual file name
         val body: MultipartBody.Part = MultipartBody.Part.createFormData(
             "image",
             file.name,
-         //   requestFile
-
             file.asRequestBody()
         )
-
-        // Add another part within the multipart request
-       // val fullName: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), "Your Name")
 
         viewModelScope.launch {
             RetrofitService.IRetrofitService

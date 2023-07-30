@@ -3,16 +3,27 @@ package com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
+import android.net.Uri
+import android.util.Log
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,6 +33,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -38,6 +53,8 @@ import com.example.myapplicationjetpackcompose.LocalDateTimeGetNow
 import com.example.myapplicationjetpackcompose.model.dm_nhanvien_cus
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 import java.io.File
+import java.net.URL
+import java.nio.file.WatchEvent
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -50,6 +67,59 @@ fun NhanVienEditItemScreen (
     onEvent: (NhanVienEditEvent) -> Unit
 
 ) {
+
+    var selectImageUri by remember {
+       mutableStateOf<Uri?>(value = null)
+    }
+
+    var singlePhotoPickkerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia() ,
+        onResult = { uri ->
+
+            selectImageUri = uri
+            Log.d("PhotoPicker", "select URI: $uri")
+           // val a = URL(uri?.toString())
+
+            val file = File(uri?.toString())
+
+            onEvent(NhanVienEditEvent.UploadImageNhanvienDaidien)
+        }
+    )
+
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        item {
+            Row (
+                 modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround
+                    )
+            {
+                Button(onClick = {
+                   singlePhotoPickkerLauncher.launch(
+                       PickVisualMediaRequest (
+                           ActivityResultContracts.PickVisualMedia.ImageOnly
+                       )
+                   )
+                }) {
+                    Text(text = "Pick one photo")
+                }
+
+            }
+        }
+
+        item {
+            AsyncImage(
+                model = selectImageUri,
+                contentDescription = null,
+                modifier = Modifier.fillMaxWidth(),
+                contentScale = ContentScale.Crop
+            )
+        }
+
+
+    }
 
     Scaffold(
         topBar = {
@@ -101,10 +171,12 @@ fun NhanVienEditItemScreen (
                         //.clip(RoundedCornerShape(10.dp))
                         //.border(5.dp, Color.Gray, CircleShape)//optional
                         .clickable {
-//
-//                           val file = File(cacheDir, "")
-//                            file.
 
+                            singlePhotoPickkerLauncher.launch(
+                                PickVisualMediaRequest (
+                                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                                )
+                            )
 
                         }
                 )

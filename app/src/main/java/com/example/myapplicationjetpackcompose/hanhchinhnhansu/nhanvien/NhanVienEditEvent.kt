@@ -6,4 +6,7 @@ sealed class NhanVienEditEvent {
 
     object SaveData : NhanVienEditEvent()
 
+
+    object UploadImageNhanvienDaidien : NhanVienEditEvent()
+
 }
