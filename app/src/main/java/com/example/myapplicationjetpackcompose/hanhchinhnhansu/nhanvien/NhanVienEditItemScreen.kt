@@ -48,6 +48,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.myapplicationjetpackcompose.CreateImageResquestCustom
 import com.example.myapplicationjetpackcompose.LocalDateTimeGetNow
 import com.example.myapplicationjetpackcompose.model.dm_nhanvien_cus
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
@@ -76,50 +77,32 @@ fun NhanVienEditItemScreen (
             selectImageUri = uri
             Log.d("PhotoPicker", "select URI: ${uri.toString()}")
 
-           // val path = Environment.getExternalStoragePublicDirectory(
-            //    Environment.DIRECTORY_PICTURES
-          ///  )
+            val path = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES
+            )
          //   val file = File(path, "DemoPicture.jpg")
            // file.createNewFile()
 
             uri?.let {
-                val stream = context.contentResolver.openInputStream(it)
-
-                 val path = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES
-                 )
-                   val file = File(path, "DemoPicture.jpg")
-                 file.createNewFile()
-
-
-//                 file.outputStream().use {
+//                val inputStream = context.contentResolver.openInputStream(it)
 //
-//                     context.assets.open("DemoPicture.jpg").copyTo(it)
-//                 }
-
-              //  onEvent(NhanVienEditEvent.UploadImageNhanvienDaidien(file))
+//                val path = Environment.getExternalStoragePublicDirectory(
+//                    Environment.DIRECTORY_PICTURES
+//                )
+//                val file = File(path, "daidien.jpg")
+//                file.createNewFile()
+//
+//                inputStream.use { input ->
+//                    file.outputStream().use { output ->
+//                        input?.copyTo(output)
+//                    }
+//                }
+                val file = CreateImageResquestCustom(context, it, "daidien.jpg")
 
                 onEvent(NhanVienEditEvent.UploadImageNhanvienDaidien(file))
 
 
             }
-
-          // val a = URI(uri?.toString())
-
-          //val file = File(a)
-            //val file = File(uri?.toString())
-
-
-
-//            val file = Uri.fromFile(
-//            File(
-//                context.cacheDir,
-//                context.contentResolver.(uri!!)
-//            )
-//        ).toFile()
-
-
-
 
         }
     )
@@ -157,6 +140,7 @@ fun NhanVienEditItemScreen (
         }
 
 
+
     }
 
     Scaffold(
@@ -184,42 +168,53 @@ fun NhanVienEditItemScreen (
         },
 
         content = {
-            //region hình ảnh nhân viên
-            Column(
-                modifier = Modifier
-                    .padding(it)
-                    .size(100.dp)
-                    .clip(CircleShape)
-                    //.border(5.dp, Color.Gray, CircleShape)
-                    // .background(color = MaterialTheme.colorScheme.onPrimary)
-                    .background(color = Color.White)
-            ) {
 
-                AsyncImage(
-                    model = ImageRequest.Builder(context)
-                        .data(state.hinhanh_daidien_url ?: "")
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = "ImageRequest example",
-                    contentScale = ContentScale.Fit,
+            Column ()
+            {
+                //region hình ảnh nhân viên
+                Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        //.background(Color.Blue)
+                        .padding(it)
+                        .size(100.dp)
                         .clip(CircleShape)
-                        //.clip(RoundedCornerShape(10.dp))
-                        //.border(5.dp, Color.Gray, CircleShape)//optional
-                        .clickable {
+                        //.border(5.dp, Color.Gray, CircleShape)
+                        // .background(color = MaterialTheme.colorScheme.onPrimary)
+                        .background(color = Color.White)
+                ) {
 
-                            singlePhotoPickkerLauncher.launch(
-                                PickVisualMediaRequest(
-                                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                    AsyncImage(
+                        model = ImageRequest.Builder(context)
+                            .data(state.hinhanh_daidien_url ?: "")
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = "ImageRequest example",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            //.background(Color.Blue)
+                            .clip(CircleShape)
+                            //.clip(RoundedCornerShape(10.dp))
+                            //.border(5.dp, Color.Gray, CircleShape)//optional
+                            .clickable {
+
+                                singlePhotoPickkerLauncher.launch(
+                                    PickVisualMediaRequest(
+                                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                                    )
                                 )
-                            )
 
-                        }
-                )
+                            }
+                    )
+
+
+                }
+                //endregion hình ảnh nhân viên
+
+
+                Text(text = state.hinhanh_daidien_url ?: "")
             }
-            //endregion hình ảnh nhân viên
+
+
         }
     )
 

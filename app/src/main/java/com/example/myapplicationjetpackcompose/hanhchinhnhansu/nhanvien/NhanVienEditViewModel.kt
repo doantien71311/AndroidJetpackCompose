@@ -72,7 +72,10 @@ class NhanVienEditViewModel @AssistedInject constructor (
     }
 
 
-    var state : dm_nhanvien_cus by mutableStateOf(dm_nhanvien_cus())
+    var state : dm_nhanvien_cus by mutableStateOf(dm_nhanvien_cus(
+        hinhanh_daidien_url = ""
+
+    ))
 
     var kevalue: String by mutableStateOf("")
 
@@ -147,6 +150,9 @@ class NhanVienEditViewModel @AssistedInject constructor (
                                           file: File
     ) {
 
+
+
+
         // Pass it like this
        //val file = File(RealPathUtils.getRealPathFromURI_API19(context, uri))
         //val requestFile: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
@@ -203,7 +209,11 @@ class NhanVienEditViewModel @AssistedInject constructor (
                         response: Response<response_data?>
                     ) {
                         response.body()?.data?.let {
-                            state.hinhanh_daidien_url = it
+
+                            state = state.copy(
+                                hinhanh_daidien_url = it
+                            )
+
                         }
 
                     }

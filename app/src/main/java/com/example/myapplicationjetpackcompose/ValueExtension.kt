@@ -1,5 +1,10 @@
 package com.example.myapplicationjetpackcompose
+import android.content.Context
+import android.net.Uri
+import android.os.Environment
 import kotlinx.datetime.LocalDateTime
+import java.io.File
+import java.net.URI
 import java.util.Calendar
 
 fun LocalDateTime?.formatToFullTimeVN(): String{
@@ -205,5 +210,25 @@ fun LocalDateTime?.getThuTrongTuanVN():  String {
         7 -> "Chủ nhật"
         else -> "Khác"
     }
+}
+
+
+fun CreateImageResquestCustom(context: Context, uri: Uri, child: String): File {
+
+    val inputStream = context.contentResolver.openInputStream(uri)
+
+    val path = Environment.getExternalStoragePublicDirectory(
+        Environment.DIRECTORY_PICTURES
+    )
+    val file = File(path, child)
+    file.createNewFile()
+
+    inputStream.use { input ->
+        file.outputStream().use { output ->
+            input?.copyTo(output)
+        }
+    }
+
+    return file
 }
 
