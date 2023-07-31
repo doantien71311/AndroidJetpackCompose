@@ -117,7 +117,7 @@ interface IRetrofitService {
     fun uploadImageNhanvienDaidien(
         @Header("Authorization") token: String,
         //@Part("file") name: RequestBody?,
-        @Part("file") image: MultipartBody.Part,
+        @Part image: MultipartBody.Part,
 
         ): Call<response_data?>
 

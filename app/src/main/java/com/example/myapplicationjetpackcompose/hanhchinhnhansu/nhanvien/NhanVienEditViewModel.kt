@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.os.EnvironmentCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -18,6 +19,8 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -25,6 +28,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.io.InputStream
 import java.net.URL
 
 
@@ -88,7 +92,7 @@ class NhanVienEditViewModel @AssistedInject constructor (
 
             is NhanVienEditEvent.UploadImageNhanvienDaidien -> {
 
-                uploadImageNhanvienDaidien()
+                uploadImageNhanvienDaidien(event.file)
             }
 
         }
@@ -138,7 +142,10 @@ class NhanVienEditViewModel @AssistedInject constructor (
 
     }
 
-    private fun uploadImageNhanvienDaidien() {
+    private fun uploadImageNhanvienDaidien(
+        //inputStream: InputStream
+                                          file: File
+    ) {
 
         // Pass it like this
        //val file = File(RealPathUtils.getRealPathFromURI_API19(context, uri))
@@ -156,15 +163,33 @@ class NhanVienEditViewModel @AssistedInject constructor (
         // Add another part within the multipart request
        // val fullName: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), "Your Name")
 
+//        val file = Uri.fromFile(
+//            File(
+//                context.cacheDir,
+//                context.contentResolver.getFileName(imageUri!!)
+//            )
+//        ).toFile()
 
-        val file = File("content://media/picker/0/com.android.providers.media.photopicker/media/1000000033")
-
+       // val file = File("content://media/picker/0/com.android.providers.media.photopicker/media/1000000033", "test.jpg")
+//
         // MultipartBody.Part is used to send also the actual file name
         val body: MultipartBody.Part = MultipartBody.Part.createFormData(
-            "image",
+            "file",
             file.name,
             file.asRequestBody()
         )
+
+//        val file = File(inputStream)
+//
+//        val body: MultipartBody.Part = MultipartBody.Part.createFormData(
+//            "pic",
+//            "myPic",
+//                .readBytes()
+//            )
+
+
+
+
 
         viewModelScope.launch {
             RetrofitService.IRetrofitService

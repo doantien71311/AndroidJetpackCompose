@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
 import android.net.Uri
+import android.os.Environment
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -53,8 +52,6 @@ import com.example.myapplicationjetpackcompose.LocalDateTimeGetNow
 import com.example.myapplicationjetpackcompose.model.dm_nhanvien_cus
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
 import java.io.File
-import java.net.URL
-import java.nio.file.WatchEvent
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -77,12 +74,53 @@ fun NhanVienEditItemScreen (
         onResult = { uri ->
 
             selectImageUri = uri
-            Log.d("PhotoPicker", "select URI: $uri")
-           // val a = URL(uri?.toString())
+            Log.d("PhotoPicker", "select URI: ${uri.toString()}")
 
-            val file = File(uri?.toString())
+           // val path = Environment.getExternalStoragePublicDirectory(
+            //    Environment.DIRECTORY_PICTURES
+          ///  )
+         //   val file = File(path, "DemoPicture.jpg")
+           // file.createNewFile()
 
-            onEvent(NhanVienEditEvent.UploadImageNhanvienDaidien)
+            uri?.let {
+                val stream = context.contentResolver.openInputStream(it)
+
+                 val path = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES
+                 )
+                   val file = File(path, "DemoPicture.jpg")
+                 file.createNewFile()
+
+
+//                 file.outputStream().use {
+//
+//                     context.assets.open("DemoPicture.jpg").copyTo(it)
+//                 }
+
+              //  onEvent(NhanVienEditEvent.UploadImageNhanvienDaidien(file))
+
+                onEvent(NhanVienEditEvent.UploadImageNhanvienDaidien(file))
+
+
+            }
+
+          // val a = URI(uri?.toString())
+
+          //val file = File(a)
+            //val file = File(uri?.toString())
+
+
+
+//            val file = Uri.fromFile(
+//            File(
+//                context.cacheDir,
+//                context.contentResolver.(uri!!)
+//            )
+//        ).toFile()
+
+
+
+
         }
     )
 
@@ -173,7 +211,7 @@ fun NhanVienEditItemScreen (
                         .clickable {
 
                             singlePhotoPickkerLauncher.launch(
-                                PickVisualMediaRequest (
+                                PickVisualMediaRequest(
                                     ActivityResultContracts.PickVisualMedia.ImageOnly
                                 )
                             )
