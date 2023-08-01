@@ -301,7 +301,7 @@ fun ThongTinUngVienScreen (
                             Icon(Icons.Rounded.ArrowBack, "Back")
                         }
                     },
-                    colors = TopAppBarDefaults.smallTopAppBarColors(
+                    colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer
                     ),
                     actions = {

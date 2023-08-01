@@ -132,7 +132,7 @@ fun ThongTinUngVienHenPhongVanScreen(
                             Icon(Icons.Default.Clear, "Thoát")
                         }
                     },
-                    colors = TopAppBarDefaults.smallTopAppBarColors(
+                    colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer
                     ),
                 )
