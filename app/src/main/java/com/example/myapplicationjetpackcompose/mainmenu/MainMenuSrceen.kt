@@ -1,5 +1,6 @@
 package com.example.myapplicationjetpackcompose.mainmenu
 
+import MainMenuTabsQRcodeItem
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -20,6 +21,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
@@ -49,9 +53,14 @@ import androidx.compose.ui.unit.dp
 
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.myapplicationjetpackcompose.MainViewModel
 import com.example.myapplicationjetpackcompose.menudrawer.MenuDrawerSrceenContent
 import com.example.myapplicationjetpackcompose.model.dto_menu_app_chitiet
+import com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien.ThongTinNganHangScreen
+import com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien.ThongTinNguoiTuyenDungScreen
+import com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien.ThongTinThanhVienScreen
 import com.example.myapplicationjetpackcompose.ui.theme.MyApplicationJetpackComposeTheme
+import kotlinx.coroutines.CoroutineScope
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -61,7 +70,7 @@ import kotlinx.coroutines.launch
 
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun MainMenuSrceen (
@@ -91,9 +100,10 @@ fun MainMenuSrceen (
 //        isLoading = false
 //    }
 
-
+    val horizontalPagerState = rememberPagerState()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
 
     MainMenuLoadingAnimation(
         isLoadding = mainMenuViewModel.isLoadding,
@@ -129,36 +139,42 @@ fun MainMenuSrceen (
 
                     Box(modifier = Modifier.padding(it)) {
 
-                        LazyColumn(
-                            //  modifier = Modifier.verticalScroll(rememberScrollState())
-                        )
 
-                        {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                            ,
+                            verticalArrangement = Arrangement.SpaceBetween,
+                        ) {
 
-                            itemsIndexed(
-                                items = mainMenuViewModel.ListMenuApp.toTypedArray()
-
-                            ) { index, item ->
-
-                                Text(
-                                    text = item.ten_chucnang ?: "",
-                                    //  modifier = Modifier.align(Alignment.CenterHorizontally)
-
-                                )
-                                RowsCarMenuSrceen(
-                                    navController,
-                                    context,
-                                    item.menu_app_chitiet!!.toTypedArray()
+                                MainMenuTabsScreen(
+                                    context = context,
+                                    horizontalPagerState = horizontalPagerState,
+                                    scope = scope
                                 )
 
+                            HorizontalPager(
+                                pageCount = 3,
+                                state = horizontalPagerState
+                            ) { currentPage ->
+                                when (currentPage) {
+
+                                    0 -> MainMenuTabSrceen(navController= navController,
+                                        context = context,
+                                        mainMenuViewModel = mainMenuViewModel)
+                                    1 -> MainMenuTabsHomeScreen(context, horizontalPagerState, scope)
+                                    2 -> MainMenuTabsQRcodeItem("https://goole.com/asdasdasd")
+
+
+                                }
                             }
 
-                            item {
 
-                                MainMenuTabsScreen(context = context)
 
-                            }
                         }
+
+
+
 
                     }
                 }
@@ -171,7 +187,41 @@ fun MainMenuSrceen (
 
 }
 
+@Composable
+fun MainMenuTabSrceen(
+    navController: NavController,
+    context : Context,
+    mainMenuViewModel: MainMenuViewModel
+) {
+    LazyColumn(
+        //  modifier = Modifier.verticalScroll(rememberScrollState())
+    )
 
+    {
+
+        itemsIndexed(
+            items = mainMenuViewModel.ListMenuApp.toTypedArray()
+
+        ) { index, item ->
+
+            Text(
+                text = item.ten_chucnang ?: "",
+                //  modifier = Modifier.align(Alignment.CenterHorizontally)
+
+            )
+            RowsCarMenuSrceen(
+                navController,
+                context,
+                item.menu_app_chitiet!!.toTypedArray()
+            )
+
+        }
+
+
+    }
+
+
+}
 
 @Composable
 fun RowsCarMenuSrceen(
@@ -199,9 +249,12 @@ fun RowsCarMenuSrceen(
 }
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainMenuTabsScreen(
-    context : Context
+    context : Context,
+    horizontalPagerState: PagerState,
+    scope: CoroutineScope
 ) {
 
     Row (
@@ -214,13 +267,17 @@ fun MainMenuTabsScreen(
     ) {
 
         MainMenuTabsHomeScreen(
-            context = context
+            context = context,
+            horizontalPagerState = horizontalPagerState,
+            scope = scope
         )
 
         Text (text = "Home 2")
 
         MainMenuTabsQrCodeScreen (
-            context = context
+            context = context,
+            horizontalPagerState = horizontalPagerState,
+            scope = scope
         )
 
 
@@ -234,9 +291,12 @@ fun MainMenuTabsScreen(
 }
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainMenuTabsHomeScreen(
-    context : Context
+    context : Context,
+    horizontalPagerState: PagerState,
+    scope: CoroutineScope
 ) {
 
     Column(
@@ -248,6 +308,10 @@ fun MainMenuTabsHomeScreen(
                     "Kích hoạt thành công",
                     Toast.LENGTH_LONG
                 ).show()
+
+                scope.launch {
+                    horizontalPagerState.scrollToPage(0)
+                }
             },
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -262,9 +326,12 @@ fun MainMenuTabsHomeScreen(
 }
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainMenuTabsQrCodeScreen(
-    context: Context
+    context: Context,
+    horizontalPagerState: PagerState,
+    scope: CoroutineScope
 
 ) {
 
@@ -272,11 +339,10 @@ fun MainMenuTabsQrCodeScreen(
         modifier = Modifier
             .clickable {
 
-                Toast.makeText(
-                    context,
-                    "Kích hoạt thành công",
-                    Toast.LENGTH_LONG
-                ).show()
+                scope.launch {
+                    horizontalPagerState.scrollToPage(2)
+                }
+
             },
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -299,9 +365,9 @@ fun MainMenuTabsScreenreview() {
     MyApplicationJetpackComposeTheme {
 
         val context = LocalContext.current
-        MainMenuTabsScreen(
-            context = context
-        )
+//        MainMenuTabsScreen(
+//            context = context
+//        )
 
     }
 }
