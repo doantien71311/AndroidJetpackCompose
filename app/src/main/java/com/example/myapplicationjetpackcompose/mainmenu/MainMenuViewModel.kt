@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienEvent
 import com.example.myapplicationjetpackcompose.model.dto_menu_app
 import com.example.myapplicationjetpackcompose.model.ht_dm_nsd
 import com.example.myapplicationjetpackcompose.model.ht_thongtinhdoanhnghiep
@@ -40,6 +41,24 @@ class MainMenuViewModel @Inject constructor (
     //Cách 1 đang ok
     var ListMenuApp : List<dto_menu_app> by mutableStateOf(mutableListOf<dto_menu_app>(dto_menu_app()))
     var isLoadding : Boolean by mutableStateOf(true)
+
+    fun onEvent(event: MainMenuEvent) {
+        when (event) {
+
+            is MainMenuEvent.LoadData -> {
+
+
+            }
+
+            is MainMenuEvent.SaveData -> {
+
+
+            }
+
+        }
+
+    }
+
 
     //var isAuth : Boolean by mutableStateOf(false)
    // var isAuth by mutableStateOf<Boolean>(false)
