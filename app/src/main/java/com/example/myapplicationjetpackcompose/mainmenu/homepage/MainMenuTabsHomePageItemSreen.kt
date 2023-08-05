@@ -54,9 +54,6 @@ fun MainMenuTabsHomePageItemSreen(
 
                 navController.navigate( para.ma_chucnang ?: "")
 
-
-
-
             },
         //elevation = 8.dp
     ) {

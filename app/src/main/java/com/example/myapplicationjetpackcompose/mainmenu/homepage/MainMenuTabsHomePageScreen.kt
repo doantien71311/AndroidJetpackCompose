@@ -130,7 +130,6 @@ fun MainMenuTabsHomePageScreenPreview(
         lis_tailieu.add(
             dto_menu_app_chitiet("DANHMUC_TaiLieu_UpLoad", "Tài liệu Upload", "")
         )
-
         list.add( dto_menu_app(ma_chucnang = "DANHMUC_Sub_TaiLieu", ten_chucnang = "Tài liệu", menu_app_chitiet = lis_tailieu ))
 
         //endregion khởi tạo menu tài liệu

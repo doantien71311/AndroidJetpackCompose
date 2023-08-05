@@ -1,6 +1,6 @@
 package com.example.myapplicationjetpackcompose.mainmenu
 
-import MainMenuTabsQRcodeItem
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -52,6 +52,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.myapplicationjetpackcompose.mainmenu.homepage.MainMenuTabsHomePageItemSreen
 import com.example.myapplicationjetpackcompose.mainmenu.homepage.MainMenuTabsHomePageScreen
+import com.example.myapplicationjetpackcompose.mainmenu.qrcodegetlink.MainMenuTabsQRcodeGetLinkItem
 
 import com.example.myapplicationjetpackcompose.menudrawer.MenuDrawerSrceenContent
 import com.example.myapplicationjetpackcompose.model.dto_menu_app_chitiet
@@ -86,22 +87,6 @@ fun MainMenuSrceen (
         }
     }
 
-    fun onEvent(event: MainMenuEvent) {
-        when (event) {
-
-            is MainMenuEvent.LoadData -> {
-
-
-            }
-
-            is MainMenuEvent.SaveData -> {
-
-
-            }
-
-        }
-
-    }
 
 
 //    var isLoading by remember {
@@ -117,6 +102,22 @@ fun MainMenuSrceen (
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
+    HorizontalPager(
+        pageCount = 5,
+        state = horizontalPagerState
+    ) { currentPage ->
+        when (currentPage) {
+
+            0 -> MainMenuTabsHomePageScreen(navController= navController,
+                context = context,
+                state = mainMenuViewModel.ListMenuApp,
+                onEvent = mainMenuViewModel::onEvent)
+            1 -> MainMenuTabsHomeScreen(context, horizontalPagerState, scope)
+            2 -> MainMenuTabsQRcodeGetLinkItem()
+
+
+        }
+    }
 
     MainMenuLoadingAnimation(
         isLoadding = mainMenuViewModel.isLoadding,
@@ -151,7 +152,6 @@ fun MainMenuSrceen (
 
                 },
                     bottomBar = {
-
                         MainMenuTabsScreen(
                             context = context,
                             horizontalPagerState = horizontalPagerState,
@@ -174,7 +174,7 @@ fun MainMenuSrceen (
 
 
                             HorizontalPager(
-                                pageCount = 3,
+                                pageCount = 5,
                                 state = horizontalPagerState
                             ) { currentPage ->
                                 when (currentPage) {
@@ -184,7 +184,7 @@ fun MainMenuSrceen (
                                         state = mainMenuViewModel.ListMenuApp,
                                         onEvent = mainMenuViewModel::onEvent)
                                     1 -> MainMenuTabsHomeScreen(context, horizontalPagerState, scope)
-                                    2 -> MainMenuTabsQRcodeItem("https://goole.com/asdasdasd")
+                                    2 -> MainMenuTabsQRcodeGetLinkItem()
 
 
                                 }
@@ -208,66 +208,66 @@ fun MainMenuSrceen (
 
 }
 
-@Composable
-fun RowsCarMenuSrceen(
-    navController: NavController,
-    context : Context,
-    para: Array<dto_menu_app_chitiet>,
-) {
-
-    LazyRow (
-        // modifier = Modifier.horizontalScroll(rememberScrollState()),
-
-    ) {
-        itemsIndexed (
-            items =  para
-        )  { index, item ->
-
-            MainMenuTabsHomePageItemSreen(navController,
-                context,
-                item,
-            )
-
-        }
-    }
-
-}
-
-@Composable
-fun MainMenuTabSrceen(
-    navController: NavController,
-    context : Context,
-    mainMenuViewModel: MainMenuViewModel
-) {
-    LazyColumn(
-        //  modifier = Modifier.verticalScroll(rememberScrollState())
-    )
-
-    {
-
-        itemsIndexed(
-            items = mainMenuViewModel.ListMenuApp.toTypedArray()
-
-        ) { index, item ->
-
-            Text(
-                text = item.ten_chucnang ?: "",
-                //  modifier = Modifier.align(Alignment.CenterHorizontally)
-
-            )
-            RowsCarMenuSrceen(
-                navController,
-                context,
-                item.menu_app_chitiet!!.toTypedArray()
-            )
-
-        }
-
-
-    }
-
-
-}
+//@Composable
+//fun RowsCarMenuSrceen(
+//    navController: NavController,
+//    context : Context,
+//    para: Array<dto_menu_app_chitiet>,
+//) {
+//
+//    LazyRow (
+//        // modifier = Modifier.horizontalScroll(rememberScrollState()),
+//
+//    ) {
+//        itemsIndexed (
+//            items =  para
+//        )  { index, item ->
+//
+//            MainMenuTabsHomePageItemSreen(navController,
+//                context,
+//                item,
+//            )
+//
+//        }
+//    }
+//
+//}
+//
+//@Composable
+//fun MainMenuTabSrceen(
+//    navController: NavController,
+//    context : Context,
+//    mainMenuViewModel: MainMenuViewModel
+//) {
+//    LazyColumn(
+//        //  modifier = Modifier.verticalScroll(rememberScrollState())
+//    )
+//
+//    {
+//
+//        itemsIndexed(
+//            items = mainMenuViewModel.ListMenuApp.toTypedArray()
+//
+//        ) { index, item ->
+//
+//            Text(
+//                text = item.ten_chucnang ?: "",
+//                //  modifier = Modifier.align(Alignment.CenterHorizontally)
+//
+//            )
+//            RowsCarMenuSrceen(
+//                navController,
+//                context,
+//                item.menu_app_chitiet!!.toTypedArray()
+//            )
+//
+//        }
+//
+//
+//    }
+//
+//
+//}
 
 
 
@@ -326,11 +326,11 @@ fun MainMenuTabsHomeScreen(
         modifier = Modifier
             .clickable {
 
-                Toast.makeText(
-                    context,
-                    "Kích hoạt thành công",
-                    Toast.LENGTH_LONG
-                ).show()
+//                Toast.makeText(
+//                    context,
+//                    "Kích hoạt thành công",
+//                    Toast.LENGTH_LONG
+//                ).show()
 
                 scope.launch {
                     horizontalPagerState.scrollToPage(0)
