@@ -55,7 +55,8 @@ class DataStoreServices constructor (
 
     context: Context,
 
-    ) : IDataStoreServies {
+    ) : IDataStoreServies
+{
 
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = USER_PREFERENCES_NAME)
     private val dataStore = context.dataStore
