@@ -7,7 +7,21 @@ import com.example.myapplicationjetpackcompose.EnumArgument
 
 sealed class MainMenuDestination (val route: String)
 {
+    //region Khảo sát
+    object  NHAPLIEU_KhaoSat_TuyenDung: MainMenuDestination("NHAPLIEU_KhaoSat_TuyenDung")
+    object  NHAPLIEU_KhaoSat: MainMenuDestination("NHAPLIEU_KhaoSat")
+
+
+    //region Khảo sát
+
+
+
     object  MAINMENU: MainMenuDestination("MAINMENU")
+
+    //region Hành chính nhân sự
+
+    object  DANHMUC_ChucVu: MainMenuDestination("DANHMUC_ChucVu")
+
     object  DANHMUC_NhanVien: MainMenuDestination("DANHMUC_NhanVien")
     object  DANHMUC_NhanVien_Edit: MainMenuDestination(
         EnumMainMenu.DANHMUC_NhanVien_Edit
@@ -30,6 +44,7 @@ sealed class MainMenuDestination (val route: String)
         }
     }
 
+    //endregion Hành chình nhân sự
 
     object  Home: MainMenuDestination("home")
     object  NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet: MainMenuDestination("NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet")

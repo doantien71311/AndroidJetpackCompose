@@ -147,24 +147,7 @@ fun CaiDatThongBao(
 
 
 
-                Row () {
-                    Text(
-                        text = "Nhận thông báo tuyền dụng",
-                        textAlign = TextAlign.Left,
-                        modifier = Modifier
-                            .padding(10.dp)
 
-                    )
-
-
-                    Switch(
-                        modifier = Modifier
-                            .semantics { contentDescription = "Demo" },
-                        checked = thongbao_tuyendung,
-                        onCheckedChange = { it_thongbao_tuyendung ->
-                            viewModel.thongbao_kiemtraOnChange(it_thongbao_tuyendung)
-                        })
-                }
                 Divider()
                 Row () {
 

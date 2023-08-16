@@ -10,4 +10,6 @@ object EnumMainMenu {
 
     const val DANHMUC_NhanVien_Edit = "DANHMUC_NhanVien_Edit"
 
+    const val NHAPLIEU_KhaoSat_BaoHiemNhanTho_CongViecKinhDoanh = "NHAPLIEU_KhaoSat_BaoHiemNhanTho_CongViecKinhDoanh"
+
 }

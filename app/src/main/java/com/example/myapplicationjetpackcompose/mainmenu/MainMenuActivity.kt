@@ -33,6 +33,8 @@ import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVien
 import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienEditViewModel
 import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienScreen
 import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienViewModel
+import com.example.myapplicationjetpackcompose.khaosat.tuyendung.KhaoSatTuyenDungB1Screen
+import com.example.myapplicationjetpackcompose.khaosat.tuyendung.KhaoSatTuyenDungScreen
 import com.example.myapplicationjetpackcompose.services.EnumFirebaseMessagingService
 import com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien.KichHoatThanhVienScreen
 import com.example.myapplicationjetpackcompose.tuyendung.phongvan.ThongTinPhongVanScreen
@@ -158,6 +160,18 @@ class MainMenuActivity : ComponentActivity() {
             }
 
 
+            //region Hành chính nhân sự
+
+            //region Chức vụ
+            composable(route = MainMenuDestination.DANHMUC_ChucVu.route)
+            {
+
+                KhaoSatTuyenDungScreen(
+                    navController, context
+                )
+
+            }
+            //endregion Chức vụ
 
 
             //region Nhân viên
@@ -206,6 +220,31 @@ class MainMenuActivity : ComponentActivity() {
             }
 
             //endregion Nhân viên
+
+            //region Hành chính nhân sự
+
+            //region Khảo sát
+            navigation(
+                startDestination = MainMenuDestination.NHAPLIEU_KhaoSat_TuyenDung.route,
+                route = MainMenuDestination.NHAPLIEU_KhaoSat.route
+            )
+            {
+                //region Khảo sát tuyển dụng
+                composable(
+                    route = MainMenuDestination.NHAPLIEU_KhaoSat_TuyenDung.route,
+                    deepLinks = (listOf(navDeepLink {
+                        uriPattern = EnumDeepLink.MyAppDeepLink
+                        action = Intent.ACTION_VIEW
+                    }
+                    ))
+                )
+                {
+                    KhaoSatTuyenDungScreen(navController, context)
+                }
+                //endregion Khảo sát tuyển dụng
+            }
+            //endregion Khảo sát
+
 
             navigation(
                 startDestination = MainMenuDestination.NHAPLIEU_NhanSu_DonDangKyThanhVien_Duyet.route,
