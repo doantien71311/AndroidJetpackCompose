@@ -30,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,6 +43,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplicationjetpackcompose.LocalDateTimeGetNow
 import com.example.myapplicationjetpackcompose.hanhchinhnhansu.nhanvien.NhanVienItemScreen
+import com.example.myapplicationjetpackcompose.model.dm_chucvu_ds
 import com.example.myapplicationjetpackcompose.model.dm_nhanvien_cus
 import com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien.ThongTinNganHangScreen
 import com.example.myapplicationjetpackcompose.tuyendung.kichhoathanhvien.ThongTinNguoiTuyenDungScreen
@@ -101,6 +103,7 @@ fun KhaoSatTuyenDungScreen(
 
                 KhaoSatTuyenDungStepScreenPreview()
 
+                val listChucVu = mutableListOf<dm_chucvu_ds>()
 
                 HorizontalPager(
                     pageCount = 3,
@@ -108,21 +111,22 @@ fun KhaoSatTuyenDungScreen(
                 ) { currentPage ->
                     when (currentPage) {
 
-                        0 -> KhaoSatTuyenDungB1Screen(
+                        1 -> KhaoSatTuyenDungB1Screen(
                             navController,
                             context,
                             horizontalPagerState,
                             scope
                         )
 
-                        1 -> KhaoSatTuyenDungB2Screen(
+                        2 -> KhaoSatTuyenDungB2Screen(
                             navController,
                             context,
                             horizontalPagerState,
-                            scope
+                            scope,
+                            listChucVu
                         )
 
-                        2 -> KhaoSatTuyenDungB3Screen(
+                        3 -> KhaoSatTuyenDungB3Screen(
                             navController,
                             context,
                             horizontalPagerState,
